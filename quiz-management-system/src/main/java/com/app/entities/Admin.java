@@ -2,16 +2,9 @@ package com.app.entities;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name = "admins")
@@ -23,7 +16,7 @@ import lombok.ToString;
 public class Admin extends BaseEntity{
 
     @Column(name = "is_super_admin")
-    private Boolean superAdmin;
+    private Boolean isSuperAdmin;
 
     private String email;
     private String password;
