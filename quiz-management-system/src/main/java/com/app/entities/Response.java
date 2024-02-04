@@ -1,0 +1,39 @@
+package com.app.entities;
+
+import java.time.LocalDate;
+
+import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Entity
+@Table(name = "responses")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(callSuper = true)
+public class Response extends BaseEntity{
+
+    private String username;
+
+    @ManyToOne
+    @JoinColumn(name = "quiz_id", nullable = false, foreignKey = @ForeignKey(name = "fk_response_quiz"))
+    private Quiz quiz;
+
+    private int marks;
+
+    @Column(name = "attempt_no")
+    private int attemptNumber;
+
+    private String response;
+
+    @Column(name = "created_at")
+    private LocalDate createdAt;
+
+}
+
