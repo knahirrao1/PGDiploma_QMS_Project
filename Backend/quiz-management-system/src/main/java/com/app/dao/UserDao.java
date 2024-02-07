@@ -6,4 +6,8 @@ import com.app.entities.User;
 
 public interface UserDao extends JpaRepository<User, String> {
 
+	User findByEmail(String email);
+
+	boolean existsByEmail(String email);
+
 }
