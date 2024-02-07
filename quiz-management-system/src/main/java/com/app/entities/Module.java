@@ -16,8 +16,8 @@ import lombok.*;
 public class Module extends BaseEntity{
 
     @ManyToOne
-    @JoinColumn(name = "admin_id", nullable = false, foreignKey = @ForeignKey(name = "fk_module_admin"))
-    private Admin admin;
+    @JoinColumn(name = "username", nullable = false, foreignKey = @ForeignKey(name = "fk_module_user"))
+    private User username;
 
     private String title;
     private String description;

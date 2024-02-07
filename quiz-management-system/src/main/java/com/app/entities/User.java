@@ -12,17 +12,23 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class User {
-    @Id
+@ToString(callSuper = true)
+public class User{
+
+	@Id
     private String username;
+	
+    @Column(name = "user_type")
+    private String userType;
+
     private String email;
     private String password;
-    private String firstName;
-    private String lastName;
+    private String name;
+    private String description;
 
     @Lob
-    private byte[] profileImage;
+    @Column(name = "profile_img")
+    private byte[] profileImg;
 
     @Column(name = "created_at")
     private LocalDate createdAt;

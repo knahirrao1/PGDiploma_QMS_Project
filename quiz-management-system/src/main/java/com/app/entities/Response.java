@@ -15,7 +15,9 @@ import lombok.*;
 @ToString(callSuper = true)
 public class Response extends BaseEntity{
 
-    private String username;
+    @ManyToOne
+    @JoinColumn(name = "username", nullable = false, foreignKey = @ForeignKey(name = "fk_response_user"))
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "quiz_id", nullable = false, foreignKey = @ForeignKey(name = "fk_response_quiz"))
@@ -32,4 +34,3 @@ public class Response extends BaseEntity{
     private LocalDate createdAt;
 
 }
-

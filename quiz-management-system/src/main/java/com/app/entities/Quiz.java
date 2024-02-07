@@ -29,10 +29,7 @@ public class Quiz extends BaseEntity{
     @Column(name = "open_to_guest")
     private Boolean openToGuest;
 
-    private String hashtags;
-
     @Column(name = "created_at")
     private LocalDate createdAt;
 
 }
-

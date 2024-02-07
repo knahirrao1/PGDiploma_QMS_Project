@@ -13,14 +13,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(callSuper = true)
-public class GuestResponse extends BaseEntity{
-
-    @ManyToOne
-    @JoinColumns({
-        @JoinColumn(name = "guest_name", referencedColumnName = "username"),
-        @JoinColumn(name = "quiz_id", referencedColumnName = "quizId")
-    })
-    private Quiz quiz;
+public class GuestResponse{
+    
+    @EmbeddedId
+    private GuestEntity key;
 
     private int score;
 
