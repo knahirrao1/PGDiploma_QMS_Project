@@ -12,4 +12,6 @@ import com.app.dao.QuizDao;
 public class QuizServiceImpl implements QuizService {
 	@Autowired
 	private QuizDao dao;
+	
+	
 }
