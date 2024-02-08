@@ -11,4 +11,6 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
 
 	List<Question> findByQuiz(Quiz quiz);
 
+	void deleteByQuizId(Long quizId);
+
 }

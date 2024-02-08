@@ -39,8 +39,7 @@ public class ModuleServiceImpl implements ModuleService {
 		com.app.entities.Module module = new com.app.entities.Module();
 		module.setTitle(moduleName);
 		module.setDescription(description);
-		module.setNumberOfQuizes(0); // Default value
-
+		module.setNumberOfQuizzes(0); // Default value
 		return moduleDao.save(module);
 	}
 

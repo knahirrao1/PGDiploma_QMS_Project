@@ -17,11 +17,9 @@ import com.app.entities.Quiz;
 @Transactional
 public class QuizServiceImpl implements QuizService {
 	@Autowired
-<<<<<<< HEAD
+
 	private QuizDao dao;
 	
-	
-=======
 	private QuizDao quizRepository;
 	
 	@Autowired
@@ -72,5 +70,5 @@ public class QuizServiceImpl implements QuizService {
         // Delete associated questions
         questionRepository.deleteByQuizId(quizId);
     }
->>>>>>> origin/pranav
+
 }

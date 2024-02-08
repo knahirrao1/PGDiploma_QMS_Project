@@ -23,7 +23,7 @@ public class Module extends BaseEntity{
     private String description;
 
     @Column(name = "no_of_quizzes")
-    private String numberOfQuizzes;
+    private int numberOfQuizzes;
 
     @Column(name = "created_at")
     private LocalDate createdAt;

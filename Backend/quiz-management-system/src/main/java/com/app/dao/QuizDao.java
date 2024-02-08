@@ -8,11 +8,9 @@ import com.app.entities.Module;
 import com.app.entities.Quiz;
 
 public interface QuizDao extends JpaRepository<Quiz, Long> {
-<<<<<<< HEAD
 
 	void deleteByModule(Module module);
 
-=======
 	List<Quiz> findByModuleId(Long moduleId);
->>>>>>> origin/pranav
+
 }
