@@ -1,15 +1,20 @@
 package com.app.service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.app.custom_exceptions.ApiException;
+import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.UserDao;
+import com.app.dto.AuthRequestDTO;
+import com.app.dto.AuthResponseDTO;
+import com.app.dto.UserDTO;
 import com.app.entities.User;
 
 @Service
@@ -17,95 +22,102 @@ import com.app.entities.User;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userRepository;
-	
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-	
-    @Override
-    public boolean loginUser(String email, String password) {
-        // Find user by email
-        User user = userRepository.findByEmail(email);
 
-        // Check if the user exists
-        if (user == null) {
-            return false; // User not found
-        }
+//	@Autowired
+//	private BCryptPasswordEncoder passwordEncoder;
 
-        // Check if the provided password matches the stored hashed password
-        if (passwordEncoder.matches(password, user.getPassword())) {
-            return true; // Login successful
-        }
+	@Autowired
+	private ModelMapper mapper;
 
-        return false; // Incorrect password
-    }
-    
-    @Override
-    public boolean signupUser(String username, String email, String password, String userType) {
-        // Check if username is unique
-        if (userRepository.existsById(username)) {
-            return false; // Username already exists
-        }
+	@Override
+	public AuthResponseDTO loginUser(AuthRequestDTO request) {
+		// Find user by email
+		User user = userRepository.findById(request.getUsername()).orElseThrow();
 
-        // Check if email is unique
-        if (userRepository.existsByEmail(email)) {
-            return false; // Email already exists
-        }
+		// Check if the user exists
+		if (user == null) {
+			throw new ApiException("user not found"); // User not found
+		}
 
-        // Validate password (add your own password validation logic)
-        if (!isValidPassword(password)) {
-            return false; // Invalid password
-        }
+		// Check if the provided password matches the stored hashed password
+//		if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+//			return mapper.map(user, AuthResponseDTO.class); // Login successful
+//		}
 
-        // Validate userType (assuming valid values are "A", "B", or "C")
-        if (!isValidUserType(userType)) {
-            return false; // Invalid userType
-        }
+		if (request.getPassword().equals(user.getPassword())) {
+			return mapper.map(user, AuthResponseDTO.class); // Login successful
+		}
+		
+		throw new ApiException("incorrect password"); // Incorrect password
+	}
 
-        // Create a new user
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password)); // Encode the password
-        user.setUserType(userType);
+	// String username, String email, String password, String userType
+	@Override
+	public void signupUser(UserDTO user) {
+		// Check if username is unique
+		if (userRepository.existsById(user.getUsername())) {
+			throw new ApiException("username already exists"); // Username already exists
+		}
 
-        // Save the user to the database
-        userRepository.save(user);
+		// Check if email is unique
+		if (userRepository.existsByEmail(user.getEmail())) {
+			throw new ApiException("email already exists"); // Email already exists
+		}
 
-        return true; // Signup successful
-    }
+		// Validate userType (assuming valid values are "A", "B", or "C")
+		if (!isValidUserType(user.getUserType())) {
+			throw new ApiException("invalid usertype"); // Invalid userType
+		}
 
-    private boolean isValidPassword(String password) {
-        // Add your password validation logic here (e.g., minimum length, complexity requirements)
-        return password.length() >= 8;
-    }
+		// Create a new user
+		User u = mapper.map(user, User.class);
 
-    private boolean isValidUserType(String userType) {
-        // Add your userType validation logic here (e.g., check if it is "A", "B", or "C")
-        return userType.equals("U") || userType.equals("A") || userType.equals("S");
-    }
-    
-    @Override
-    public List<User> getAllUsers() {
-        // Retrieve all users from the repository
-        return userRepository.findAll();
-    }
-    
-    @Override
-    public Optional<User> getUserById(String username) {
-        // Retrieve a user by user ID from the repository
-        return userRepository.findById(username);
-    }
-    
-    @Override
-    public boolean deleteUserById(String username) {
-        // Check if the user exists
-        if (!userRepository.existsById(username)) {
-            return false; // User not found
-        }
+		// Save the user to the database
+		userRepository.save(u);
+	}
 
-        // Delete the user by user ID
-        userRepository.deleteById(username);
+	private boolean isValidUserType(String userType) {
+		// Add your userType validation logic here (e.g., check if it is "A", "B", or
+		// "C")
+		return userType.equals("U") || userType.equals("A") || userType.equals("S");
+	}
 
-        return true; // Deletion successful
-    }
+	@Override
+	public List<UserDTO> getAllUsers() {
+		// Retrieve all users from the repository
+		return userRepository.findAll().stream().map(user -> mapper.map(user, UserDTO.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public UserDTO getUserById(String username) {
+		// Retrieve a user by user ID from the repository
+		return mapper.map(userRepository.findById(username).orElseThrow(() -> new ResourceNotFoundException("invalid username")), UserDTO.class);
+	}
+
+	@Override
+	public String deleteUserById(String username) {
+		// Check if the user exists
+		if (!userRepository.existsById(username)) {
+			new ResourceNotFoundException("invalid username"); // User not found
+		}
+
+		// Delete the user by user ID
+		userRepository.deleteById(username);
+
+		return "deletion sucessful"; // Deletion successful
+	}
+
+	@Override
+	public UserDTO updateUser(UserDTO user) {
+		// Check if the user exists
+		User u = userRepository.findById(user.getUsername())
+				.orElseThrow(() -> new ResourceNotFoundException("invalid username"));
+
+		u.setName(user.getName());
+		u.setDescription(user.getDescription());
+		u.setPassword(user.getPassword());
+
+		return mapper.map(userRepository.save(u), UserDTO.class); // Deletion successful
+	}
 }

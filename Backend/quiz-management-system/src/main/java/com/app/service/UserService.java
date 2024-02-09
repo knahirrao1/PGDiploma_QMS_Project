@@ -1,18 +1,21 @@
 package com.app.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import com.app.entities.User;
+import com.app.dto.AuthRequestDTO;
+import com.app.dto.AuthResponseDTO;
+import com.app.dto.UserDTO;
 
 public interface UserService {
-	public boolean loginUser(String email, String password);
+	public AuthResponseDTO loginUser(AuthRequestDTO request);
 	
-	public boolean signupUser(String username, String email, String password, String userType);
+	public void signupUser(UserDTO user);
 	
-	public List<User> getAllUsers();
+	public List<UserDTO> getAllUsers();
 	
-	public Optional<User> getUserById(String username);
+	public UserDTO getUserById(String username);
 	
-	public boolean deleteUserById(String username);
+	public String deleteUserById(String username);
+
+	public UserDTO updateUser(UserDTO user);
 }

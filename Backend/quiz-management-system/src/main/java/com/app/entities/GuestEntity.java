@@ -8,8 +8,6 @@ import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.ManyToAny;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +22,11 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Embeddable
 public class GuestEntity implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@ManyToOne
 	@JoinColumn(name = "quiz_id", nullable = false, foreignKey = @ForeignKey(name = "fk_guestkey_quiz"))
 	private Quiz quiz;

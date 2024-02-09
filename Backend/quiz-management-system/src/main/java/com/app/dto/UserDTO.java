@@ -19,6 +19,7 @@ public class UserDTO {
     private String userType;
     private String email;
     private String name;
+    private String password;
     private String description;
     private byte[] profileImg;
     private LocalDate createdAt;

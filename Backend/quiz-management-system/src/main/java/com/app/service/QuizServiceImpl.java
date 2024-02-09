@@ -17,9 +17,6 @@ import com.app.entities.Quiz;
 @Transactional
 public class QuizServiceImpl implements QuizService {
 	@Autowired
-
-	private QuizDao dao;
-	
 	private QuizDao quizRepository;
 	
 	@Autowired
@@ -63,12 +60,12 @@ public class QuizServiceImpl implements QuizService {
     }
 
 	@Override
-    public void deleteQuiz(Long quizId) {
-        // Delete the quiz
-        quizRepository.deleteById(quizId);
-        
+    public void deleteQuiz(Long quizId) {		
         // Delete associated questions
         questionRepository.deleteByQuizId(quizId);
+        
+        // Delete the quiz
+        quizRepository.deleteById(quizId);
     }
 
 }

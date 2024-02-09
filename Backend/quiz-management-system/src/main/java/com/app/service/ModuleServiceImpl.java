@@ -8,11 +8,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.ModuleDao;
 import com.app.dao.QuizDao;
 import com.app.entities.Module;
-import com.app.entities.Quiz;
-import lombok.*;
 
 @Service
 @Transactional
@@ -62,16 +61,17 @@ public class ModuleServiceImpl implements ModuleService {
 	 	@Override
 	    public void deleteModule(Long moduleId) {
 	        Module module = moduleDao.findById(moduleId).orElse(null);
-
+	        	   
 	        if (module != null) {
 	            // Delete associated quizzes
 	            //List<Quiz> quizzes = module.getQuizzes();
 	            //if (quizzes != null) {
-	                //quizRepository.deleteAll(quizzes);
+	            //quizRepository.deleteAll(quizzes);
 	            quizDao.deleteByModule(module);
 	            //}
 	            // Delete the module
 	            moduleDao.delete(module);
 	        }
+	        else throw new ResourceNotFoundException("Module with this id does not exist!");
 	    }
 }
