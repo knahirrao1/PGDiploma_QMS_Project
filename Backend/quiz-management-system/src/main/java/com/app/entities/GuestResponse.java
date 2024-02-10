@@ -2,9 +2,16 @@ package com.app.entities;
 
 import java.time.LocalDate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "guest_responses")
@@ -16,7 +23,7 @@ import lombok.*;
 public class GuestResponse{
     
     @EmbeddedId
-    private GuestEntity key;
+    private GuestId key;
 
     private int score;
 

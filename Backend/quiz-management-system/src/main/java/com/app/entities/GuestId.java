@@ -21,7 +21,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @Embeddable
-public class GuestEntity implements Serializable {
+public class GuestId implements Serializable {
 	/**
 	 * 
 	 */
@@ -46,7 +46,7 @@ public class GuestEntity implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		GuestEntity other = (GuestEntity) obj;
+		GuestId other = (GuestId) obj;
 		return Objects.equals(username, other.username) && Objects.equals(quiz, other.quiz);
 	}
 }

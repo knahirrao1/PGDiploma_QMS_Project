@@ -7,9 +7,11 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.GuestResponseDao;
-import com.app.entities.GuestEntity;
+import com.app.entities.GuestId;
 import com.app.entities.GuestResponse;
+import com.app.entities.Quiz;
 
 @Service
 @Transactional
@@ -20,14 +22,13 @@ public class GuestResponseServiceImpl implements GuestResponseService {
 	
 	 @Override
 	    public GuestResponse saveGuestResponse(GuestResponse guestResponse) {
-	        // Add validation logic if needed
 	        return guestResponseDao.save(guestResponse);
 	    }
 //------------------------------------------------------------------------------------------------------------------
 
 	    @Override
-	    public GuestResponse getGuestResponseById(GuestEntity key) {
-	        return guestResponseDao.findById(key).orElse(null);
+	    public GuestResponse getGuestResponseById(GuestId key) {
+	        return guestResponseDao.findById(key).orElseThrow(()->new ResourceNotFoundException("Invalid quizid and username combination"));
 	    }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -38,7 +39,7 @@ public class GuestResponseServiceImpl implements GuestResponseService {
 
 //------------------------------------------------------------------------------------------------------------------
 	    @Override
-	    public GuestResponse updateGuestResponse(GuestEntity key, GuestResponse updatedResponse) {
+	    public GuestResponse updateGuestResponse(GuestId key, GuestResponse updatedResponse) {
 	        // Add validation or additional logic if needed
 	        GuestResponse existingResponse = getGuestResponseById(key);
 	        if (existingResponse != null) {
@@ -52,8 +53,14 @@ public class GuestResponseServiceImpl implements GuestResponseService {
 	    }
 //------------------------------------------------------------------------------------------------------------------
 	    @Override
-	    public void deleteGuestResponse(GuestEntity key) {
+	    public void deleteGuestResponse(GuestId key) {
 	        // Add validation or additional logic if needed
 	        guestResponseDao.deleteById(key);
 	    }
+
+		@Override
+		public List<GuestResponse> getGuestResponseByQuizId(Quiz quizByQuizId) {
+			// TODO Auto-generated method stub
+			return guestResponseDao.findByKeyQuiz(quizByQuizId);
+		}
 }
