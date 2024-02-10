@@ -15,9 +15,7 @@ import lombok.ToString;
 @ToString
 public class ResponseDTO {
 
-    //private Long id; // Assuming BaseEntity has an id field
-    private UserDTO user;
-    private QuizDTO quiz;
+    private Long resonseId;
     private int marks;
     private int attemptNumber;
     private String response;

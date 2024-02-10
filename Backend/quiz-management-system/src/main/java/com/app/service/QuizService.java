@@ -2,20 +2,20 @@ package com.app.service;
 
 import java.util.List;
 
-import com.app.entities.Quiz;
+import com.app.dto.QuizDTO;
 
 public interface QuizService {
-	public List<Quiz> getAllQuizzes();
+	List<QuizDTO> getAllQuizzes();
 
-	List<Quiz> getQuizzesByModuleId(Long moduleId);
+	List<QuizDTO> getQuizzesByModuleId(Long moduleId);
 
-	Quiz createQuiz(Quiz quiz);
+	QuizDTO createQuiz(QuizDTO quiz);
 
-	Quiz updateQuiz(Long quizId, Quiz updatedQuiz);
+	QuizDTO updateQuiz(Long quizId, QuizDTO updatedQuiz);
 
 	void deleteQuiz(Long quizId);
 
-	Quiz getQuizByQuizId(Long quizId);
+	QuizDTO getQuizByQuizId(Long quizId);
 	
 	
 }

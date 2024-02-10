@@ -14,9 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class ModuleDTO {
-
-    //private Long id; // Assuming BaseEntity has an id field
-    private UserDTO username;
+	
     private String title;
     private String description;
     private String numberOfQuizzes;

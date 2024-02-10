@@ -15,8 +15,7 @@ import lombok.ToString;
 @ToString
 public class QuizDTO {
 
-   //private Long id; // Assuming BaseEntity has an id field
-    private ModuleDTO module;
+    private Long moduleId;
     private String title;
     private int numberOfQuestions;
     private int totalAttempted;

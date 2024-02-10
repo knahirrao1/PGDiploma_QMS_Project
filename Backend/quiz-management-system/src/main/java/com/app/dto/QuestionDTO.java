@@ -15,8 +15,7 @@ import lombok.ToString;
 @ToString
 public class QuestionDTO {
 
-   //private Long id; // Assuming BaseEntity has an id field
-    private QuizDTO quiz;
+    private Long quizId;
     private String question;
     private byte[] image;
     private String optionA;
