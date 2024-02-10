@@ -68,4 +68,10 @@ public class QuizServiceImpl implements QuizService {
         quizRepository.deleteById(quizId);
     }
 
+	@Override
+	public Quiz getQuizByQuizId(Long quizId) {
+		return quizRepository.findById(quizId)
+				.orElseThrow(() -> new ResourceNotFoundException("no quiz by following quizid: " + quizId));
+	}
+
 }
