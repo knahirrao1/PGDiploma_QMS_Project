@@ -41,10 +41,10 @@ public class ResponseServiceImpl implements ResponseService {
 //----------------------------------------------------------------------------------------------------------------------
 	@Override
 	public List<Response> getResponseByUsername(String username) {
-
-		User user = userDao.findByUsername(username);
-		if (user == null)
-			throw new ResourceNotFoundException("Invalid username!");
+//here findByUsername is changed to findById
+		User user = userDao.findById(username).orElseThrow(()-> new ResourceNotFoundException("Invalid username!"));
+//		if (user == null)
+//			throw new ResourceNotFoundException("Invalid username!");
 		return responseDao.findByUser(user);
 	}
 

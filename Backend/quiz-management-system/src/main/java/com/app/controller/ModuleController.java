@@ -45,7 +45,7 @@ public class ModuleController {
 			Module module = moduleService.getModuleById(id);
 			return new ResponseEntity<>(module, HttpStatus.OK);
 		} catch (RuntimeException e) {
-			System.out.println("Error in module controller " + e);
+			System.out.println("Error in module controller get module by id method " + e);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
 		}
 	}
