@@ -15,10 +15,10 @@ import lombok.ToString;
 @ToString
 public class ResponseDTO {
 
-    private Long resonseId;
-    private int marks;
-    private int attemptNumber;
-    private String response;
-    private LocalDate createdAt;
+	private Long resonseId;
+	private int marks;
+	private int attemptNumber;
+	private String response;
+	private LocalDate createdAt;
 
 }

@@ -16,6 +16,5 @@ public interface QuizService {
 	void deleteQuiz(Long quizId);
 
 	QuizDTO getQuizByQuizId(Long quizId);
-	
-	
+
 }

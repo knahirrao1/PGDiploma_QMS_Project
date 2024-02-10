@@ -11,5 +11,5 @@ import com.app.entities.Quiz;
 public interface GuestResponseDao extends JpaRepository<GuestResponse, GuestId> {
 
 	List<GuestResponse> findByKeyQuiz(Quiz quiz);
-	
+
 }

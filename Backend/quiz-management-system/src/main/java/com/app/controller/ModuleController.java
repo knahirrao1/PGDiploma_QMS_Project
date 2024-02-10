@@ -75,18 +75,18 @@ public class ModuleController {
 		Module updatedModule = moduleService.updateModule(moduleId, moduleName, moduleDescription);
 		return new ResponseEntity<>(updatedModule, HttpStatus.OK);
 	}
-	
+
 //---------------------------------------------------------------------------------------------------------------------------   
 
 	@DeleteMapping("/{moduleId}")
 	public ResponseEntity<?> deleteModule(@PathVariable Long moduleId) {
-        try {
-		moduleService.deleteModule(moduleId);
-        return ResponseEntity.status(HttpStatus.OK).build();
-        }catch(RuntimeException e) {
-        	System.out.println("Error in module controller delete method " + e);
+		try {
+			moduleService.deleteModule(moduleId);
+			return ResponseEntity.status(HttpStatus.OK).build();
+		} catch (RuntimeException e) {
+			System.out.println("Error in module controller delete method " + e);
 			// return err mesg wrapped in DTO : ApiResp
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
-        }
-        }
+		}
+	}
 }

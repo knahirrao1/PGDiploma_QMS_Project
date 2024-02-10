@@ -16,8 +16,8 @@ import lombok.ToString;
 public class GuestResponseDTO {
 
 	private long quizId;
-    private String username;
-    private int score;
-    private LocalDate createdAt;
+	private String username;
+	private int score;
+	private LocalDate createdAt;
 
 }

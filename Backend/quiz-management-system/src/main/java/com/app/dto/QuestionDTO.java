@@ -15,15 +15,15 @@ import lombok.ToString;
 @ToString
 public class QuestionDTO {
 
-    private Long quizId;
-    private String question;
-    private byte[] image;
-    private String optionA;
-    private String optionB;
-    private String optionC;
-    private String optionD;
-    private char correctOption;
-    private String explanation;
-    private LocalDate createdAt;
+	private Long quizId;
+	private String question;
+	private byte[] image;
+	private String optionA;
+	private String optionB;
+	private String optionC;
+	private String optionD;
+	private char correctOption;
+	private String explanation;
+	private LocalDate createdAt;
 
 }

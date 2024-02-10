@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class GuestEntityDTO {
 
-    private QuizDTO quiz;
-    private String username;
+	private QuizDTO quiz;
+	private String username;
 
 }

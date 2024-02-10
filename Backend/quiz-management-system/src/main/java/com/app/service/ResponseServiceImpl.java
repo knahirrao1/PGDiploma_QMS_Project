@@ -21,10 +21,8 @@ import com.app.entities.User;
 public class ResponseServiceImpl implements ResponseService {
 	@Autowired
 	private ResponseDao responseDao;
-
 	@Autowired
 	private UserDao userDao;
-
 	@Autowired
 	private QuizDao quizDao;
 
@@ -43,9 +41,10 @@ public class ResponseServiceImpl implements ResponseService {
 //----------------------------------------------------------------------------------------------------------------------
 	@Override
 	public List<Response> getResponseByUsername(String username) {
-		// here findByUsername is changed to findById
+//here findByUsername is changed to findById
 		User user = userDao.findById(username).orElseThrow(() -> new ResourceNotFoundException("Invalid username!"));
-
+//		if (user == null)
+//			throw new ResourceNotFoundException("Invalid username!");
 		return responseDao.findByUser(user);
 	}
 
@@ -68,7 +67,6 @@ public class ResponseServiceImpl implements ResponseService {
 		}
 
 		List<Response> existingResponses = getResponseByUsername(existingUsername);
-
 		Response oldResponse = new Response();
 		for (int i = 0; i < existingResponses.size(); i++) {
 			if (existingResponses.get(i).getQuiz() == existingQuiz)

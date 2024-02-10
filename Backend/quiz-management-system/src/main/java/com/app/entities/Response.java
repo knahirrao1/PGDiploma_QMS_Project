@@ -13,24 +13,24 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(callSuper = true)
-public class Response extends BaseEntity{
+public class Response extends BaseEntity {
 
-    @ManyToOne
-    @JoinColumn(name = "username", nullable = false, foreignKey = @ForeignKey(name = "fk_response_user"))
-    private User user;
+	@ManyToOne
+	@JoinColumn(name = "username", nullable = false, foreignKey = @ForeignKey(name = "fk_response_user"))
+	private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "quiz_id", nullable = false, foreignKey = @ForeignKey(name = "fk_response_quiz"))
-    private Quiz quiz;
+	@ManyToOne
+	@JoinColumn(name = "quiz_id", nullable = false, foreignKey = @ForeignKey(name = "fk_response_quiz"))
+	private Quiz quiz;
 
-    private int marks;
+	private int marks;
 
-    @Column(name = "attempt_no")
-    private int attemptNumber;
+	@Column(name = "attempt_no")
+	private int attemptNumber;
 
-    private String response;
+	private String response;
 
-    @Column(name = "created_at")
-    private LocalDate createdAt;
+	@Column(name = "created_at")
+	private LocalDate createdAt;
 
 }

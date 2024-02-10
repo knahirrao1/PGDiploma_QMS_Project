@@ -13,36 +13,35 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(callSuper = true)
-public class Question extends BaseEntity{
+public class Question extends BaseEntity {
 
-    @ManyToOne
-    @JoinColumn(name = "quiz_id", nullable = false, foreignKey = @ForeignKey(name = "fk_question_quiz"))
-    private Quiz quiz;
+	@ManyToOne
+	@JoinColumn(name = "quiz_id", nullable = false, foreignKey = @ForeignKey(name = "fk_question_quiz"))
+	private Quiz quiz;
 
-    private String question;
+	private String question;
 
-    @Lob
-    private byte[] image;
+	@Lob
+	private byte[] image;
 
-    @Column(name = "option_a")
-    private String optionA;
+	@Column(name = "option_a")
+	private String optionA;
 
-    @Column(name = "option_b")
-    private String optionB;
+	@Column(name = "option_b")
+	private String optionB;
 
-    @Column(name = "option_c")
-    private String optionC;
+	@Column(name = "option_c")
+	private String optionC;
 
-    @Column(name = "option_d")
-    private String optionD;
+	@Column(name = "option_d")
+	private String optionD;
 
-    @Column(name = "correct_option")
-    private char correctOption;
+	@Column(name = "correct_option")
+	private char correctOption;
 
-    private String explanation;
+	private String explanation;
 
-    @Column(name = "created_at")
-    private LocalDate createdAt;
+	@Column(name = "created_at")
+	private LocalDate createdAt;
 
 }
-

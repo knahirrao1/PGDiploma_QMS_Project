@@ -19,7 +19,7 @@ public class Application {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		return modelMapper;
 	}
-	
+
 	/*
 	 * @Bean public BCryptPasswordEncoder bCryptPasswordEncoder() { return new
 	 * BCryptPasswordEncoder(); }

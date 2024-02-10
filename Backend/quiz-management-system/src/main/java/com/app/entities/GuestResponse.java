@@ -20,14 +20,14 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(callSuper = true)
-public class GuestResponse{
-    
-    @EmbeddedId
-    private GuestId key;
+public class GuestResponse {
 
-    private int score;
+	@EmbeddedId
+	private GuestId key;
 
-    @Column(name = "created_at")
-    private LocalDate createdAt;
+	private int score;
+
+	@Column(name = "created_at")
+	private LocalDate createdAt;
 
 }

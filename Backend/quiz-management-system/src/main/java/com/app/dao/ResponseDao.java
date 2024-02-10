@@ -11,6 +11,6 @@ import com.app.entities.User;
 public interface ResponseDao extends JpaRepository<Response, Long> {
 
 	List<Response> findByUser(User user);
-	
+
 	List<Response> findByQuiz(Quiz quiz);
 }

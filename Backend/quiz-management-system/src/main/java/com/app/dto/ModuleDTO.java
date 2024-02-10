@@ -14,10 +14,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class ModuleDTO {
-	
-    private String title;
-    private String description;
-    private String numberOfQuizzes;
-    private LocalDate createdAt;
+
+	private String title;
+	private String description;
+	private String numberOfQuizzes;
+	private LocalDate createdAt;
 
 }

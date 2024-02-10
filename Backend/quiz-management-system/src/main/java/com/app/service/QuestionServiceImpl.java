@@ -45,8 +45,8 @@ public class QuestionServiceImpl implements QuestionService {
 		// Check if the quiz with the given id exists
 		Quiz quiz = quizDao.findById(quizId)
 				.orElseThrow(() -> new ResourceNotFoundException("Quiz not found with this id"));
-		
-		quiz.setNumberOfQuestions(quiz.getNumberOfQuestions()+1);
+
+		quiz.setNumberOfQuestions(quiz.getNumberOfQuestions() + 1);
 
 		// Set the quiz for the new question
 		newQuestion.setQuiz(quiz);

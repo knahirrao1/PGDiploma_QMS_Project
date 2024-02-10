@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -30,14 +29,14 @@ public class GuestId implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "quiz_id", nullable = false, foreignKey = @ForeignKey(name = "fk_guestkey_quiz"))
 	private Quiz quiz;
-	
+
 	private String username;
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(username, quiz);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

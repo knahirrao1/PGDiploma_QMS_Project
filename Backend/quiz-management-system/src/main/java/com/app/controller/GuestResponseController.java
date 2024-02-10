@@ -28,43 +28,46 @@ public class GuestResponseController {
 
 	@Autowired
 	private QuizService quizService;
-	
+
 	@PostMapping
 	public ResponseEntity<?> createGuestResponse(@Valid @RequestBody GuestResponse guestResponse) {
 		try {
-			return new ResponseEntity<>(guestResponseService.saveGuestResponse(guestResponse),HttpStatus.CREATED);
-		}catch(RuntimeException e) {
-			return new ResponseEntity<>(new ApiResponse(e.getMessage()),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(guestResponseService.saveGuestResponse(guestResponse), HttpStatus.CREATED);
+		} catch (RuntimeException e) {
+			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/{quizId}")
 	public ResponseEntity<?> getGuestResponseByQuizId(@PathVariable Long quizId) {
 		try {
-			return new ResponseEntity<>(guestResponseService.getGuestResponseByQuizId(quizService.getQuizByQuizId(quizId)),HttpStatus.OK);
-		}catch(RuntimeException e) {
-			return new ResponseEntity<>(new ApiResponse(e.getMessage()),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(
+					guestResponseService.getGuestResponseByQuizId(quizService.getQuizByQuizId(quizId)), HttpStatus.OK);
+		} catch (RuntimeException e) {
+			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
-		
+
 	}
-	
+
 	@GetMapping("/{quizId}/{username}")
 	public ResponseEntity<?> getGuestResponse(@PathVariable Long quizId, @PathVariable String username) {
 		try {
-			return new ResponseEntity<>(guestResponseService.getGuestResponseById(new GuestId(quizService.getQuizByQuizId(quizId), username)),HttpStatus.OK);
-		}catch(RuntimeException e) {
-			return new ResponseEntity<>(new ApiResponse(e.getMessage()),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(guestResponseService
+					.getGuestResponseById(new GuestId(quizService.getQuizByQuizId(quizId), username)), HttpStatus.OK);
+		} catch (RuntimeException e) {
+			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
-		
+
 	}
 
 	@PutMapping("/{quizId}/{username}")
 	public ResponseEntity<?> updateGuestResponse(@PathVariable Long quizId, @PathVariable String username,
 			@Valid @RequestBody GuestResponse updatedResponse) {
 		try {
-			return new ResponseEntity<>(guestResponseService.updateGuestResponse(new GuestId(quizService.getQuizByQuizId(quizId), username), updatedResponse),HttpStatus.OK);
-		}catch(RuntimeException e) {
-			return new ResponseEntity<>(new ApiResponse(e.getMessage()),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(guestResponseService.updateGuestResponse(
+					new GuestId(quizService.getQuizByQuizId(quizId), username), updatedResponse), HttpStatus.OK);
+		} catch (RuntimeException e) {
+			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -72,9 +75,9 @@ public class GuestResponseController {
 	public ResponseEntity<?> deleteGuestResponse(@PathVariable Long quizId, @PathVariable String username) {
 		try {
 			guestResponseService.deleteGuestResponse(new GuestId(quizService.getQuizByQuizId(quizId), username));
-			return new ResponseEntity<>(new ApiResponse("deleted sucessfully"),HttpStatus.OK);
-		}catch(RuntimeException e) {
-			return new ResponseEntity<>(new ApiResponse(e.getMessage()),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ApiResponse("deleted sucessfully"), HttpStatus.OK);
+		} catch (RuntimeException e) {
+			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
 	}
 }

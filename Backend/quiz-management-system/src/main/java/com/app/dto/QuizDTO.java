@@ -15,11 +15,11 @@ import lombok.ToString;
 @ToString
 public class QuizDTO {
 
-    private Long moduleId;
-    private String title;
-    private int numberOfQuestions;
-    private int totalAttempted;
-    private Boolean openToGuest;
-    private LocalDate createdAt;
+	private Long moduleId;
+	private String title;
+	private int numberOfQuestions;
+	private int totalAttempted;
+	private Boolean openToGuest;
+	private LocalDate createdAt;
 
 }

@@ -22,61 +22,61 @@ import com.app.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService userService;
-	
+
 	@GetMapping("/users")
-    public ResponseEntity<?> getAllUsers() {
+	public ResponseEntity<?> getAllUsers() {
 		try {
-	        List<UserDTO> users = userService.getAllUsers();
-	        return ResponseEntity.ok(users);
-		}catch(Exception e) {
+			List<UserDTO> users = userService.getAllUsers();
+			return ResponseEntity.ok(users);
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
-    }
-	
+	}
+
 	@GetMapping("/users/{username}")
-    public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
+	public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
 		try {
 			UserDTO user = userService.getUserById(username);
-	        return ResponseEntity.status(HttpStatus.OK).body(user);
-		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.OK).body(user);
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ApiResponse(e.getMessage()));
 		}
-    }
+	}
 
-    @PostMapping("/users")
-    public ResponseEntity<?> signUpUser(@RequestBody UserDTO user) {
-        try {
-        	userService.signupUser(user);
-        	return new ResponseEntity<>(user.getUsername(),HttpStatus.CREATED);
-		}catch(Exception e) {
+	@PostMapping("/users")
+	public ResponseEntity<?> signUpUser(@RequestBody UserDTO user) {
+		try {
+			userService.signupUser(user);
+			return new ResponseEntity<>(user.getUsername(), HttpStatus.CREATED);
+		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-    }
-    
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody AuthRequestDTO request){
-    	try {
-    		return new ResponseEntity<>(userService.loginUser(request), HttpStatus.OK);
-    	}catch(Exception e) {
-    		return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
-    	}
-    }
-    
-    @PutMapping("/users/{username}")
-    public ResponseEntity<?> updateUser(@RequestBody UserDTO user) {
-        try {
-        	 return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
-        }catch(Exception e) {
-        	return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-    
-    @DeleteMapping("/users/{username}")
-    public ResponseEntity<?> deleteUser(@PathVariable String username) {
-        try {
-        	 return new ResponseEntity<>(userService.deleteUserById(username), HttpStatus.OK);
-        }catch(Exception e) {
-        	return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<?> loginUser(@RequestBody AuthRequestDTO request) {
+		try {
+			return new ResponseEntity<>(userService.loginUser(request), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+		}
+	}
+
+	@PutMapping("/users/{username}")
+	public ResponseEntity<?> updateUser(@RequestBody UserDTO user) {
+		try {
+			return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@DeleteMapping("/users/{username}")
+	public ResponseEntity<?> deleteUser(@PathVariable String username) {
+		try {
+			return new ResponseEntity<>(userService.deleteUserById(username), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
 }

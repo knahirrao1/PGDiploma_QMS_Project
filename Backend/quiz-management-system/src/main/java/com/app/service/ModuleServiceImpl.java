@@ -50,7 +50,7 @@ public class ModuleServiceImpl implements ModuleService {
 	public com.app.entities.Module updateModule(Long moduleId, String moduleName, String description) {
 		com.app.entities.Module module = moduleRepository.findById(moduleId)
 				.orElseThrow(() -> new ResourceNotFoundException("Module with this id does not exist!"));
-		
+
 		module.setTitle(moduleName);
 		module.setDescription(description);
 		return moduleRepository.save(module);

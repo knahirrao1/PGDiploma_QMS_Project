@@ -13,23 +13,23 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(callSuper = true)
-public class Quiz extends BaseEntity{
-    @ManyToOne
-    @JoinColumn(name = "module_id", nullable = false, foreignKey = @ForeignKey(name = "fk_quiz_module"))
-    private Module module;
+public class Quiz extends BaseEntity {
+	@ManyToOne
+	@JoinColumn(name = "module_id", nullable = false, foreignKey = @ForeignKey(name = "fk_quiz_module"))
+	private Module module;
 
-    private String title;
+	private String title;
 
-    @Column(name = "no_of_que")
-    private int numberOfQuestions;
+	@Column(name = "no_of_que")
+	private int numberOfQuestions;
 
-    @Column(name = "total_attempted")
-    private int totalAttempted;
+	@Column(name = "total_attempted")
+	private int totalAttempted;
 
-    @Column(name = "open_to_guest")
-    private Boolean openToGuest;
+	@Column(name = "open_to_guest")
+	private Boolean openToGuest;
 
-    @Column(name = "created_at")
-    private LocalDate createdAt;
+	@Column(name = "created_at")
+	private LocalDate createdAt;
 
 }
