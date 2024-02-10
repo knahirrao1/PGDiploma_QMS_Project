@@ -2,15 +2,22 @@ import React from "react";
 import JavaLogo from "../images/java-logo.png";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ModuleList = () => {
   const [modules, setModule] = useState([]);
+  const [quizLink, setQuizLink] = useState("");
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get("#")
       .then((response) => setModule(response.data))
       .catch((error) => console.error("Error fetching modules ", error));
   }, []);
+
+  const goToQuiz = () => {
+    setQuizLink();
+  };
 
   return (
     <div>

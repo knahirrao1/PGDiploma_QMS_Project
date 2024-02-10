@@ -18,7 +18,7 @@ function HeaderNav() {
               <Link
                 className="nav-link active"
                 aria-current="page"
-                to="./AboutUs.js"
+                to="./AboutUs"
               >
                 About us
               </Link>
@@ -27,11 +27,20 @@ function HeaderNav() {
               <Link
                 className="nav-link active"
                 aria-current="page"
-                to="./ModuleList.js"
+                to="./ModuleList"
               >
                 {/* <button className="btn btn-dark" type="button"> */}
                 Module Lists
                 {/* </button> */}
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                className="nav-link active"
+                aria-current="date"
+                to="./CreateNew"
+              >
+                Create new
               </Link>
             </li>
           </ul>
@@ -39,14 +48,14 @@ function HeaderNav() {
         <div className="middle">
           <Link className="nav-link active" aria-current="page" to="/">
             <h4>
-              <span style={{ color: "black" }}>Quiz&nbsp;</span>
+              <span style={{ color: "black" }}>Quiz</span>
               <span style={{ color: "rgb(255,165,0)" }}>HUB</span>
             </h4>
           </Link>
         </div>
         <div>
-          <Link className="left" aria-current="page" to="./SignIn.js">
-            <button type="button" class="btn btn-dark">
+          <Link className="left" aria-current="page" to="./SignIn">
+            <button type="button" className="btn btn-dark">
               Login
             </button>
           </Link>

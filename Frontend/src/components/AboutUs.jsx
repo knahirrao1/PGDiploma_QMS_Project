@@ -17,10 +17,6 @@ function StaticHomePage() {
         your admission to esteemed educational institutions.
       </div>
     </div>
-    // <div className="row featurette">
-    //   <h2 className="">About us...</h2>
-
-    // </div>
   );
 }
 

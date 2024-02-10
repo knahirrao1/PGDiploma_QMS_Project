@@ -31,11 +31,14 @@ function DynamicHomePage() {
           <img src={about} className="rounded mx-auto d-block" alt="..." />
           <div className="carousel-caption d-none d-md-block">
             <h5>Sign up to us</h5>
-            <button className="btn btn-dark">Sign-up</button>
+            {/* <a href="/SignUp" className="btn btn-dark">
+              Sign-up
+            </a> */}
             <p>Some intresting quizes waiting for you</p>
           </div>
         </div>
         <div className="carousel-item">
+          ``
           <img src={about} className="rounded mx-auto d-block" alt="..." />
           <div className="carousel-caption d-none d-md-block">
             <h5>Or try on Free</h5>

@@ -15,7 +15,8 @@ function ModuleList() {
               <div className="card-body">
                 <h5 className="card-title">Card title</h5>
                 <p className="card-text">module1</p>
-                <a href="#" className="btn btn-primary">
+
+                <a href={"/QuizList/"} className="btn btn-primary">
                   module1 link
                 </a>
               </div>
@@ -27,43 +28,7 @@ function ModuleList() {
               <div className="card-body">
                 <h5 className="card-title">Card title</h5>
                 <p className="card-text">module1</p>
-                <a href="#" className="btn btn-primary">
-                  module1 link
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="col">
-            <div className="card">
-              <img src={JavaLogo} className="card-img-top" alt="..." />
-              <div className="card-body">
-                <h5 className="card-title">Card title</h5>
-                <p className="card-text">module1</p>
-                <a href="#" className="btn btn-primary">
-                  module1 link
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="col">
-            <div className="card">
-              <img src={JavaLogo} className="card-img-top" alt="..." />
-              <div className="card-body">
-                <h5 className="card-title">Card title</h5>
-                <p className="card-text">module1</p>
-                <a href="#" className="btn btn-primary">
-                  module1 link
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="col">
-            <div className="card">
-              <img src={JavaLogo} className="card-img-top" alt="..." />
-              <div className="card-body">
-                <h5 className="card-title">Card title</h5>
-                <p className="card-text">module1</p>
-                <a href="#" className="btn btn-primary">
+                <a href="/CreateNew/" className="btn btn-primary">
                   module1 link
                 </a>
               </div>
