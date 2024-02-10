@@ -1,5 +1,6 @@
 package com.app.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,12 +33,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public AuthResponseDTO loginUser(AuthRequestDTO request) {
 		// Find user by email
-		User user = userRepository.findById(request.getUsername()).orElseThrow();
-
-		// Check if the user exists
-		if (user == null) {
-			throw new ApiException("user not found"); // User not found
-		}
+		User user = userRepository.findById(request.getUsername()).orElseThrow(() -> new ApiException("user not found"));
 
 		// Check if the provided password matches the stored hashed password
 //		if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
@@ -47,7 +43,7 @@ public class UserServiceImpl implements UserService {
 		if (request.getPassword().equals(user.getPassword())) {
 			return mapper.map(user, AuthResponseDTO.class); // Login successful
 		}
-		
+
 		throw new ApiException("incorrect password"); // Incorrect password
 	}
 
@@ -72,6 +68,8 @@ public class UserServiceImpl implements UserService {
 		// Create a new user
 		User u = mapper.map(user, User.class);
 
+		u.setCreatedAt(LocalDate.now());
+
 		// Save the user to the database
 		userRepository.save(u);
 	}
@@ -92,7 +90,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDTO getUserById(String username) {
 		// Retrieve a user by user ID from the repository
-		return mapper.map(userRepository.findById(username).orElseThrow(() -> new ResourceNotFoundException("invalid username")), UserDTO.class);
+		return mapper.map(
+				userRepository.findById(username).orElseThrow(() -> new ResourceNotFoundException("invalid username")),
+				UserDTO.class);
 	}
 
 	@Override
@@ -117,6 +117,7 @@ public class UserServiceImpl implements UserService {
 		u.setName(user.getName());
 		u.setDescription(user.getDescription());
 		u.setPassword(user.getPassword());
+		u.setProfileImg(user.getProfileImg());
 
 		return mapper.map(userRepository.save(u), UserDTO.class); // Deletion successful
 	}

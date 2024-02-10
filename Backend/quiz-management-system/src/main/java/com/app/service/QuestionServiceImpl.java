@@ -19,23 +19,18 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Autowired
 	private QuizDao quizDao;
-	
+
 	@Autowired
 	private QuestionDao questionDao;
 
-	
 	@Override
 	public List<Question> getAllQuestionsByQuizId(Long quizId) {
 		// Check if the quiz with given id exists
 		Quiz quiz = quizDao.findById(quizId)
 				.orElseThrow(() -> new ResourceNotFoundException("Quiz with given Id does not exist!"));
-		if (quiz != null) {
-			return questionDao.findByQuiz(quiz);
-		}
-
-		// return null if quiz does not exist
-		return null;
+		return questionDao.findByQuiz(quiz);
 	}
+
 //---------------------------------------------------------------------------------------------------------------
 	@Override
 	public Question getQuestionById(Long questionId) {
@@ -50,6 +45,8 @@ public class QuestionServiceImpl implements QuestionService {
 		// Check if the quiz with the given id exists
 		Quiz quiz = quizDao.findById(quizId)
 				.orElseThrow(() -> new ResourceNotFoundException("Quiz not found with this id"));
+		
+		quiz.setNumberOfQuestions(quiz.getNumberOfQuestions()+1);
 
 		// Set the quiz for the new question
 		newQuestion.setQuiz(quiz);
