@@ -29,7 +29,7 @@ public class QuestionController {
 	@Autowired
 	private ModelMapper mapper;
 
-	@GetMapping("/{quizId}")
+	@GetMapping("/quizzes/{quizId}")
 	public ResponseEntity<?> getQuestionsByQuizId(@PathVariable Long quizId) {
 		try {
 			List<Question> questions = questionService.getAllQuestionsByQuizId(quizId);
