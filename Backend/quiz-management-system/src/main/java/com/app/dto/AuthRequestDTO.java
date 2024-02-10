@@ -19,6 +19,7 @@ public class AuthRequestDTO {
 	@NotBlank(message = "username is required")
 	@Email(message = "Invalid username format")
 	private String username;
+	
 	@NotBlank(message = "Password required")
 	@Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[#@$*]).{5,20})", message = "Invalid password")
 	private String password;
