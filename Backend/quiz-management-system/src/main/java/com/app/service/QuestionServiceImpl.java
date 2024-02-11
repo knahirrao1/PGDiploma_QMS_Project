@@ -1,15 +1,18 @@
 package com.app.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.QuestionDao;
 import com.app.dao.QuizDao;
+import com.app.dto.QuestionDTO;
 import com.app.entities.Question;
 import com.app.entities.Quiz;
 
@@ -18,32 +21,37 @@ import com.app.entities.Quiz;
 public class QuestionServiceImpl implements QuestionService {
 
 	@Autowired
-	private QuizDao quizDao;
+	private QuizDao quizRepository;
 
 	@Autowired
-	private QuestionDao questionDao;
+	private QuestionDao questionRepository;
+
+	@Autowired
+	private ModelMapper mapper;
 
 	@Override
-	public List<Question> getAllQuestionsByQuizId(Long quizId) {
+	public List<QuestionDTO> getAllQuestionsByQuizId(Long quizId) {
 		// Check if the quiz with given id exists
-		Quiz quiz = quizDao.findById(quizId)
+		Quiz quiz = quizRepository.findById(quizId)
 				.orElseThrow(() -> new ResourceNotFoundException("Quiz with given Id does not exist!"));
-		return questionDao.findByQuiz(quiz);
+		return questionRepository.findByQuiz(quiz).stream().map(question -> mapper.map(question, QuestionDTO.class))
+				.collect(Collectors.toList());
 	}
 
 //---------------------------------------------------------------------------------------------------------------
 	@Override
-	public Question getQuestionById(Long questionId) {
+	public QuestionDTO getQuestionById(Long questionId) {
 		// Check if the question with the given id exists
-		return questionDao.findById(questionId)
+		Question question = questionRepository.findById(questionId)
 				.orElseThrow(() -> new ResourceNotFoundException("Question not found with this id"));
+		return mapper.map(question, QuestionDTO.class);
 	}
 
 //---------------------------------------------------------------------------------------------------------------
 	@Override
-	public Question createQuestion(Long quizId, Question newQuestion) {
+	public QuestionDTO createQuestion(Long quizId, Question newQuestion) {
 		// Check if the quiz with the given id exists
-		Quiz quiz = quizDao.findById(quizId)
+		Quiz quiz = quizRepository.findById(quizId)
 				.orElseThrow(() -> new ResourceNotFoundException("Quiz not found with this id"));
 
 		quiz.setNumberOfQuestions(quiz.getNumberOfQuestions() + 1);
@@ -52,14 +60,15 @@ public class QuestionServiceImpl implements QuestionService {
 		newQuestion.setQuiz(quiz);
 
 		// Save the new question
-		return questionDao.save(newQuestion);
+		Question question = questionRepository.save(newQuestion);
+		return mapper.map(question, QuestionDTO.class);
 	}
 
 //---------------------------------------------------------------------------------------------------------------	
 	@Override
-	public Question updateQuestion(Long questionId, Question updatedQuestion) {
+	public QuestionDTO updateQuestion(Long questionId, Question updatedQuestion) {
 		// Check if the question with the given id exists
-		Question existingQuestion = questionDao.findById(questionId)
+		Question existingQuestion = questionRepository.findById(questionId)
 				.orElseThrow(() -> new ResourceNotFoundException("Question not found with this id"));
 
 		// Update the existing question with the new information
@@ -71,24 +80,31 @@ public class QuestionServiceImpl implements QuestionService {
 		existingQuestion.setCorrectOption(updatedQuestion.getCorrectOption());
 		existingQuestion.setExplanation(updatedQuestion.getExplanation());
 		// Save the updated question
-		return questionDao.save(existingQuestion);
+		Question question = questionRepository.save(existingQuestion);
+		return mapper.map(question, QuestionDTO.class);
 	}
 
 //---------------------------------------------------------------------------------------------------------------	
 	@Override
 	public void deleteQuestion(Long questionId) {
 		// Check if the question with the given id exists
-		Question existingQuestion = questionDao.findById(questionId)
+		Question existingQuestion = questionRepository.findById(questionId)
 				.orElseThrow(() -> new ResourceNotFoundException("Question not found with this id"));
 
+		// kunal code added
+		Quiz quiz = quizRepository.findById(existingQuestion.getQuiz().getId())
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid quiz id"));
+
+		quiz.setNumberOfQuestions(quiz.getNumberOfQuestions() - 1);
 		// Delete the question
-		questionDao.delete(existingQuestion);
+		questionRepository.delete(existingQuestion);
 	}
-	
+
 //---------------------------------------------------------------------------------------------------------------	
 	@Override
-	public void deleteQuestionByQuiz(Long quizId) {
-		List<Question> questions = getAllQuestionsByQuizId(quizId);
-		questionDao.deleteAll(questions);
+	public void deleteQuestionsByQuiz(Long quizId) {
+		List<Question> questions = getAllQuestionsByQuizId(quizId).stream()
+				.map(question -> mapper.map(question, Question.class)).collect(Collectors.toList());
+		questionRepository.deleteAll(questions);
 	}
 }

@@ -29,6 +29,7 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Autowired
 	private UserDao userRepository;
+	
 	@Autowired
 	private ModelMapper mapper;
 
@@ -51,7 +52,7 @@ public class ModuleServiceImpl implements ModuleService {
 	public List<ModuleDTO> getModuleByUsername(String username) {
 		User user = userRepository.findById(username)
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid Username!"));
-		return moduleRepository.findByUsername(user).stream().map(module -> mapper.map(module, ModuleDTO.class))
+		return moduleRepository.findByUser(user).stream().map(module -> mapper.map(module, ModuleDTO.class))
 				.collect(Collectors.toList());
 	}
 

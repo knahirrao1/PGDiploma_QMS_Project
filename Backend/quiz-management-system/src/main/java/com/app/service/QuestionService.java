@@ -2,19 +2,20 @@ package com.app.service;
 
 import java.util.List;
 
+import com.app.dto.QuestionDTO;
 import com.app.entities.Question;
 
 public interface QuestionService {
 
-	List<Question> getAllQuestionsByQuizId(Long quizId);
+	List<QuestionDTO> getAllQuestionsByQuizId(Long quizId);
 
-	Question getQuestionById(Long questionId);
+	QuestionDTO getQuestionById(Long questionId);
 
-	Question createQuestion(Long quizId, Question newQuestion);
+	QuestionDTO createQuestion(Long quizId, Question newQuestion);
 
-	Question updateQuestion(Long questionId, Question updatedQuestion);
+	QuestionDTO updateQuestion(Long questionId, Question updatedQuestion);
 
 	void deleteQuestion(Long questionId);
 
-	void deleteQuestionByQuiz(Long quizId);
+	void deleteQuestionsByQuiz(Long quizId);
 }
