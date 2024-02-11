@@ -51,7 +51,7 @@ public class ModuleController {
 
 //--------------------------------------------------------------------------------------------------------------------------
 	@GetMapping("/users/{username}")
-	public ResponseEntity<?> getModuleByUsername(@PathVariable String username){
+	public ResponseEntity<?> getModuleByUsername(@PathVariable String username) {
 		try {
 			List<ModuleDTO> modules = moduleService.getModuleByUsername(username);
 			return new ResponseEntity<>(modules, HttpStatus.OK);
@@ -61,7 +61,7 @@ public class ModuleController {
 		}
 	}
 //--------------------------------------------------------------------------------------------------------------------------	
-	
+
 	@PostMapping
 	public ResponseEntity<?> createModule(@RequestBody ModuleDTO module) {
 		// System.out.println("in create module");
@@ -97,9 +97,10 @@ public class ModuleController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
 		}
 	}
+
 //---------------------------------------------------------------------------------------------------------------------------	
 	@DeleteMapping("/users/{username}")
-	public ResponseEntity<?> deleteModuleByUsername(@PathVariable String username){
+	public ResponseEntity<?> deleteModuleByUsername(@PathVariable String username) {
 		try {
 			moduleService.deleteModuleByUsername(username);
 			return ResponseEntity.status(HttpStatus.OK).build();
@@ -108,6 +109,4 @@ public class ModuleController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
 		}
 	}
-	
-	
 }

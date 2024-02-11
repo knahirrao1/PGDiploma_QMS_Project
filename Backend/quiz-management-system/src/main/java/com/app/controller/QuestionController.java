@@ -92,4 +92,17 @@ public class QuestionController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
 		}
 	}
+//---------------------------------------------------------------------------------------------------------------------------
+@DeleteMapping("quizzes/{quizId}")
+public ResponseEntity<?> deleteQuestionByQuiz(@PathVariable Long quizId){
+	try {
+		questionService.deleteQuestionByQuiz(quizId);
+		return ResponseEntity.status(HttpStatus.OK).build();
+	} catch (RuntimeException e) {
+		System.out.println("Error in question controller delete question by quiz method " + e);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
+	}
+}
+
+
 }

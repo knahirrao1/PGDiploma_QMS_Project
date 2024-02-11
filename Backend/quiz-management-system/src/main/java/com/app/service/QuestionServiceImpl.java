@@ -84,4 +84,11 @@ public class QuestionServiceImpl implements QuestionService {
 		// Delete the question
 		questionDao.delete(existingQuestion);
 	}
+	
+//---------------------------------------------------------------------------------------------------------------	
+	@Override
+	public void deleteQuestionByQuiz(Long quizId) {
+		List<Question> questions = getAllQuestionsByQuizId(quizId);
+		questionDao.deleteAll(questions);
+	}
 }
