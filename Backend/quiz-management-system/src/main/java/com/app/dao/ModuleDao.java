@@ -9,6 +9,6 @@ import com.app.entities.User;
 
 public interface ModuleDao extends JpaRepository<com.app.entities.Module, Long> {
 
-	List<Module> findByUsername(User username);
+	List<Module> findByUser(User username);
 
 }
