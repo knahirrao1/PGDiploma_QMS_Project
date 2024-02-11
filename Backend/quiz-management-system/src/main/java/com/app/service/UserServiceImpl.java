@@ -116,10 +116,18 @@ public class UserServiceImpl implements UserService {
 		User u = userRepository.findById(user.getUsername())
 				.orElseThrow(() -> new ResourceNotFoundException("invalid username"));
 
-		u.setName(user.getName());
-		u.setDescription(user.getDescription());
-		u.setPassword(user.getPassword());
-
-		return mapper.map(userRepository.save(u), UserDTO.class); // Deletion successful
+		if ((u.getEmail()).equals(user.getEmail())) {
+			u.setName(user.getName());
+			u.setDescription(user.getDescription());
+			u.setPassword(user.getPassword());
+			return mapper.map(userRepository.save(u), UserDTO.class); // Deletion successful
+		} else if (userRepository.existsByEmail(user.getEmail())) {
+			throw new ApiException("email already exists"); // Email already exists
+		} else {
+			u.setName(user.getName());
+			u.setDescription(user.getDescription());
+			u.setPassword(user.getPassword());
+			return mapper.map(userRepository.save(u), UserDTO.class); // Deletion successful
+		}
 	}
 }

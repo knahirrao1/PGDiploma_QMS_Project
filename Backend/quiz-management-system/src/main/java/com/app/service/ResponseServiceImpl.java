@@ -20,21 +20,21 @@ import com.app.entities.User;
 @Transactional
 public class ResponseServiceImpl implements ResponseService {
 	@Autowired
-	private ResponseDao responseDao;
+	private ResponseDao responseRepository;
 	@Autowired
-	private UserDao userDao;
+	private UserDao userRepository;
 	@Autowired
-	private QuizDao quizDao;
+	private QuizDao quizRepository;
 
 	@Override
 	public List<Response> getAllResponses() {
-		return responseDao.findAll();
+		return responseRepository.findAll();
 	}
 
 //----------------------------------------------------------------------------------------------------------------------	
 	@Override
 	public Response getResponseById(Long id) {
-		return responseDao.findById(id)
+		return responseRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Respone not found with this id"));
 	}
 
@@ -42,18 +42,18 @@ public class ResponseServiceImpl implements ResponseService {
 	@Override
 	public List<Response> getResponseByUsername(String username) {
 //here findByUsername is changed to findById
-		User user = userDao.findById(username).orElseThrow(() -> new ResourceNotFoundException("Invalid username!"));
+		User user = userRepository.findById(username).orElseThrow(() -> new ResourceNotFoundException("Invalid username!"));
 //		if (user == null)
 //			throw new ResourceNotFoundException("Invalid username!");
-		return responseDao.findByUser(user);
+		return responseRepository.findByUser(user);
 	}
 
 //----------------------------------------------------------------------------------------------------------------------	
 	@Override
 	public List<Response> getResponseByQuizId(Long quizId) {
-		Quiz quiz = quizDao.findById(quizId)
+		Quiz quiz = quizRepository.findById(quizId)
 				.orElseThrow(() -> new ResourceNotFoundException("Quiz not found with this id"));
-		return responseDao.findByQuiz(quiz);
+		return responseRepository.findByQuiz(quiz);
 	}
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ public class ResponseServiceImpl implements ResponseService {
 		Quiz existingQuiz = response.getQuiz();
 
 		if (existingUsername == null && existingQuiz == null) {
-			return responseDao.save(response);
+			return responseRepository.save(response);
 		}
 
 		List<Response> existingResponses = getResponseByUsername(existingUsername);
@@ -77,14 +77,14 @@ public class ResponseServiceImpl implements ResponseService {
 		oldResponse.setMarks(response.getMarks());
 		oldResponse.setResponse(response.getResponse());
 		oldResponse.setId(response.getId());
-		return responseDao.save(oldResponse);
+		return responseRepository.save(oldResponse);
 	}
 
 //----------------------------------------------------------------------------------------------------------------------    
 	@Override
 	public void deleteResponse(Long id) {
 		try {
-			responseDao.deleteById(id);
+			responseRepository.deleteById(id);
 		} catch (RuntimeException e) {
 			throw e;
 		}

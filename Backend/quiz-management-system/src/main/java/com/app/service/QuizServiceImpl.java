@@ -15,6 +15,7 @@ import com.app.dao.ModuleDao;
 import com.app.dao.QuestionDao;
 import com.app.dao.QuizDao;
 import com.app.dto.QuizDTO;
+import com.app.entities.Module;
 import com.app.entities.Quiz;
 
 @Service
@@ -45,8 +46,11 @@ public class QuizServiceImpl implements QuizService {
 
 	@Override
 	public QuizDTO createQuiz(QuizDTO quiz) {
+		Module module = moduleRepository.findById(quiz.getModuleId())
+				.orElseThrow(() -> new ResourceNotFoundException("Module with this id does not exist!"));
 		Quiz q = mapper.map(quiz, Quiz.class);
 		q.setCreatedAt(LocalDate.now());
+		module.setNumberOfQuizzes(module.getNumberOfQuizzes()+1);
 		return mapper.map(quizRepository.save(q), QuizDTO.class);
 	}
 
