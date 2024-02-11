@@ -11,7 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class GuestEntityDTO {
+public class GuestIdDTO {
 
 	private QuizDTO quiz;
 	private String username;

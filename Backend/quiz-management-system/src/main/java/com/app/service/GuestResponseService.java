@@ -2,22 +2,20 @@ package com.app.service;
 
 import java.util.List;
 
-import com.app.entities.GuestId;
-import com.app.entities.GuestResponse;
-import com.app.entities.Quiz;
+import com.app.dto.GuestIdDTO;
+import com.app.dto.GuestResponseDTO;
+import com.app.dto.QuizDTO;
 
 public interface GuestResponseService {
 
-	GuestResponse saveGuestResponse(GuestResponse guestResponse);
+	GuestResponseDTO saveGuestResponse(GuestResponseDTO guestResponse);
 
-	GuestResponse getGuestResponseById(GuestId key);
+	GuestResponseDTO getGuestResponseById(Long quizId,String username);
 
-	List<GuestResponse> getAllGuestResponses();
+	List<GuestResponseDTO> getAllGuestResponses();
 
-	GuestResponse updateGuestResponse(GuestId key, GuestResponse updatedResponse);
+	void deleteGuestResponse(GuestIdDTO key);
 
-	void deleteGuestResponse(GuestId key);
-
-	List<GuestResponse> getGuestResponseByQuizId(Quiz quizByQuizId);
+	List<GuestResponseDTO> getGuestResponseByQuizId(QuizDTO quizByQuizId);
 
 }

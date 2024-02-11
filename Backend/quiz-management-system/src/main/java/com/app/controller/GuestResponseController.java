@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.ApiResponse;
+import com.app.dto.GuestIdDTO;
+import com.app.dto.GuestResponseDTO;
 import com.app.entities.GuestId;
 import com.app.entities.GuestResponse;
 import com.app.service.GuestResponseService;
@@ -30,7 +32,7 @@ public class GuestResponseController {
 	private QuizService quizService;
 
 	@PostMapping
-	public ResponseEntity<?> createGuestResponse(@Valid @RequestBody GuestResponse guestResponse) {
+	public ResponseEntity<?> createGuestResponse(@Valid @RequestBody GuestResponseDTO guestResponse) {
 		try {
 			return new ResponseEntity<>(guestResponseService.saveGuestResponse(guestResponse), HttpStatus.CREATED);
 		} catch (RuntimeException e) {
@@ -53,28 +55,17 @@ public class GuestResponseController {
 	public ResponseEntity<?> getGuestResponse(@PathVariable Long quizId, @PathVariable String username) {
 		try {
 			return new ResponseEntity<>(guestResponseService
-					.getGuestResponseById(new GuestId(quizService.getQuizByQuizId(quizId), username)), HttpStatus.OK);
+					.getGuestResponseById(quizId, username), HttpStatus.OK);
 		} catch (RuntimeException e) {
 			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
 
-	}
-
-	@PutMapping("/{quizId}/{username}")
-	public ResponseEntity<?> updateGuestResponse(@PathVariable Long quizId, @PathVariable String username,
-			@Valid @RequestBody GuestResponse updatedResponse) {
-		try {
-			return new ResponseEntity<>(guestResponseService.updateGuestResponse(
-					new GuestId(quizService.getQuizByQuizId(quizId), username), updatedResponse), HttpStatus.OK);
-		} catch (RuntimeException e) {
-			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
-		}
 	}
 
 	@DeleteMapping("/{quizId}/{username}")
 	public ResponseEntity<?> deleteGuestResponse(@PathVariable Long quizId, @PathVariable String username) {
 		try {
-			guestResponseService.deleteGuestResponse(new GuestId(quizService.getQuizByQuizId(quizId), username));
+			guestResponseService.deleteGuestResponse(new GuestIdDTO(quizService.getQuizByQuizId(quizId), username));
 			return new ResponseEntity<>(new ApiResponse("deleted sucessfully"), HttpStatus.OK);
 		} catch (RuntimeException e) {
 			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
