@@ -17,7 +17,7 @@ public class Module extends BaseEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "username", nullable = false, foreignKey = @ForeignKey(name = "fk_module_user"))
-	private User username;
+	private User user;
 
 	private String title;
 	private String description;

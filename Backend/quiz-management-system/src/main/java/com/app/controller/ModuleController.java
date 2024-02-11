@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.ApiResponse;
 import com.app.dto.ModuleDTO;
-import com.app.entities.Module;
 import com.app.service.ModuleService;
 
 @RestController
@@ -29,7 +28,7 @@ public class ModuleController {
 	@GetMapping
 	public ResponseEntity<?> getAllModules() {
 		try {
-			List<Module> modules = moduleService.getAllModules();
+			List<ModuleDTO> modules = moduleService.getAllModules();
 			return new ResponseEntity<>(modules, HttpStatus.OK);
 		} catch (RuntimeException e) {
 			System.out.println("Error in Module controller get all modules method " + e);
@@ -42,7 +41,7 @@ public class ModuleController {
 	@GetMapping("/{moduleId}")
 	public ResponseEntity<?> getModuleById(@PathVariable Long id) {
 		try {
-			Module module = moduleService.getModuleById(id);
+			ModuleDTO module = moduleService.getModuleById(id);
 			return new ResponseEntity<>(module, HttpStatus.OK);
 		} catch (RuntimeException e) {
 			System.out.println("Error in module controller get module by id method " + e);
@@ -51,6 +50,18 @@ public class ModuleController {
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------
+	@GetMapping("/users/{username}")
+	public ResponseEntity<?> getModuleByUsername(@PathVariable String username){
+		try {
+			List<ModuleDTO> modules = moduleService.getModuleByUsername(username);
+			return new ResponseEntity<>(modules, HttpStatus.OK);
+		} catch (RuntimeException e) {
+			System.out.println("Error in module controller get module by username method " + e);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
+		}
+	}
+//--------------------------------------------------------------------------------------------------------------------------	
+	
 	@PostMapping
 	public ResponseEntity<?> createModule(@RequestBody ModuleDTO module) {
 		// System.out.println("in create module");
@@ -62,31 +73,41 @@ public class ModuleController {
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------
-
 	@PutMapping("/{moduleId}")
 	public ResponseEntity<?> updateModule(@PathVariable Long moduleId, @RequestBody ModuleDTO module) {
 
-		Module oldModule = moduleService.getModuleById(moduleId);
+		ModuleDTO oldModule = moduleService.getModuleById(moduleId);
 		if (oldModule == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("Invalid module Id"));
 		}
 		String moduleName = module.getTitle();
 		String moduleDescription = module.getDescription();
-		Module updatedModule = moduleService.updateModule(moduleId, moduleName, moduleDescription);
+		ModuleDTO updatedModule = moduleService.updateModule(moduleId, moduleName, moduleDescription);
 		return new ResponseEntity<>(updatedModule, HttpStatus.OK);
 	}
 
 //---------------------------------------------------------------------------------------------------------------------------   
-
 	@DeleteMapping("/{moduleId}")
 	public ResponseEntity<?> deleteModule(@PathVariable Long moduleId) {
 		try {
 			moduleService.deleteModule(moduleId);
 			return ResponseEntity.status(HttpStatus.OK).build();
 		} catch (RuntimeException e) {
-			System.out.println("Error in module controller delete method " + e);
-			// return err mesg wrapped in DTO : ApiResp
+			System.out.println("Error in module controller delete module method " + e);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
 		}
 	}
+//---------------------------------------------------------------------------------------------------------------------------	
+	@DeleteMapping("/users/{username}")
+	public ResponseEntity<?> deleteModuleByUsername(@PathVariable String username){
+		try {
+			moduleService.deleteModuleByUsername(username);
+			return ResponseEntity.status(HttpStatus.OK).build();
+		} catch (RuntimeException e) {
+			System.out.println("Error in module controller delete module by username method " + e);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
+		}
+	}
+	
+	
 }
