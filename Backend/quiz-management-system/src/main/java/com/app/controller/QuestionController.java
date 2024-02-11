@@ -32,7 +32,7 @@ public class QuestionController {
 	@GetMapping("/quizzes/{quizId}")
 	public ResponseEntity<?> getQuestionsByQuizId(@PathVariable Long quizId) {
 		try {
-			List<Question> questions = questionService.getAllQuestionsByQuizId(quizId);
+			List<QuestionDTO> questions = questionService.getAllQuestionsByQuizId(quizId);
 			return new ResponseEntity<>(questions, HttpStatus.OK);
 		} catch (RuntimeException e) {
 			System.out.println("Error in question controller get questions by quizid method " + e);
@@ -44,7 +44,7 @@ public class QuestionController {
 	@GetMapping("/{questionId}")
 	public ResponseEntity<?> getQuestionById(@PathVariable Long questionId) {
 		try {
-			Question question = questionService.getQuestionById(questionId);
+			QuestionDTO question = questionService.getQuestionById(questionId);
 			return new ResponseEntity<>(question, HttpStatus.OK);
 		} catch (RuntimeException e) {
 			System.out.println("Error in question controller get question by id method " + e);
@@ -71,7 +71,7 @@ public class QuestionController {
 
 		try {
 			Question question = mapper.map(newQuestion, Question.class);
-			Question updatedQuestion = questionService.updateQuestion(questionId, question);
+			QuestionDTO updatedQuestion = questionService.updateQuestion(questionId, question);
 			return new ResponseEntity<>(updatedQuestion, HttpStatus.OK);
 		} catch (RuntimeException e) {
 			System.out.println("Error in question controller update question method " + e);
@@ -88,21 +88,19 @@ public class QuestionController {
 			return ResponseEntity.status(HttpStatus.OK).build();
 		} catch (RuntimeException e) {
 			System.out.println("Error in question controller delete question method " + e);
-			// return err message wrapped in DTO : ApiResp
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
 		}
 	}
+
 //---------------------------------------------------------------------------------------------------------------------------
-@DeleteMapping("quizzes/{quizId}")
-public ResponseEntity<?> deleteQuestionByQuiz(@PathVariable Long quizId){
-	try {
-		questionService.deleteQuestionByQuiz(quizId);
-		return ResponseEntity.status(HttpStatus.OK).build();
-	} catch (RuntimeException e) {
-		System.out.println("Error in question controller delete question by quiz method " + e);
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
+	@DeleteMapping("quizzes/{quizId}")
+	public ResponseEntity<?> deleteQuestionsByQuiz(@PathVariable Long quizId) {
+		try {
+			questionService.deleteQuestionsByQuiz(quizId);
+			return ResponseEntity.status(HttpStatus.OK).build();
+		} catch (RuntimeException e) {
+			System.out.println("Error in question controller delete question by quiz method " + e);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
+		}
 	}
-}
-
-
 }
