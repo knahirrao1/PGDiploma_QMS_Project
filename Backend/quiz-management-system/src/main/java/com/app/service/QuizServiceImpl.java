@@ -70,8 +70,8 @@ public class QuizServiceImpl implements QuizService {
 
 	@Override
 	public void deleteQuiz(Long quizId) {
-		Quiz quiz = quizRepository.findById(quizId)
-				.orElseThrow(() -> new ResourceNotFoundException("Quiz with this id does not exist!"));
+//		Quiz quiz = quizRepository.findById(quizId)
+//				.orElseThrow(() -> new ResourceNotFoundException("Quiz with this id does not exist!"));
 		// Delete associated questions
 		questionRepository.deleteByQuizId(quizId);
 		// Delete the quiz

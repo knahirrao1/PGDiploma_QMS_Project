@@ -2,20 +2,21 @@ package com.app.service;
 
 import java.util.List;
 
+import com.app.dto.ResponseDTO;
 import com.app.entities.Response;
 
 public interface ResponseService {
 
-	List<Response> getAllResponses();
+	List<ResponseDTO> getAllResponses();
 
-	Response getResponseById(Long id);
+	ResponseDTO getResponseById(Long id);
 
-	Response saveResponse(Response response);
+	ResponseDTO saveResponse(Response response);
 
 	void deleteResponse(Long id);
 
-	List<Response> getResponseByUsername(String username);
+	List<ResponseDTO> getResponseByUsername(String username);
 
-	List<Response> getResponseByQuizId(Long quizId);
+	List<ResponseDTO> getResponseByQuizId(Long quizId);
 
 }

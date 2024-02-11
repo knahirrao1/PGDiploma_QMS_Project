@@ -10,7 +10,7 @@ public interface ModuleService {
 
 	ModuleDTO getModuleById(Long moduleId);
 
-	ModuleDTO createModule(String moduleName, String description);
+	ModuleDTO createModule(String moduleName, String description, String username);
 
 	ModuleDTO updateModule(Long moduleId, String moduleName, String description);
 

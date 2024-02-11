@@ -65,25 +65,36 @@ public class ModuleController {
 	@PostMapping
 	public ResponseEntity<?> createModule(@RequestBody ModuleDTO module) {
 		// System.out.println("in create module");
-		String moduleName = module.getTitle();
-		String description = module.getDescription();
-		if (moduleName.isEmpty())
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		return ResponseEntity.status(HttpStatus.CREATED).body(moduleService.createModule(moduleName, description));
+		try {
+			String moduleName = module.getTitle();
+			String description = module.getDescription();
+			String username = module.getUsername();
+			if (moduleName.isEmpty())
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			return ResponseEntity.status(HttpStatus.CREATED)
+					.body(moduleService.createModule(moduleName, description, username));
+		} catch (RuntimeException e) {
+			System.out.println("Error in module controller create module method " + e);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
+		}
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------
 	@PutMapping("/{moduleId}")
 	public ResponseEntity<?> updateModule(@PathVariable Long moduleId, @RequestBody ModuleDTO module) {
-
-		ModuleDTO oldModule = moduleService.getModuleById(moduleId);
-		if (oldModule == null) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("Invalid module Id"));
+		try {
+			ModuleDTO oldModule = moduleService.getModuleById(moduleId);
+			if (oldModule == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("Invalid module Id"));
+			}
+			String moduleName = module.getTitle();
+			String moduleDescription = module.getDescription();
+			ModuleDTO updatedModule = moduleService.updateModule(moduleId, moduleName, moduleDescription);
+			return new ResponseEntity<>(updatedModule, HttpStatus.OK);
+		} catch (RuntimeException e) {
+			System.out.println("Error in module controller update module method " + e);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
 		}
-		String moduleName = module.getTitle();
-		String moduleDescription = module.getDescription();
-		ModuleDTO updatedModule = moduleService.updateModule(moduleId, moduleName, moduleDescription);
-		return new ResponseEntity<>(updatedModule, HttpStatus.OK);
 	}
 
 //---------------------------------------------------------------------------------------------------------------------------   

@@ -29,7 +29,7 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Autowired
 	private UserDao userRepository;
-	
+
 	@Autowired
 	private ModelMapper mapper;
 
@@ -58,12 +58,15 @@ public class ModuleServiceImpl implements ModuleService {
 
 //----------------------------------------------------------------------------------------------------------------------	
 	@Override
-	public ModuleDTO createModule(String moduleName, String description) {
+	public ModuleDTO createModule(String moduleName, String description, String username) {
+		User user = userRepository.findById(username)
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid Username!"));
 		com.app.entities.Module module = new com.app.entities.Module();
 		module.setTitle(moduleName);
 		module.setDescription(description);
 		module.setNumberOfQuizzes(0); // Default value
 		module.setCreatedAt(LocalDate.now());
+		module.setUser(user);
 		Module createdModule = moduleRepository.save(module);
 		return mapper.map(createdModule, ModuleDTO.class);
 	}

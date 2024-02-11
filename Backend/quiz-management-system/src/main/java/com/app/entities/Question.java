@@ -19,6 +19,7 @@ public class Question extends BaseEntity {
 	@JoinColumn(name = "quiz_id", nullable = false, foreignKey = @ForeignKey(name = "fk_question_quiz"))
 	private Quiz quiz;
 
+	@Column(columnDefinition = "TEXT")
 	private String question;
 
 	@Lob

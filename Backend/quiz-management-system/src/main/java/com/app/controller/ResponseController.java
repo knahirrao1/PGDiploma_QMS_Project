@@ -44,7 +44,7 @@ public class ResponseController {
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getResponseById(@PathVariable Long id) {
 		try {
-			Response response = responseService.getResponseById(id);
+			ResponseDTO response = responseService.getResponseById(id);
 			// ResponseDTO responseDTO = mapper.map(response, ResponseDTO.class);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (RuntimeException e) {
@@ -69,7 +69,7 @@ public class ResponseController {
 	@GetMapping("/users/{username}")
 	public ResponseEntity<?> getResponsesByUsername(@PathVariable String username) {
 		try {
-			List<Response> responsesByUsername = responseService.getResponseByUsername(username);
+			List<ResponseDTO> responsesByUsername = responseService.getResponseByUsername(username);
 			return new ResponseEntity<>(responsesByUsername, HttpStatus.OK);
 		} catch (RuntimeException e) {
 			System.out.println("Error in response controller get response by username method " + e);
@@ -81,7 +81,7 @@ public class ResponseController {
 	@GetMapping("/quizzes/{quizId}")
 	public ResponseEntity<?> getResponsesByQuizId(@PathVariable Long quizId) {
 		try {
-			List<Response> responsesByQuizId = responseService.getResponseByQuizId(quizId);
+			List<ResponseDTO> responsesByQuizId = responseService.getResponseByQuizId(quizId);
 			return new ResponseEntity<>(responsesByQuizId, HttpStatus.OK);
 		} catch (RuntimeException e) {
 			System.out.println("Error in response controller get response by username method " + e);
