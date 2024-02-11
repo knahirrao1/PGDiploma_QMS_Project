@@ -4,6 +4,7 @@ function QuizeList() {
   return (
     <div>
       <h1>Quiz Lists</h1>
+      <hr className="border border-danger border-2 opacity-50"></hr>
       <div className="accordion" id="accordionExample">
         <div className="accordion-item">
           <h2 className="accordion-header" id="headingOne">

@@ -5,7 +5,7 @@ import StaticHomePage from "./components/AboutUs";
 import DynamicHomePage from "./components/DynamicHomePage";
 import FooterNav from "./components/FooterNav";
 import Login from "./components/SignIn";
-import Module from "./components/ModuleList";
+import Module from "./components/ModuleListAxios";
 import QuizeList from "./components/QuizList";
 import CreateNew from "./components/CreateNew";
 import SignUp from "./components/SignUp";
@@ -23,7 +23,7 @@ function App() {
         <Routes>
           <Route path="/" element={<DynamicHomePage />} />
           <Route path="/AboutUs" element={<StaticHomePage />} />
-          <Route path="/ModuleList" element={<Module />} />
+          <Route path="/ModuleListAxios" element={<Module />} />
           <Route path="/QuizList" element={<QuizeList />} />
           <Route path="/CreateNew" element={<CreateNew />} />
 

@@ -1,5 +1,5 @@
 import React from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function CreateModule() {
   return (
@@ -9,7 +9,7 @@ function CreateModule() {
           <div className="col-md">
             <div className="form-floating">
               <select className="form-select" id="floatingSelectGrid">
-                <option selected>select any module</option>
+                <option defaultValue>select any module</option>
                 <option value="1">DAC</option>
                 <option value="2">DBDA</option>
                 <option value="3">EOC</option>
@@ -20,7 +20,7 @@ function CreateModule() {
           <div className="col-md">
             <div className="form-floating">
               <select className="form-select" id="floatingSelectGrid">
-                <option selected>select any quiz</option>
+                <option defaultValue>select any quiz</option>
                 <option value="1">quiz1</option>
                 <option value="2">quiz2</option>
                 <option value="3">quiz3</option>
@@ -42,9 +42,9 @@ function CreateModule() {
           {/* <button className="btn btn-dark" type="submit">
             Add quiz
           </button> */}
-          <a href="/QuizCreation" className="btn btn-dark" type="submit">
+          <Link to="/QuizCreation" className="btn btn-dark" type="submit">
             Add quiz
-          </a>
+          </Link>
         </div>
       </form>
     </div>

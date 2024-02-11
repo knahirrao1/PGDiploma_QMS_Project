@@ -9,15 +9,15 @@ function CreateNew() {
     setActiveTab("createQuiz");
   };
   return (
-    <div class="d-flex align-items-start">
+    <div className="d-flex align-items-start">
       <div
-        class="nav flex-column nav-pills me-3"
+        className="nav flex-column nav-pills me-3"
         id="v-pills-tab"
         role="tablist"
         aria-orientation="vertical"
       >
         <button
-          class="nav-link active"
+          className="nav-link active"
           id="v-pills-createModule-tab"
           data-bs-toggle="pill"
           data-bs-target="#v-pills-createModule"
@@ -29,7 +29,7 @@ function CreateNew() {
           Create module
         </button>
         <button
-          class="nav-link"
+          className="nav-link"
           id="v-pills-createQuiz-tab"
           data-bs-toggle="pill"
           data-bs-target="#v-pills-createQuiz"
@@ -53,13 +53,13 @@ function CreateNew() {
           Create question
         </button>
       </div>
-      <div class="tab-content" id="v-pills-tabContent">
+      <div className="tab-content" id="v-pills-tabContent">
         <div
           className="tab-pane fade show active"
           id="v-pills-createModule"
           role="tabpanel"
           aria-labelledby="v-pills-createModule-tab"
-          tabindex="0"
+          tabIndex="0"
         >
           <CreateModule onSubmit={handleModuleSubmit} />
         </div>
@@ -68,7 +68,7 @@ function CreateNew() {
           id="v-pills-createQuiz"
           role="tabpanel"
           aria-labelledby="v-pills-createQuiz-tab"
-          tabindex="0"
+          tabIndex="0"
         >
           <CreateQuiz />
         </div>
@@ -77,7 +77,7 @@ function CreateNew() {
           id="v-pills-createQue"
           role="tabpanel"
           aria-labelledby="v-pills-createQue-tab"
-          tabindex="0"
+          tabIndex="0"
         >
           <QuestionCreation />
         </div>

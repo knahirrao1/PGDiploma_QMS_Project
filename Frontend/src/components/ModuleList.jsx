@@ -4,9 +4,11 @@ import JavaLogo from "../images/java-logo.png";
 function ModuleList() {
   return (
     <div>
+      <hr className="border border-dark border-2 opacity-50"></hr>
       <div className="d-flex justify-content-center">
-        <h1>Module List</h1>
+        <h2>Module List</h2>
       </div>
+      <hr className="border border-dark border-2 opacity-50"></hr>
       <div className="d-flex justify-content-around">
         <div className="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
           <div className="col">
