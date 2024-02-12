@@ -1,6 +1,8 @@
 package com.app.entities;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -33,4 +35,10 @@ public class User {
 	@Column(name = "created_at")
 	private LocalDate createdAt;
 
+	
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Module> modules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Response> responses = new ArrayList<>();
 }

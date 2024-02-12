@@ -43,7 +43,7 @@ public class UserController {
 		}
 	}
 
-	@PostMapping("/users")
+	@PostMapping("/signup")
 	public ResponseEntity<?> signUpUser(@RequestBody UserDTO user) {
 		try {
 			userService.signupUser(user);

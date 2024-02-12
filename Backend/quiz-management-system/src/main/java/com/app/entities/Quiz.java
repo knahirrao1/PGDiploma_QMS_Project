@@ -1,6 +1,8 @@
 package com.app.entities;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -14,9 +16,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString(callSuper = true)
 public class Quiz extends BaseEntity {
-	@ManyToOne
-	@JoinColumn(name = "module_id", nullable = false, foreignKey = @ForeignKey(name = "fk_quiz_module"))
-	private Module module;
 
 	private String title;
 
@@ -31,5 +30,19 @@ public class Quiz extends BaseEntity {
 
 	@Column(name = "created_at")
 	private LocalDate createdAt;
+	
+	@ManyToOne
+	@JoinColumn(name = "module_id", nullable = false, foreignKey = @ForeignKey(name = "fk_quiz_module"))
+	private Module module;
+	
+	@OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Response> responses = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questions = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "key.quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GuestResponse> guestResponses = new ArrayList<>();
+
 
 }
