@@ -2,6 +2,9 @@ package com.app.dto;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +18,8 @@ import lombok.ToString;
 @ToString
 public class ResponseDTO {
 
+	@JsonProperty(value="response_id",access = Access.READ_ONLY)
+	private long id;
 	private Long resonseId;
 	private int marks;
 	private int attemptNumber;

@@ -120,14 +120,14 @@ public class UserServiceImpl implements UserService {
 			u.setName(user.getName());
 			u.setDescription(user.getDescription());
 			u.setPassword(user.getPassword());
-			return mapper.map(userRepository.save(u), UserDTO.class); // Deletion successful
+			return mapper.map(userRepository.save(u), UserDTO.class); // Update successful
 		} else if (userRepository.existsByEmail(user.getEmail())) {
 			throw new ApiException("email already exists"); // Email already exists
 		} else {
 			u.setName(user.getName());
 			u.setDescription(user.getDescription());
 			u.setPassword(user.getPassword());
-			return mapper.map(userRepository.save(u), UserDTO.class); // Deletion successful
+			return mapper.map(userRepository.save(u), UserDTO.class); // Update successful
 		}
 	}
 }
