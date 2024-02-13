@@ -40,7 +40,7 @@ public class QuizServiceImpl implements QuizService {
     private QuizDTO mapQuizToDTO(Quiz quiz) {
         QuizDTO quizDTO = mapper.map(quiz, QuizDTO.class);
         quizDTO.setModuleId(quiz.getModule().getId());
-        logger.info("User details"+quizDTO.toString());
+        logger.info("quiz details"+quizDTO.toString());
         return quizDTO;
     }
 

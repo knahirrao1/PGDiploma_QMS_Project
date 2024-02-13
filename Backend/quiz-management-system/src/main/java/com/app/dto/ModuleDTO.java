@@ -23,7 +23,7 @@ public class ModuleDTO {
 	private String username;
 	private String title;
 	private String description;
-	private String numberOfQuizzes;
+	private int numberOfQuizzes;
 	private LocalDate createdAt;
 
 }

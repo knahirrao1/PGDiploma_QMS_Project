@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import com.app.entities.Quiz;
 @Service
 @Transactional
 public class QuestionServiceImpl implements QuestionService {
+	private static final Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
 
 	@Autowired
 	private QuizDao quizRepository;
@@ -28,13 +31,20 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Autowired
 	private ModelMapper mapper;
+	
+    private QuestionDTO mapQuestionToDTO(Question question) {
+    	QuestionDTO questionDTO = mapper.map(question, QuestionDTO.class);
+    	questionDTO.setQuizId(question.getQuiz().getId());
+        logger.info("Question details"+questionDTO.toString());
+        return questionDTO;
+    }
 
 	@Override
 	public List<QuestionDTO> getAllQuestionsByQuizId(Long quizId) {
 		// Check if the quiz with given id exists
 		Quiz quiz = quizRepository.findById(quizId)
 				.orElseThrow(() -> new ResourceNotFoundException("Quiz with given Id does not exist!"));
-		return questionRepository.findByQuiz(quiz).stream().map(question -> mapper.map(question, QuestionDTO.class))
+		return questionRepository.findByQuiz(quiz).stream().map(this::mapQuestionToDTO)
 				.collect(Collectors.toList());
 	}
 
@@ -44,7 +54,7 @@ public class QuestionServiceImpl implements QuestionService {
 		// Check if the question with the given id exists
 		Question question = questionRepository.findById(questionId)
 				.orElseThrow(() -> new ResourceNotFoundException("Question not found with this id"));
-		return mapper.map(question, QuestionDTO.class);
+		return mapQuestionToDTO(question);
 	}
 
 //---------------------------------------------------------------------------------------------------------------
@@ -61,7 +71,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 		// Save the new question
 		Question question = questionRepository.save(newQuestion);
-		return mapper.map(question, QuestionDTO.class);
+		return mapQuestionToDTO(question);
 	}
 
 //---------------------------------------------------------------------------------------------------------------	
@@ -81,7 +91,7 @@ public class QuestionServiceImpl implements QuestionService {
 		existingQuestion.setExplanation(updatedQuestion.getExplanation());
 		// Save the updated question
 		Question question = questionRepository.save(existingQuestion);
-		return mapper.map(question, QuestionDTO.class);
+		return mapQuestionToDTO(question);
 	}
 
 //---------------------------------------------------------------------------------------------------------------	

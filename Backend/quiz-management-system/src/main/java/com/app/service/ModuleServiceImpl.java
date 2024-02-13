@@ -40,7 +40,7 @@ public class ModuleServiceImpl implements ModuleService {
     private ModuleDTO mapModuleToDTO(Module module) {
         ModuleDTO moduleDTO = mapper.map(module, ModuleDTO.class);
         moduleDTO.setUsername(module.getUser().getUsername());
-        logger.info("User details"+moduleDTO.toString());
+        logger.info("Module details"+moduleDTO.toString());
         return moduleDTO;
     }
 
@@ -79,7 +79,7 @@ public class ModuleServiceImpl implements ModuleService {
 		module.setCreatedAt(LocalDate.now());
 		module.setUser(user);
 		Module createdModule = moduleRepository.save(module);
-		return mapper.map(createdModule, ModuleDTO.class);
+		return mapModuleToDTO(createdModule);
 	}
 
 //----------------------------------------------------------------------------------------------------------------------	
@@ -91,7 +91,7 @@ public class ModuleServiceImpl implements ModuleService {
 		module.setTitle(moduleName);
 		module.setDescription(description);
 		Module updatedModule = moduleRepository.save(module);
-		return mapper.map(updatedModule, ModuleDTO.class);
+		return mapModuleToDTO(updatedModule);
 	}
 
 //----------------------------------------------------------------------------------------------------------------------	

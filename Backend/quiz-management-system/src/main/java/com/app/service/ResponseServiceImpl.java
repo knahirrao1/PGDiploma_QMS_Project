@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import com.app.entities.User;
 @Service
 @Transactional
 public class ResponseServiceImpl implements ResponseService {
+	private static final Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
 	@Autowired
 	private ResponseDao responseRepository;
 	@Autowired
@@ -30,10 +33,17 @@ public class ResponseServiceImpl implements ResponseService {
 	private QuizDao quizRepository;
 	@Autowired
 	private ModelMapper mapper;
+	
+    private ResponseDTO mapResponseToDTO(Response response) {
+    	ResponseDTO responseDTO = mapper.map(response, ResponseDTO.class);
+    	responseDTO.setQuizId(response.getQuiz().getId());
+        logger.info("response details"+responseDTO.toString());
+        return responseDTO;
+    }
 
 	@Override
 	public List<ResponseDTO> getAllResponses() {
-		return responseRepository.findAll().stream().map(response -> mapper.map(response, ResponseDTO.class))
+		return responseRepository.findAll().stream().map(this::mapResponseToDTO)
 				.collect(Collectors.toList());
 	}
 
@@ -42,7 +52,7 @@ public class ResponseServiceImpl implements ResponseService {
 	public ResponseDTO getResponseById(Long id) {
 		Response response = responseRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Respone not found with this id"));
-		return mapper.map(response, ResponseDTO.class);
+		return mapResponseToDTO(response);
 	}
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -53,7 +63,7 @@ public class ResponseServiceImpl implements ResponseService {
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid username!"));
 //		if (user == null)
 //			throw new ResourceNotFoundException("Invalid username!");
-		return responseRepository.findByUser(user).stream().map(response -> mapper.map(response, ResponseDTO.class))
+		return responseRepository.findByUser(user).stream().map(this::mapResponseToDTO)
 				.collect(Collectors.toList());
 	}
 
@@ -62,7 +72,7 @@ public class ResponseServiceImpl implements ResponseService {
 	public List<ResponseDTO> getResponseByQuizId(Long quizId) {
 		Quiz quiz = quizRepository.findById(quizId)
 				.orElseThrow(() -> new ResourceNotFoundException("Quiz not found with this id"));
-		return responseRepository.findByQuiz(quiz).stream().map(response -> mapper.map(response, ResponseDTO.class))
+		return responseRepository.findByQuiz(quiz).stream().map(this::mapResponseToDTO)
 				.collect(Collectors.toList());
 	}
 
@@ -88,7 +98,7 @@ public class ResponseServiceImpl implements ResponseService {
 		oldResponse.setMarks(response.getMarks());
 		oldResponse.setResponse(response.getResponse());
 		oldResponse.setId(response.getId());
-		return mapper.map(responseRepository.save(oldResponse), ResponseDTO.class);
+		return mapResponseToDTO(responseRepository.save(oldResponse));
 	}
 
 //----------------------------------------------------------------------------------------------------------------------    

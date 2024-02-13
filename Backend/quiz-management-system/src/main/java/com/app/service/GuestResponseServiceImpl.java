@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ import com.app.entities.Quiz;
 @Service
 @Transactional
 public class GuestResponseServiceImpl implements GuestResponseService {
+	private static final Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
+	
 	@Autowired
 	private GuestResponseDao guestResponseRepository;
 
@@ -30,11 +34,18 @@ public class GuestResponseServiceImpl implements GuestResponseService {
 
 	@Autowired
 	private ModelMapper mapper;
+	
+    private GuestResponseDTO mapGuestResponseToDTO(GuestResponse guestResponse) {
+    	GuestResponseDTO guestResponseDTO = mapper.map(guestResponse, GuestResponseDTO.class);
+    	guestResponseDTO.getKey().setQuizId(guestResponse.getKey().getQuiz().getId());
+        logger.info("Module details"+guestResponseDTO.toString());
+        return guestResponseDTO;
+    }
 
 	@Override
 	public GuestResponseDTO saveGuestResponse(GuestResponseDTO guestResponse) {
 		GuestResponse guest = mapper.map(guestResponse, GuestResponse.class);
-		return mapper.map(guestResponseRepository.save(guest), GuestResponseDTO.class);
+		return mapGuestResponseToDTO(guestResponseRepository.save(guest));
 	}
 //------------------------------------------------------------------------------------------------------------------
 
@@ -43,13 +54,13 @@ public class GuestResponseServiceImpl implements GuestResponseService {
 		GuestResponse response = guestResponseRepository
 				.findById(new GuestId(quizRepositiry.findById(quizId).orElseThrow(), username))
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid quizid and username combination"));
-		return mapper.map(response, GuestResponseDTO.class);
+		return mapGuestResponseToDTO(response);
 	}
 
 //------------------------------------------------------------------------------------------------------------------
 	@Override
 	public List<GuestResponseDTO> getAllGuestResponses() {
-		return guestResponseRepository.findAll().stream().map(g -> mapper.map(g, GuestResponseDTO.class))
+		return guestResponseRepository.findAll().stream().map(this::mapGuestResponseToDTO)
 				.collect(Collectors.toList());
 	}
 
@@ -63,6 +74,6 @@ public class GuestResponseServiceImpl implements GuestResponseService {
 	@Override
 	public List<GuestResponseDTO> getGuestResponseByQuizId(QuizDTO quizByQuizId) {
 		return guestResponseRepository.findByKeyQuiz(mapper.map(quizByQuizId, Quiz.class)).stream()
-				.map(g -> mapper.map(g, GuestResponseDTO.class)).collect(Collectors.toList());
+				.map(this::mapGuestResponseToDTO).collect(Collectors.toList());
 	}
 }

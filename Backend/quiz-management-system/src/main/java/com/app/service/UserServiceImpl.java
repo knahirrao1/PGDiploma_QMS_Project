@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ import com.app.entities.User;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+	private static final Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
+	
 	@Autowired
 	private UserDao userRepository;
 
@@ -28,6 +32,13 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private ModelMapper mapper;
+	
+    private UserDTO mapUserToDTO(User user) {
+    	UserDTO userDTO = mapper.map(user, UserDTO.class);
+    	userDTO.setPassword(null);
+        logger.info("user details"+userDTO.toString());
+        return userDTO;
+    }
 
 	@Override
 	public AuthResponseDTO loginUser(AuthRequestDTO request) {
@@ -69,6 +80,10 @@ public class UserServiceImpl implements UserService {
 			throw new ApiException("invalid usertype"); // Invalid userType
 		}
 
+		if (user.getPassword()==null) {
+			throw new ApiException("password cannot be null"); // Invalid userType
+		}
+		
 		// Create a new user
 		User u = mapper.map(user, User.class);
 
@@ -85,7 +100,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserDTO> getAllUsers() {
 		// Retrieve all users from the repository
-		return userRepository.findAll().stream().map(user -> mapper.map(user, UserDTO.class))
+		return userRepository.findAll().stream().map(this::mapUserToDTO)
 				.collect(Collectors.toList());
 	}
 
