@@ -20,6 +20,7 @@ import com.app.dto.UserDTO;
 import com.app.service.UserService;
 
 @RestController
+@RequestMapping("/users")
 @CrossOrigin
 public class UserController {
 	@Autowired
