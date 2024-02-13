@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class GuestIdDTO {
 
-	private QuizDTO quiz;
+	private Long quizId;
 	private String username;
 
 }

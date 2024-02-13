@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import com.app.dto.UserDTO;
 import com.app.service.UserService;
 
 @RestController
+@CrossOrigin
 public class UserController {
 	@Autowired
 	private UserService userService;
@@ -47,9 +49,9 @@ public class UserController {
 	public ResponseEntity<?> signUpUser(@RequestBody UserDTO user) {
 		try {
 			userService.signupUser(user);
-			return new ResponseEntity<>(user.getUsername(), HttpStatus.CREATED);
+			return new ResponseEntity<>(new ApiResponse("User Registered sucessfully"), HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -58,7 +60,7 @@ public class UserController {
 		try {
 			return new ResponseEntity<>(userService.loginUser(request), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.UNAUTHORIZED);
 		}
 	}
 
@@ -67,7 +69,7 @@ public class UserController {
 		try {
 			return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -76,7 +78,7 @@ public class UserController {
 		try {
 			return new ResponseEntity<>(userService.deleteUserById(username), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
 	}
 }

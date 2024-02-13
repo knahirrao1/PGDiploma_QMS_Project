@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ import com.app.entities.User;
 @Service
 @Transactional
 public class ModuleServiceImpl implements ModuleService {
+	private static final Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
+	
 	@Autowired
 	private ModuleDao moduleRepository;
 
@@ -32,10 +36,17 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Autowired
 	private ModelMapper mapper;
+	
+    private ModuleDTO mapModuleToDTO(Module module) {
+        ModuleDTO moduleDTO = mapper.map(module, ModuleDTO.class);
+        moduleDTO.setUsername(module.getUser().getUsername());
+        logger.info("User details"+moduleDTO.toString());
+        return moduleDTO;
+    }
 
 	@Override
 	public List<ModuleDTO> getAllModules() {
-		return moduleRepository.findAll().stream().map(module -> mapper.map(module, ModuleDTO.class))
+		return moduleRepository.findAll().stream().map(this::mapModuleToDTO)
 				.collect(Collectors.toList());
 	}
 
@@ -44,7 +55,7 @@ public class ModuleServiceImpl implements ModuleService {
 	public ModuleDTO getModuleById(Long moduleId) {
 		Module module = moduleRepository.findById(moduleId)
 				.orElseThrow(() -> new ResourceNotFoundException("Module with this id does not exist!"));
-		return mapper.map(module, ModuleDTO.class);
+		return mapModuleToDTO(module);
 	}
 
 //----------------------------------------------------------------------------------------------------------------------		
@@ -52,7 +63,7 @@ public class ModuleServiceImpl implements ModuleService {
 	public List<ModuleDTO> getModuleByUsername(String username) {
 		User user = userRepository.findById(username)
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid Username!"));
-		return moduleRepository.findByUser(user).stream().map(module -> mapper.map(module, ModuleDTO.class))
+		return moduleRepository.findByUser(user).stream().map(this::mapModuleToDTO)
 				.collect(Collectors.toList());
 	}
 

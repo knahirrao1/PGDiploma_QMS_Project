@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import com.app.service.QuizService;
 
 @RestController
 @RequestMapping("/guestresponses")
+@CrossOrigin
 public class GuestResponseController {
 	@Autowired
 	private GuestResponseService guestResponseService;
@@ -61,7 +63,7 @@ public class GuestResponseController {
 	@DeleteMapping("/{quizId}/{username}")
 	public ResponseEntity<?> deleteGuestResponse(@PathVariable Long quizId, @PathVariable String username) {
 		try {
-			guestResponseService.deleteGuestResponse(new GuestIdDTO(quizService.getQuizByQuizId(quizId), username));
+			guestResponseService.deleteGuestResponse(new GuestIdDTO(quizId, username));
 			return new ResponseEntity<>(new ApiResponse("deleted sucessfully"), HttpStatus.OK);
 		} catch (RuntimeException e) {
 			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);

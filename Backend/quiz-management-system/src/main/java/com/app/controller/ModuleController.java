@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ import com.app.service.ModuleService;
 
 @RestController
 @RequestMapping("/modules")
-//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class ModuleController {
 	@Autowired
 	private ModuleService moduleService;
@@ -39,9 +40,9 @@ public class ModuleController {
 
 //--------------------------------------------------------------------------------------------------------------------------	
 	@GetMapping("/{moduleId}")
-	public ResponseEntity<?> getModuleById(@PathVariable Long id) {
+	public ResponseEntity<?> getModuleById(@PathVariable Long moduleId) {
 		try {
-			ModuleDTO module = moduleService.getModuleById(id);
+			ModuleDTO module = moduleService.getModuleById(moduleId);
 			return new ResponseEntity<>(module, HttpStatus.OK);
 		} catch (RuntimeException e) {
 			System.out.println("Error in module controller get module by id method " + e);

@@ -11,4 +11,7 @@ import lombok.ToString;
 @ToString
 public class AuthResponseDTO {
 	private String username;
+	private String email;
+	private byte[] profileImg;
+	private String userType;
 }
