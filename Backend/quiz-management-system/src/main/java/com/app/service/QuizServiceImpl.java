@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ import com.app.entities.Quiz;
 @Service
 @Transactional
 public class QuizServiceImpl implements QuizService {
+	private static final Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
+	
 	@Autowired
 	private QuizDao quizRepository;
 
@@ -32,15 +36,22 @@ public class QuizServiceImpl implements QuizService {
 
 	@Autowired
 	private ModelMapper mapper;
+	
+    private QuizDTO mapQuizToDTO(Quiz quiz) {
+        QuizDTO quizDTO = mapper.map(quiz, QuizDTO.class);
+        quizDTO.setModuleId(quiz.getModule().getId());
+        logger.info("User details"+quizDTO.toString());
+        return quizDTO;
+    }
 
 	@Override
 	public List<QuizDTO> getAllQuizzes() {
-		return quizRepository.findAll().stream().map(q -> mapper.map(q, QuizDTO.class)).collect(Collectors.toList());
+		return quizRepository.findAll().stream().map(this::mapQuizToDTO).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<QuizDTO> getQuizzesByModuleId(Long moduleId) {
-		return quizRepository.findByModuleId(moduleId).stream().map(q -> mapper.map(q, QuizDTO.class))
+		return quizRepository.findByModuleId(moduleId).stream().map(this::mapQuizToDTO)
 				.collect(Collectors.toList());
 	}
 
@@ -51,7 +62,7 @@ public class QuizServiceImpl implements QuizService {
 		Quiz q = mapper.map(quiz, Quiz.class);
 		q.setCreatedAt(LocalDate.now());
 		module.setNumberOfQuizzes(module.getNumberOfQuizzes()+1);
-		return mapper.map(quizRepository.save(q), QuizDTO.class);
+		return mapQuizToDTO(q);
 	}
 
 	@Override
@@ -65,7 +76,7 @@ public class QuizServiceImpl implements QuizService {
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid module id")));
 		// Update other quiz properties as needed
 		// Save the updated quiz to the repository
-		return mapper.map(quizRepository.save(existingQuiz), QuizDTO.class);
+		return mapQuizToDTO(quizRepository.save(existingQuiz));
 	}
 
 	@Override
@@ -80,8 +91,9 @@ public class QuizServiceImpl implements QuizService {
 
 	@Override
 	public QuizDTO getQuizByQuizId(Long quizId) {
-		return mapper.map(quizRepository.findById(quizId).orElseThrow(
-				() -> new ResourceNotFoundException("no quiz by following quizid: " + quizId)), QuizDTO.class);
+		Quiz quiz = quizRepository.findById(quizId).orElseThrow(
+				() -> new ResourceNotFoundException("no quiz by following quizid: " + quizId));
+		return mapQuizToDTO(quiz);
 	}
 
 }
