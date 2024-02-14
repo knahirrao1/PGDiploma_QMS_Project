@@ -14,7 +14,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(callSuper = true)
+@ToString(callSuper = true,exclude = "quizzes")
 public class Module extends BaseEntity {
 
 	private String title;

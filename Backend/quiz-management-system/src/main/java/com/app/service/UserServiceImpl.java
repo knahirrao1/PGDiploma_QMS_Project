@@ -84,6 +84,10 @@ public class UserServiceImpl implements UserService {
 			throw new ApiException("password cannot be null"); // Invalid userType
 		}
 		
+		if (user.getName()==null) {
+			throw new ApiException("name cannot be null");
+		}
+		
 		// Create a new user
 		User u = mapper.map(user, User.class);
 
@@ -94,7 +98,7 @@ public class UserServiceImpl implements UserService {
 	private boolean isValidUserType(String userType) {
 		// Add your userType validation logic here (e.g., check if it is "A", "B", or
 		// "C")
-		return userType.equals("U") || userType.equals("A") || userType.equals("S");
+		return userType.equals("U") || userType.equals("A");
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package com.app.service;
 import java.util.List;
 
 import com.app.dto.ResponseDTO;
-import com.app.entities.Response;
 
 public interface ResponseService {
 
@@ -11,7 +10,7 @@ public interface ResponseService {
 
 	ResponseDTO getResponseById(Long id);
 
-	ResponseDTO saveResponse(Response response);
+	ResponseDTO saveResponse(ResponseDTO response);
 
 	void deleteResponse(Long id);
 

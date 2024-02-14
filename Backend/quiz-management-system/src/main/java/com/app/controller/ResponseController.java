@@ -2,7 +2,6 @@ package com.app.controller;
 
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.ApiResponse;
 import com.app.dto.ResponseDTO;
-import com.app.entities.Response;
 import com.app.service.ResponseService;
 
 @RestController
@@ -26,9 +24,6 @@ import com.app.service.ResponseService;
 public class ResponseController {
 	@Autowired
 	private ResponseService responseService;
-
-	@Autowired
-	private ModelMapper mapper;
 
 //	@GetMapping
 //    public ResponseEntity<?> getAllResponses() {	
@@ -59,8 +54,7 @@ public class ResponseController {
 	@PostMapping
 	public ResponseEntity<?> saveResponse(@RequestBody ResponseDTO newResponse) {
 		try {
-			Response response = mapper.map(newResponse, Response.class);
-			return ResponseEntity.status(HttpStatus.CREATED).body(responseService.saveResponse(response));
+			return new ResponseEntity<>(responseService.saveResponse(newResponse),HttpStatus.CREATED);
 		} catch (RuntimeException e) {
 			System.out.println("Error in response controller save response method " + e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));

@@ -14,7 +14,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(callSuper = true)
+@ToString(callSuper = true,exclude = {"responses","questions","guestResponses"})
 public class Quiz extends BaseEntity {
 
 	private String title;

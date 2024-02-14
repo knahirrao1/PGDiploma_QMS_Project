@@ -13,4 +13,8 @@ public interface ResponseDao extends JpaRepository<Response, Long> {
 	List<Response> findByUser(User user);
 
 	List<Response> findByQuiz(Quiz quiz);
+
+	boolean existsByUserUsernameAndQuizId(String username, Long quizId);
+
+	Response findByUserUsernameAndQuizId(String username, Long quizId);
 }

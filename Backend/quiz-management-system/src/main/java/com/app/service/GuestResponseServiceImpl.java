@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.app.custom_exceptions.ApiException;
 import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.GuestResponseDao;
 import com.app.dao.QuizDao;
@@ -25,7 +26,7 @@ import com.app.entities.Quiz;
 @Transactional
 public class GuestResponseServiceImpl implements GuestResponseService {
 	private static final Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
-	
+
 	@Autowired
 	private GuestResponseDao guestResponseRepository;
 
@@ -34,17 +35,31 @@ public class GuestResponseServiceImpl implements GuestResponseService {
 
 	@Autowired
 	private ModelMapper mapper;
-	
-    private GuestResponseDTO mapGuestResponseToDTO(GuestResponse guestResponse) {
-    	GuestResponseDTO guestResponseDTO = mapper.map(guestResponse, GuestResponseDTO.class);
-    	guestResponseDTO.getKey().setQuizId(guestResponse.getKey().getQuiz().getId());
-        logger.info("Module details"+guestResponseDTO.toString());
-        return guestResponseDTO;
-    }
+
+	private GuestResponseDTO mapGuestResponseToDTO(GuestResponse guestResponse) {
+		GuestResponseDTO guestResponseDTO = mapper.map(guestResponse, GuestResponseDTO.class);
+		guestResponseDTO.getKey().setQuizId(guestResponse.getKey().getQuiz().getId());
+		logger.info("Module details" + guestResponseDTO.toString());
+		return guestResponseDTO;
+	}
 
 	@Override
 	public GuestResponseDTO saveGuestResponse(GuestResponseDTO guestResponse) {
+		Quiz quiz = quizRepositiry.findById(guestResponse.getKey().getQuizId())
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid quiz id!"));
+
+		if (guestResponse.getKey().getUsername() == null) {
+			throw new ApiException("Username cannot be null!");
+		}
+
 		GuestResponse guest = mapper.map(guestResponse, GuestResponse.class);
+
+		if (guestResponseRepository.existsById(new GuestId(quiz, guestResponse.getKey().getUsername()))) {
+			throw new ApiException("Username already exists!!");
+		}
+
+		guest.getKey().setQuiz(quiz);
+
 		return mapGuestResponseToDTO(guestResponseRepository.save(guest));
 	}
 //------------------------------------------------------------------------------------------------------------------
@@ -60,8 +75,7 @@ public class GuestResponseServiceImpl implements GuestResponseService {
 //------------------------------------------------------------------------------------------------------------------
 	@Override
 	public List<GuestResponseDTO> getAllGuestResponses() {
-		return guestResponseRepository.findAll().stream().map(this::mapGuestResponseToDTO)
-				.collect(Collectors.toList());
+		return guestResponseRepository.findAll().stream().map(this::mapGuestResponseToDTO).collect(Collectors.toList());
 	}
 
 //------------------------------------------------------------------------------------------------------------------

@@ -33,18 +33,18 @@ public class ResponseServiceImpl implements ResponseService {
 	private QuizDao quizRepository;
 	@Autowired
 	private ModelMapper mapper;
-	
-    private ResponseDTO mapResponseToDTO(Response response) {
-    	ResponseDTO responseDTO = mapper.map(response, ResponseDTO.class);
-    	responseDTO.setQuizId(response.getQuiz().getId());
-        logger.info("response details"+responseDTO.toString());
-        return responseDTO;
-    }
+
+	private ResponseDTO mapResponseToDTO(Response response) {
+		ResponseDTO responseDTO = mapper.map(response, ResponseDTO.class);
+		responseDTO.setQuizId(response.getQuiz().getId());
+		responseDTO.setUsername(response.getUser().getUsername());
+		logger.info("response details" + responseDTO.toString());
+		return responseDTO;
+	}
 
 	@Override
 	public List<ResponseDTO> getAllResponses() {
-		return responseRepository.findAll().stream().map(this::mapResponseToDTO)
-				.collect(Collectors.toList());
+		return responseRepository.findAll().stream().map(this::mapResponseToDTO).collect(Collectors.toList());
 	}
 
 //----------------------------------------------------------------------------------------------------------------------	
@@ -63,8 +63,7 @@ public class ResponseServiceImpl implements ResponseService {
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid username!"));
 //		if (user == null)
 //			throw new ResourceNotFoundException("Invalid username!");
-		return responseRepository.findByUser(user).stream().map(this::mapResponseToDTO)
-				.collect(Collectors.toList());
+		return responseRepository.findByUser(user).stream().map(this::mapResponseToDTO).collect(Collectors.toList());
 	}
 
 //----------------------------------------------------------------------------------------------------------------------	
@@ -72,32 +71,40 @@ public class ResponseServiceImpl implements ResponseService {
 	public List<ResponseDTO> getResponseByQuizId(Long quizId) {
 		Quiz quiz = quizRepository.findById(quizId)
 				.orElseThrow(() -> new ResourceNotFoundException("Quiz not found with this id"));
-		return responseRepository.findByQuiz(quiz).stream().map(this::mapResponseToDTO)
-				.collect(Collectors.toList());
+		return responseRepository.findByQuiz(quiz).stream().map(this::mapResponseToDTO).collect(Collectors.toList());
 	}
 
 //----------------------------------------------------------------------------------------------------------------------
 	@Override
-	public ResponseDTO saveResponse(Response response) {
-		String existingUsername = response.getUser().getUsername();
-		Quiz existingQuiz = response.getQuiz();
-
-		if (existingUsername == null && existingQuiz == null) {
-			return mapper.map(responseRepository.save(response), ResponseDTO.class);
+	public ResponseDTO saveResponse(ResponseDTO response) {
+		
+		User user = userRepository.findById(response.getUsername()).orElseThrow(() -> new ResourceNotFoundException("user does not exist!!"));
+		
+		Quiz quiz = quizRepository.findById(response.getQuizId()).orElseThrow(
+				() -> new ResourceNotFoundException("quiz does not exist!!"));
+		
+		Response newResponse = mapper.map(response, Response.class);
+		
+		newResponse.setUser(user);
+		
+		newResponse.setQuiz(quiz);
+		
+		if (!userRepository.existsById(response.getUsername())) {
+			throw new ResourceNotFoundException("Invalid username!");
+		}
+		
+		if (!responseRepository.existsByUserUsernameAndQuizId(response.getUsername(), response.getQuizId())) {
+			return mapResponseToDTO(responseRepository.save(newResponse));
 		}
 
-		List<Response> existingResponses = getResponseByUsername(existingUsername).stream()
-				.map(resp -> mapper.map(resp, Response.class)).collect(Collectors.toList());
-		Response oldResponse = new Response();
-		for (int i = 0; i < existingResponses.size(); i++) {
-			if (existingResponses.get(i).getQuiz() == existingQuiz)
-				oldResponse = existingResponses.get(i);
-		}
+		Response oldResponse = responseRepository.findByUserUsernameAndQuizId(newResponse.getUser().getUsername(),
+				response.getQuizId());
+
 		oldResponse.setAttemptNumber(oldResponse.getAttemptNumber() + 1);
 		oldResponse.setCreatedAt(LocalDate.now());
 		oldResponse.setMarks(response.getMarks());
 		oldResponse.setResponse(response.getResponse());
-		oldResponse.setId(response.getId());
+		logger.info("response details" + oldResponse.toString());
 		return mapResponseToDTO(responseRepository.save(oldResponse));
 	}
 
