@@ -24,23 +24,23 @@ const QuizCreation = (props) => {
     try {
       const createdAt = new Date().toISOString();
       const totalAttempted = 0;
-      const requestData = {
+      const responseData = {
         ...quizInputs,
         createdAt,
         totalAttempted,
         moduleId: props.moduleId,
       };
-      console.log(requestData);
+      console.log(responseData);
       const response = await axios.post(
         `${server}/quizhub/quizzes/`,
-        requestData
+        responseData
       );
       // .then(() => {
       //   // window.location.reload();
       //   // window.alert(response.data);
       // });
       console.log(`response from server ${response.data}`);
-      window.alert(response.data);
+      // window.alert(response.data);
     } catch (error) {
       console.log(`submitting quiz failed: ${error}`);
     }

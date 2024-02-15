@@ -6,11 +6,6 @@ import {
   faTrash,
   faEye,
   faPlus,
-  faAnchor,
-  fa0,
-  faAdjust,
-  faAlignLeft,
-  faAngleLeft,
   faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";

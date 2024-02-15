@@ -1,25 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faTrash,
+  faPlus,
+  faArrowLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
+import QuestionCreation from "./QuestionCreation";
 
 const QuestionsTable = (props) => {
   const [questions, setQuestions] = useState([]);
+  const [showQuestionForm, setShowQuestionForm] = useState(false);
+  const [goBackToQuiz, setGoBackToQuiz] = useState(false);
+
+  const scrollDown = useRef();
 
   const handleAddQuestion = () => {
     // Add new question logic
+    setShowQuestionForm(true);
   };
 
   const handleEditQuestion = () => {
     // Edit question logic for the question at the specified index
   };
 
-  const handleDeleteQuestion = (index) => {
+  const handleDeleteQuestion = (questionId) => {
     // Delete question logic for the question at the specified index
+    axios
+      .delete(`${server}/quizhub/${questionId}`)
+      .then(() => {
+        const updateQuestions = questions.filter(
+          (question) => question.question_id !== questionId
+        );
+        setQuestions(updateQuestions);
+      })
+      .catch((error) => console.log(`error deleting question ${error}`));
   };
 
+  //for automatically scrolling down
+  useEffect(() => {
+    scrollDown.current?.lastElementChild?.scrollIntoView();
+  });
+
+  //to get questions per quizzes per id
   useEffect(() => {
     const fetchData = async () => {
       await axios
@@ -36,6 +62,13 @@ const QuestionsTable = (props) => {
     };
     fetchData();
   }, []);
+
+  const backToQuiz = () => {
+    setGoBackToQuiz(true);
+  };
+  // goBackToQuiz ? (
+  //   <QuizzesTable />
+  // ) :
 
   return (
     <div
@@ -110,6 +143,12 @@ const QuestionsTable = (props) => {
             </tbody>
           </table>
         </div>
+      </div>
+      <button type="button" className="btn btn-dark" onClick={backToQuiz}>
+        <FontAwesomeIcon icon={faArrowLeft} /> Quiz Details
+      </button>
+      <div ref={scrollDown}>
+        {showQuestionForm && <QuestionCreation quizId={props.quizId} />}
       </div>
     </div>
   );
