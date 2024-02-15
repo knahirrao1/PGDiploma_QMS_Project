@@ -79,9 +79,9 @@ const QuestionsTable = (props) => {
               </tr>
             </thead>
             <tbody>
-              {questions.map((question) => (
-                <tr key={question.questionId}>
-                  <td>{question.questionId}</td>
+              {questions.map((question, index) => (
+                <tr key={question.question_id}>
+                  <td>{index + 1}</td>
                   <td>{question.question}</td>
                   <td>{question.optionA}</td>
                   <td>{question.optionB}</td>
@@ -94,13 +94,13 @@ const QuestionsTable = (props) => {
                   <td>
                     <button
                       className="btn btn-primary me-2"
-                      onClick={() => handleEditQuestion(question.questionId)}
+                      onClick={() => handleEditQuestion(question.question_id)}
                     >
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
                     <button
                       className="btn btn-danger me-2"
-                      onClick={() => handleDeleteQuestion(question.questionId)}
+                      onClick={() => handleDeleteQuestion(question.question_id)}
                     >
                       <FontAwesomeIcon icon={faTrash} />
                     </button>

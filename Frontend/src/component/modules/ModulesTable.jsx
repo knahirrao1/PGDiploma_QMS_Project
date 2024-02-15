@@ -109,9 +109,9 @@ const ModulesTable = () => {
               </tr>
             </thead>
             <tbody>
-              {modules.map((module) => (
+              {modules.map((module, index) => (
                 <tr key={module.module_id}>
-                  <td>{module.module_id}</td>
+                  <td>{index + 1}</td>
                   <td>{module.title}</td>
                   <td>{module.description}</td>
                   <td className="text-center">{module.numberOfQuizzes}</td>

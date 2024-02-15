@@ -123,9 +123,9 @@ const QuizzesTable = (props) => {
               </tr>
             </thead>
             <tbody>
-              {quizzes.map((quiz) => (
+              {quizzes.map((quiz, index) => (
                 <tr key={quiz.quizId}>
-                  <td>{quiz.quizId}</td>
+                  <td>{index + 1}</td>
                   <td>{quiz.title}</td>
                   <td className="text-center">{quiz.numberOfQuestions}</td>
                   <td className="text-center">
