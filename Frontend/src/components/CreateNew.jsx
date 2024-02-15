@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CreateModule from "./CreateModule";
+import CreateModuleV2 from "./CreateModulev2";
 import CreateQuiz from "./CreateQuiz";
 import QuestionCreation from "./QuestionCreation";
 
@@ -62,6 +63,7 @@ function CreateNew() {
           tabIndex="0"
         >
           <CreateModule onSubmit={handleModuleSubmit} />
+          {/* <CreateModuleV2 /> */}
         </div>
         <div
           className="tab-pane fade"

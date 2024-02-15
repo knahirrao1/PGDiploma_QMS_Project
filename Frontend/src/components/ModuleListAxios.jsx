@@ -10,7 +10,7 @@ const ModuleList = () => {
   // const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get("http://localhost:7070/quizhub/modules")
+      .get("http://localhost:8080/quizhub/modules")
       .then((response) => setModule(response.data))
       .catch((error) => console.error("Error fetching modules ", error));
   }, []);

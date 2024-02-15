@@ -1,0 +1,95 @@
+[
+  {
+    "id": 1,
+    "full_name": "Wendall Gripton",
+    "email": "wg@creative.org",
+    "gender": "Male",
+    "age": 100,
+    "start_date": "2022-01-26"
+  },
+  {
+    "id": 2,
+    "full_name": "Jasmine Smith",
+    "email": "jasmine.smith@example.com",
+    "gender": "Female",
+    "age": 28,
+    "start_date": "2020-05-15"
+  },
+
+  {
+    "id": 3,
+    "full_name": "Michael Johnson",
+    "email": "michael.johnson@example.com",
+    "gender": "Male",
+    "age": 45,
+    "start_date": "2018-11-10"
+  },
+
+  {
+    "id": 4,
+    "full_name": "Emma Watson",
+    "email": "emma.watson@example.com",
+    "gender": "Female",
+    "age": 32,
+    "start_date": "2019-08-22"
+  },
+  {
+    "id": 5,
+    "full_name": "David Lee",
+    "email": "david.lee@example.com",
+    "gender": "Male",
+    "age": 38,
+    "start_date": "2021-03-12"
+  },
+  {
+    "id": 6,
+    "full_name": "Sophia Garcia",
+    "email": "sophia.garcia@example.com",
+    "gender": "Female",
+    "age": 26,
+    "start_date": "2023-09-05"
+  },
+
+  {
+    "id": 7,
+    "full_name": "Ethan Martinez",
+    "email": "ethan.martinez@example.com",
+    "gender": "Male",
+    "age": 29,
+    "start_date": "2020-07-18"
+  },
+  {
+    "id": 8,
+    "full_name": "Olivia Brown",
+    "email": "olivia.brown@example.com",
+    "gender": "Female",
+    "age": 35,
+    "start_date": "2017-12-03"
+  },
+  {
+    "id": 9,
+    "full_name": "Noah Taylor",
+    "email": "noah.taylor@example.com",
+    "gender": "Male",
+    "age": 41,
+    "start_date": "2019-04-28"
+  },
+
+  {
+    "id": 10,
+    "full_name": "Ava Wilson",
+    "email": "ava.wilson@example.com",
+    "gender": "Female",
+    "age": 30,
+    "start_date": "2022-11-20"
+  },
+
+  {
+    "id": 11,
+    "full_name": "Liam Rodriguez",
+    "email": "liam.rodriguez@example.com",
+    "gender": "Male",
+    "age": 33,
+    "start_date": "2021-06-14"
+  }
+]
