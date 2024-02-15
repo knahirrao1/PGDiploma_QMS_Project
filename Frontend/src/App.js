@@ -1,44 +1,42 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
-import HeaderNav from "./components/HeaderNav";
-import StaticHomePage from "./components/AboutUs";
-import DynamicHomePage from "./components/DynamicHomePage";
-import FooterNav from "./components/FooterNav";
-import Login from "./components/SignIn";
-import Module from "./components/ModuleListAxios";
-import QuizeList from "./components/QuizList";
-import CreateNew from "./components/CreateNew";
-import SignUp from "./components/SignUp";
+// import SignUp from "./component/SignUp";
 import { ToastContainer } from "react-toastify";
-import ForgotPassword from "./components/ForgotPassword";
-import ModuleCreation from "./components/ModuleCreation";
-import QuizCreation from "./components/QuizCreation";
-import QuestionCreation from "./components/QuestionCreation";
+import "react-toastify/dist/ReactToastify.css";
+import SignIn from "./component/auth/SignIn";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import SignUp from "./component/auth/SignUp";
+import ForgotPassword from "./component/auth/ForgotPassword";
+import HeaderNav from "./component/layout/HeaderNav";
+import DynamicHomePage from "./component/layout/DynamicHomePage";
+import UserDashboard from "./component/user/UserDashboard";
+import CreatorDashboard from "./component/creator/CreatorDashboard";
+import FooterNav from "./component/layout/FooterNav";
+import SignOut from "./component/auth/SignOut";
+import ModuleList from "./component/modules/ModuleList";
+import AboutUs from "./component/layout/AboutUs";
+import CreateNew from "./component/creator/CreatorDashboard";
+//import PrivateRoute from './component/auth/PrivateRoute';
 
 function App() {
   return (
     <>
-      <Router>
-        <HeaderNav />
-        <Routes>
-          <Route path="/" element={<DynamicHomePage />} />
-          <Route path="/AboutUs" element={<StaticHomePage />} />
-          <Route path="/ModuleListAxios" element={<Module />} />
-          <Route path="/QuizList" element={<QuizeList />} />
-          <Route path="/CreateNew" element={<CreateNew />} />
+      <HeaderNav />
 
-          {/* Rahuls code */}
-          <Route path="/SignIn" element={<Login />} />
-          <Route path="/SignUp" element={<SignUp />} />
-          <Route path="/ForgotPassword" element={<ForgotPassword />} />
-
-          {/* piyush code */}
-          <Route path="/ModuleCreation" element={<ModuleCreation />} />
-          <Route path="/QuizCreation" element={<QuizCreation />} />
-          <Route path="/QuestionCreation" element={<QuestionCreation />} />
-        </Routes>
-        <FooterNav />
-      </Router>
+      <Routes>
+        <Route path="/" element={<DynamicHomePage />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        {/* <Route element={<PrivateRoute/>}> */}
+        <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/admin-dashboard" element={<CreatorDashboard />} />
+        {/* </Route> */}
+        <Route path="/sign-out" element={<SignOut />} />
+        <Route path="/module-list" element={<ModuleList />} />
+        {/* navbar */}
+        <Route path="/module-list" element={<ModuleList />} />
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/create-new" element={<CreateNew />} />
+      </Routes>
       <ToastContainer
         position="bottom-center"
         autoClose={5000}
@@ -51,6 +49,7 @@ function App() {
         pauseOnHover
         theme="light"
       />
+      <FooterNav />
     </>
   );
 }
