@@ -1,55 +1,99 @@
-import React from 'react';
-import profilePic from './user_profile_pic.jfif'; // Importing profile picture
-
+import React from "react";
+import profilePic from "./user_profile_pic.jfif"; // Importing profile picture
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import Profile from "../layout/Profile";
 
 const UserDashboard = () => {
+  const { currentUser } = useSelector((state) => state.user);
+  const userName = currentUser.username; // Replace with user's name
+  const [showModulesTable, setShowModulesTable] = useState(false); // State to track if ModulesTable should be shown
+  //const [tableData,setTableData] = useState([]);
 
-const userName = "E. Norma Stits"; // Replace with user's name
+  const handleManageContentClick = async () => {
+    setShowModulesTable(true);
+    setShowUserDetails(false);
+  };
+  const navigate = useNavigate();
+  const SignMeOut = () => {
+    navigate("/sign-out");
+  };
+  const [showUserDetails, setShowUserDetails] = useState(false);
+  const showProfile = () => {
+    setShowUserDetails(true);
+    setShowModulesTable(false);
+  };
 
   return (
     <div className="container-fluid">
       <div className="row flex-nowrap">
         {/* Sidebar */}
-        <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
-          <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-            <div className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white">
-              <img src={profilePic} className="rounded-circle me-2" alt="Profile" height="30" />
+        <div className="col-auto col-md-3 col-xl-2 px-sm-3 px-0 bg-warning border border-danger border-5 border-start-0 rounded">
+          <div className="d-flex flex-column align-items-sm-start px-10 pt-3 text-dark min-vh-100">
+            <div
+              className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-dark"
+              title={`Hello ${userName}`}
+            >
+              <div className="about-avatar">
+                {currentUser.profileImg === null ? (
+                  <img
+                    src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                    title={currentUser.name}
+                    alt=""
+                    style={{
+                      height: "40px",
+                    }}
+                  />
+                ) : (
+                  <img src={currentUser.profileImg} title="" alt="" />
+                )}
+              </div>
               <span className="fs-5 d-none d-sm-inline">{userName}</span>
             </div>
             {/* Sidebar Navigation */}
-            <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+            <ul
+              className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+              id="menu"
+            >
               <li className="nav-item">
-                <a href="#" className="nav-link align-middle px-0">
-                  <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Profile</span>
-                </a>
-              </li>
-              <li>
-                <a href="#submenu1" data-bs-toggle="collapse" className="nav-link px-0 align-middle">
-                  <i className="fs-4 bi-speedometer2"></i> <span className="ms-1 d-none d-sm-inline">Performance</span>
-                </a>
-                <ul className="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
-                  <li className="w-100">
-                    <a href="#" className="nav-link px-0"> <span className="d-none d-sm-inline">Settings</span></a>
-                  </li>
-                  <li>
-                    <a href="/sign-out" className="nav-link px-0"> <span className="d-none d-sm-inline">Logout</span></a>
-                  </li>
-                </ul>
+                <button
+                  type="button"
+                  className="btn btn-outline-dark"
+                  onClick={showProfile}
+                >
+                  <span>
+                    Profile &nbsp;
+                    <FontAwesomeIcon icon={faArrowRight} />
+                  </span>
+                </button>
               </li>
             </ul>
             {/* End Sidebar Navigation */}
+          </div>
+          <div className="middle">
+            <button
+              className="btn btn-outline-dark"
+              type="button"
+              onClick={SignMeOut}
+            >
+              Logout
+            </button>
           </div>
         </div>
         {/* End Sidebar */}
 
         {/* Main Content Area */}
         <div className="col py-3">
-          CONTENT AREA          
+          {/* Otherwise, render default content */}
+          {showUserDetails && <Profile />}
         </div>
         {/* End Main Content Area */}
       </div>
     </div>
   );
-}
+};
 
 export default UserDashboard;

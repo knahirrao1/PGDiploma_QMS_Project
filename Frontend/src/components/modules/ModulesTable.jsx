@@ -11,8 +11,10 @@ import {
 import { server } from "../../server";
 import QuizzesTable from "../quizzes/QuizzesTable";
 import ModuleCreation from "./ModuleCreation";
-
+import { useSelector } from "react-redux";
 const ModulesTable = () => {
+  const { currentUser } = useSelector((state) => state.user);
+
   const [modules, setModules] = useState([]);
   const [showQuiz, setShowQuiz] = useState(false);
   const [showModuleForm, setShowModuleForm] = useState(false);
@@ -55,7 +57,7 @@ const ModulesTable = () => {
     // setModules(props.table);
     const fetchData = async () => {
       await axios
-        .get(`${server}/quizhub/modules`)
+        .get(`${server}/quizhub/modules/users/${currentUser.username}`)
         .then((res) => {
           if (res.status === 200) {
             console.log(res.data);

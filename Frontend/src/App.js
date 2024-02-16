@@ -1,20 +1,21 @@
-// import SignUp from "./component/SignUp";
+// import SignUp from "./components/SignUp";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import SignIn from "./component/auth/SignIn";
+import SignIn from "./components/auth/SignIn";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import SignUp from "./component/auth/SignUp";
-import ForgotPassword from "./component/auth/ForgotPassword";
-import HeaderNav from "./component/layout/HeaderNav";
-import DynamicHomePage from "./component/layout/DynamicHomePage";
-import UserDashboard from "./component/user/UserDashboard";
-import CreatorDashboard from "./component/creator/CreatorDashboard";
-import FooterNav from "./component/layout/FooterNav";
-import SignOut from "./component/auth/SignOut";
-import ModuleList from "./component/modules/ModuleList";
-import AboutUs from "./component/layout/AboutUs";
-import CreateNew from "./component/creator/CreatorDashboard";
-//import PrivateRoute from './component/auth/PrivateRoute';
+import SignUp from "./components/auth/SignUp";
+import ForgotPassword from "./components/auth/ForgotPassword";
+import HeaderNav from "./components/layout/HeaderNav";
+import DynamicHomePage from "./components/layout/DynamicHomePage";
+import UserDashboard from "./components/user/UserDashboard";
+import CreatorDashboard from "./components/creator/CreatorDashboard";
+import FooterNav from "./components/layout/FooterNav";
+import SignOut from "./components/auth/SignOut";
+import ModuleList from "./components/modules/ModuleList";
+import AboutUs from "./components/layout/AboutUs";
+import CreateNew from "./components/creator/CreatorDashboard";
+//import PrivateRoute from './components/auth/PrivateRoute';
+import ProfileEdit from "./components/layout/ProfileEdit";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/module-list" element={<ModuleList />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/create-new" element={<CreateNew />} />
+        <Route path="/profile" element={<ProfileEdit />} />
       </Routes>
       <ToastContainer
         position="bottom-center"
@@ -49,6 +51,7 @@ function App() {
         pauseOnHover
         theme="light"
       />
+      <hr></hr>
       <FooterNav />
     </>
   );

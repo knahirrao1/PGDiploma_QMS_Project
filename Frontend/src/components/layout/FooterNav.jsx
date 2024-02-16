@@ -106,7 +106,7 @@ function FooterNav() {
                 <label htmlFor="newsletter1" className="visually-hidden">
                   Email address
                 </label>
-                <a href="/SignUp" className="btn btn-primary btn-dark">
+                <a href="/sign-up" className="btn btn-primary btn-dark">
                   Sign-up
                 </a>
               </div>

@@ -10,11 +10,14 @@ import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
 import QuestionCreation from "./QuestionCreation";
+import QuizzesTable from "../quizzes/QuizzesTable";
+import { useNavigate } from "react-router-dom";
 
 const QuestionsTable = (props) => {
   const [questions, setQuestions] = useState([]);
   const [showQuestionForm, setShowQuestionForm] = useState(false);
   const [goBackToQuiz, setGoBackToQuiz] = useState(false);
+  const [id, setId] = useState(0);
 
   const scrollDown = useRef();
 
@@ -64,13 +67,13 @@ const QuestionsTable = (props) => {
   }, []);
 
   const backToQuiz = () => {
+    setId(props.moduleId);
     setGoBackToQuiz(true);
   };
-  // goBackToQuiz ? (
-  //   <QuizzesTable />
-  // ) :
 
-  return (
+  return goBackToQuiz ? (
+    <QuizzesTable moduleId={id} />
+  ) : (
     <div
       className="container-lg mt-4"
       style={{ backgroundColor: "rgba(255,255,255,0.8)" }}

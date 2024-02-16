@@ -41,20 +41,6 @@ const QuestionCreation = (props) => {
     }
   };
 
-  // Sample input:
-  // "quizId": 0,
-  // "question": "string",
-  // "image": [
-  //   "string"
-  // ],
-  // "optionA": "string",
-  // "optionB": "string",
-  // "optionC": "string",
-  // "optionD": "string",
-  // "correctOption": "string",
-  // "explanation": "string",
-  // "createdAt": "2024-02-15"
-
   return (
     <div className="container mt-5 p-5 rounded border">
       <div className="row">

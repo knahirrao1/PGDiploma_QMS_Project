@@ -43,6 +43,7 @@ const QuizzesTable = (props) => {
       .then(() => {
         const updateQuizzes = quizzes.filter((quiz) => quiz.quizId !== quizId);
         setQuizzes(updateQuizzes);
+        window.location.reload();
       })
       .catch((error) => {
         console.log("failed deleating quiz " + error);
@@ -77,7 +78,8 @@ const QuizzesTable = (props) => {
   };
 
   return showQuestions ? (
-    <QuestionsTable quizId={id} />
+    // sending module id to QuestionsTable component for go back to quiz button
+    <QuestionsTable quizId={id} moduleId={props.moduleId} />
   ) : goBackToModules ? (
     <ModulesTable />
   ) : (
