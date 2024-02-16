@@ -69,4 +69,14 @@ public class GuestResponseController {
 			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@GetMapping("/check/{quizId}/{username}")
+	public ResponseEntity<?> checkGuestnameValidity(@PathVariable Long quizId, @PathVariable String username) {
+		try {
+			guestResponseService.checkGuestnameValidity(new GuestIdDTO(quizId, username));
+			return new ResponseEntity<>(new ApiResponse("Guestname is unique"), HttpStatus.OK);
+		} catch (RuntimeException e) {
+			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+		}
+	}
 }

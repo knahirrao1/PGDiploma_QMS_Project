@@ -90,4 +90,15 @@ public class GuestResponseServiceImpl implements GuestResponseService {
 		return guestResponseRepository.findByKeyQuiz(mapper.map(quizByQuizId, Quiz.class)).stream()
 				.map(this::mapGuestResponseToDTO).collect(Collectors.toList());
 	}
+
+	@Override
+	public void checkGuestnameValidity(GuestIdDTO key) {
+		Quiz quiz = quizRepositiry.findById(key.getQuizId())
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid quiz id!"));
+	
+		if (guestResponseRepository.existsById(new GuestId(quiz, key.getUsername()))) {
+			throw new ApiException("Username already exists!!");
+		}
+
+	}
 }

@@ -17,5 +17,7 @@ public interface GuestResponseService {
 	void deleteGuestResponse(GuestIdDTO key);
 
 	List<GuestResponseDTO> getGuestResponseByQuizId(QuizDTO quizByQuizId);
+	
+	void checkGuestnameValidity(GuestIdDTO key);
 
 }
