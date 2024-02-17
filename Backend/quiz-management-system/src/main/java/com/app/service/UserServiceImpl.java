@@ -1,15 +1,21 @@
 package com.app.service;
 
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.spec.SecretKeySpec;
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.app.custom_exceptions.ApiException;
@@ -28,10 +34,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userRepository;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 //	@Autowired
-//	private BCryptPasswordEncoder passwordEncoder;
+//	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private ModelMapper mapper;
@@ -44,7 +48,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public AuthResponseDTO loginUser(AuthRequestDTO request) {
+	public AuthResponseDTO loginUser(AuthRequestDTO request) throws Exception {
 		// Find user by email
 		User user = userRepository.findById(request.getUsername()).orElseThrow();
 
@@ -54,13 +58,13 @@ public class UserServiceImpl implements UserService {
 		}
 
 		// Check if the provided password matches the stored encrypted password
-		if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-			return mapper.map(user, AuthResponseDTO.class); // Login successful
-		}
-
-//		if (request.getPassword().equals(user.getPassword())) {
+//		if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
 //			return mapper.map(user, AuthResponseDTO.class); // Login successful
 //		}
+
+		if (request.getPassword().equals(passwordDecrypt(user.getPassword()))) {
+			return mapper.map(user, AuthResponseDTO.class); // Login successful
+		}
 
 		else
 			throw new ApiException("incorrect password"); // Incorrect password
@@ -68,7 +72,7 @@ public class UserServiceImpl implements UserService {
 
 	// String username, String email, String password, String userType
 	@Override
-	public void signupUser(UserDTO user) {
+	public void signupUser(UserDTO user) throws Exception {
 		// Check if username is unique
 		if (userRepository.existsById(user.getUsername())) {
 			throw new ApiException("username already exists"); // Username already exists
@@ -96,7 +100,7 @@ public class UserServiceImpl implements UserService {
 		User u = mapper.map(user, User.class);
 
 		// Encoding password before adding user to the database
-		u.setPassword(passwordEncoder.encode(u.getPassword()));
+		u.setPassword(passwordEncrypt(u.getPassword()));
 
 		// Save the user to the database
 		userRepository.save(u);
@@ -136,7 +140,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDTO updateUser(UserDTO user) {
+	public UserDTO updateUser(UserDTO user) throws Exception {
 		// Check if the user exists
 		User u = userRepository.findById(user.getUsername())
 				.orElseThrow(() -> new ResourceNotFoundException("invalid username"));
@@ -144,15 +148,48 @@ public class UserServiceImpl implements UserService {
 		if ((u.getEmail()).equals(user.getEmail())) {
 			u.setName(user.getName());
 			u.setDescription(user.getDescription());
-			u.setPassword(passwordEncoder.encode(user.getPassword()));
+			u.setPassword(passwordEncrypt(user.getPassword()));
 			return mapper.map(userRepository.save(u), UserDTO.class); // Update successful
 		} else if (userRepository.existsByEmail(user.getEmail())) {
 			throw new ApiException("email already exists"); // Email already exists
 		} else {
 			u.setName(user.getName());
 			u.setDescription(user.getDescription());
-			u.setPassword(passwordEncoder.encode(user.getPassword()));
+			u.setPassword(passwordEncrypt(user.getPassword()));
 			return mapper.map(userRepository.save(u), UserDTO.class); // Update successful
 		}
 	}
+
+//-----------------------------------------------------------------------------------------------------------------------------
+	// For password Encryption and Decryption
+	private static final String AES_ALGORITHM = "AES";
+	//private static final String ENCRYPTION_KEY = "123456789101112131415@qms"; //
+
+	public static String passwordEncrypt(String plainText) throws Exception {
+		String aesKey = "NwtCpcQuCgVX2iGJdSyrAyr0Ux82KOJjnWhsufDc2j0=";
+		System.out.println("From encryptPassword" + aesKey);
+		Key key = new SecretKeySpec(Base64.getDecoder().decode(aesKey), AES_ALGORITHM);
+		Cipher cipher = Cipher.getInstance(AES_ALGORITHM);
+		cipher.init(Cipher.ENCRYPT_MODE, key);
+		byte[] encryptedBytes = cipher.doFinal(plainText.getBytes());
+		return Base64.getEncoder().encodeToString(encryptedBytes);
+	}
+
+	public static String passwordDecrypt(String encryptedText) throws Exception {
+		String aesKey = "NwtCpcQuCgVX2iGJdSyrAyr0Ux82KOJjnWhsufDc2j0=";
+		System.out.println("From decryptPassword" + aesKey);
+		Key key = new SecretKeySpec(Base64.getDecoder().decode(aesKey), AES_ALGORITHM);
+		Cipher cipher = Cipher.getInstance(AES_ALGORITHM);
+		cipher.init(Cipher.DECRYPT_MODE, key);
+		byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedText));
+		return new String(decryptedBytes);
+	}
+
+	public static String generateAESKey() throws NoSuchAlgorithmException {
+		KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+		SecureRandom secureRandom = new SecureRandom();
+		keyGenerator.init(256, secureRandom); // 256-bit key length
+		return Base64.getEncoder().encodeToString(keyGenerator.generateKey().getEncoded());
+	}
+
 }
