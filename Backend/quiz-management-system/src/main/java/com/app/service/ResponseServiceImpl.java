@@ -90,6 +90,7 @@ public class ResponseServiceImpl implements ResponseService {
 		}
 		
 		if (!responseRepository.existsByUserUsernameAndQuizId(response.getUsername(), response.getQuizId())) {
+			newResponse.setCreatedAt(LocalDate.now());
 			return mapResponseToDTO(responseRepository.save(newResponse));
 		}
 

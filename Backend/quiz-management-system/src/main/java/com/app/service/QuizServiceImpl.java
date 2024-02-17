@@ -80,6 +80,7 @@ public class QuizServiceImpl implements QuizService {
 	public void deleteQuiz(Long quizId) {
 		Quiz quiz = quizRepository.findById(quizId)
 				.orElseThrow(() -> new ResourceNotFoundException("Quiz with this id does not exist!"));
+		quiz.getModule().setNumberOfQuizzes(quiz.getModule().getNumberOfQuizzes()-1);
 		// Delete the quiz
 		quizRepository.delete(quiz);
 	}
