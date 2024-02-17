@@ -72,11 +72,6 @@ public class GuestResponseServiceImpl implements GuestResponseService {
 		return mapGuestResponseToDTO(response);
 	}
 
-//------------------------------------------------------------------------------------------------------------------
-	@Override
-	public List<GuestResponseDTO> getAllGuestResponses() {
-		return guestResponseRepository.findAll().stream().map(this::mapGuestResponseToDTO).collect(Collectors.toList());
-	}
 
 //------------------------------------------------------------------------------------------------------------------
 	@Override

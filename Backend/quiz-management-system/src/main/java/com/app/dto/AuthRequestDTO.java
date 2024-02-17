@@ -1,6 +1,5 @@
 package com.app.dto;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -17,7 +16,6 @@ import lombok.ToString;
 @ToString
 public class AuthRequestDTO {
 	@NotBlank(message = "username is required")
-	@Email(message = "Invalid username format")
 	private String username;
 
 	@NotBlank(message = "Password required")

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.ModuleDao;
-import com.app.dao.QuizDao;
 import com.app.dao.UserDao;
 import com.app.dto.ModuleDTO;
 import com.app.entities.Module;
@@ -27,9 +26,6 @@ public class ModuleServiceImpl implements ModuleService {
 	
 	@Autowired
 	private ModuleDao moduleRepository;
-
-	@Autowired
-	private QuizDao quizRepository;
 
 	@Autowired
 	private UserDao userRepository;
@@ -100,19 +96,7 @@ public class ModuleServiceImpl implements ModuleService {
 	public void deleteModule(Long moduleId) {
 		Module module = moduleRepository.findById(moduleId)
 				.orElseThrow(() -> new ResourceNotFoundException("Module with this id does not exist!"));
-
-		quizRepository.deleteByModule(module);
 		moduleRepository.delete(module);
 	}
 
-//--------------------------------------------------------------------------------------------------------------------------
-	@Override
-	public void deleteModuleByUsername(String username) {
-		List<Module> modules = getModuleByUsername(username).stream().map(module -> mapper.map(module, Module.class))
-				.collect(Collectors.toList());
-
-		// here add code to delete all quizzes of that module before deleting the module
-
-		moduleRepository.deleteAll(modules);
-	}
 }

@@ -110,15 +110,4 @@ public class ModuleController {
 		}
 	}
 
-//---------------------------------------------------------------------------------------------------------------------------	
-	@DeleteMapping("/users/{username}")
-	public ResponseEntity<?> deleteModuleByUsername(@PathVariable String username) {
-		try {
-			moduleService.deleteModuleByUsername(username);
-			return ResponseEntity.status(HttpStatus.OK).build();
-		} catch (RuntimeException e) {
-			System.out.println("Error in module controller delete module by username method " + e);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
-		}
-	}
 }

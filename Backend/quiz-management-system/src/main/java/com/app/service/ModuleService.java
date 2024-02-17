@@ -18,6 +18,4 @@ public interface ModuleService {
 
 	List<ModuleDTO> getModuleByUsername(String username);
 
-	void deleteModuleByUsername(String username);
-
 }

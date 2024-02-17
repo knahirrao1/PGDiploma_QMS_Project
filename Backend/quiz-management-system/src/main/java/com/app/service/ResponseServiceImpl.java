@@ -42,11 +42,6 @@ public class ResponseServiceImpl implements ResponseService {
 		return responseDTO;
 	}
 
-	@Override
-	public List<ResponseDTO> getAllResponses() {
-		return responseRepository.findAll().stream().map(this::mapResponseToDTO).collect(Collectors.toList());
-	}
-
 //----------------------------------------------------------------------------------------------------------------------	
 	@Override
 	public ResponseDTO getResponseById(Long id) {
@@ -111,10 +106,7 @@ public class ResponseServiceImpl implements ResponseService {
 //----------------------------------------------------------------------------------------------------------------------    
 	@Override
 	public void deleteResponse(Long id) {
-		try {
-			responseRepository.deleteById(id);
-		} catch (RuntimeException e) {
-			throw e;
-		}
+		Response response = responseRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Enter valid response id!!!"));
+		responseRepository.delete(response);
 	}
 }

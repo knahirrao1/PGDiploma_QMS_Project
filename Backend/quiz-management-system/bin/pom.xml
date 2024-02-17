@@ -64,10 +64,53 @@
 			<artifactId>modelmapper</artifactId>
 			<version>3.0.0</version>
 		</dependency>
-<!-- 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> 
+			</dependency> -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.11.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<!-- <version>3.14.0</version> -->
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.17.2</version> <!-- Use the latest version -->
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.17.2</version> <!-- Use the latest version -->
+		</dependency>
+
+		<!-- spring security related dependencies -->
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> 
+			</dependency> <dependency> <groupId>org.springframework.security</groupId> 
+			<artifactId>spring-security-test</artifactId> <scope>test</scope> </dependency> 
+			https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api <dependency> 
+			<groupId>io.jsonwebtoken</groupId> <artifactId>jjwt-api</artifactId> <version>0.11.5</version> 
+			</dependency> https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl 
+			<dependency> <groupId>io.jsonwebtoken</groupId> <artifactId>jjwt-impl</artifactId> 
+			<version>0.11.5</version> <scope>runtime</scope> </dependency> https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson 
+			<dependency> <groupId>io.jsonwebtoken</groupId> <artifactId>jjwt-jackson</artifactId> 
+			<version>0.11.5</version> <scope>runtime</scope> </dependency> https://mvnrepository.com/artifact/com.auth0/java-jwt 
+			//auth0 dependency <dependency> <groupId>com.auth0</groupId> <artifactId>java-jwt</artifactId> 
+			<version>4.4.0</version> </dependency> -->
 	</dependencies>
 
 	<build>

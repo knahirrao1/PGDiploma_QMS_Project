@@ -6,8 +6,6 @@ import com.app.dto.ResponseDTO;
 
 public interface ResponseService {
 
-	List<ResponseDTO> getAllResponses();
-
 	ResponseDTO getResponseById(Long id);
 
 	ResponseDTO saveResponse(ResponseDTO response);

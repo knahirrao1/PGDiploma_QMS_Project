@@ -2,12 +2,10 @@ package com.app.controller;
 
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.ApiResponse;
 import com.app.dto.QuestionDTO;
-import com.app.entities.Question;
 import com.app.service.QuestionService;
 
 @RestController
@@ -27,9 +24,6 @@ import com.app.service.QuestionService;
 public class QuestionController {
 	@Autowired
 	private QuestionService questionService;
-
-	@Autowired
-	private ModelMapper mapper;
 
 	@GetMapping("/quizzes/{quizId}")
 	public ResponseEntity<?> getQuestionsByQuizId(@PathVariable Long quizId) {
@@ -57,10 +51,8 @@ public class QuestionController {
 //--------------------------------------------------------------------------------------------------------------------------
 	@PostMapping("/{quizId}")
 	public ResponseEntity<?> createQuestion(@PathVariable Long quizId, @RequestBody QuestionDTO newQuestion) {
-		// System.out.println("in create question");
 		try {
-			Question question = mapper.map(newQuestion, Question.class);
-			return ResponseEntity.status(HttpStatus.CREATED).body(questionService.createQuestion(quizId, question));
+			return ResponseEntity.status(HttpStatus.CREATED).body(questionService.createQuestion(quizId, newQuestion));
 		} catch (RuntimeException e) {
 			System.out.println("Error in question controller create question method " + e);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
@@ -70,10 +62,8 @@ public class QuestionController {
 
 	@PutMapping("/{questionId}")
 	public ResponseEntity<?> updateQuestion(@PathVariable Long questionId, @RequestBody QuestionDTO newQuestion) {
-
 		try {
-			Question question = mapper.map(newQuestion, Question.class);
-			QuestionDTO updatedQuestion = questionService.updateQuestion(questionId, question);
+			QuestionDTO updatedQuestion = questionService.updateQuestion(questionId, newQuestion);
 			return new ResponseEntity<>(updatedQuestion, HttpStatus.OK);
 		} catch (RuntimeException e) {
 			System.out.println("Error in question controller update question method " + e);
@@ -81,28 +71,4 @@ public class QuestionController {
 		}
 	}
 
-//---------------------------------------------------------------------------------------------------------------------------   
-
-	@DeleteMapping("/{questionId}")
-	public ResponseEntity<?> deleteQuestion(@PathVariable Long questionId) {
-		try {
-			questionService.deleteQuestion(questionId);
-			return ResponseEntity.status(HttpStatus.OK).build();
-		} catch (RuntimeException e) {
-			System.out.println("Error in question controller delete question method " + e);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
-		}
-	}
-
-//---------------------------------------------------------------------------------------------------------------------------
-	@DeleteMapping("quizzes/{quizId}")
-	public ResponseEntity<?> deleteQuestionsByQuiz(@PathVariable Long quizId) {
-		try {
-			questionService.deleteQuestionsByQuiz(quizId);
-			return ResponseEntity.status(HttpStatus.OK).build();
-		} catch (RuntimeException e) {
-			System.out.println("Error in question controller delete question by quiz method " + e);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
-		}
-	}
 }

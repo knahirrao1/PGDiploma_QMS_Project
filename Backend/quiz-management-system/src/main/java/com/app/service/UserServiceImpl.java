@@ -167,7 +167,6 @@ public class UserServiceImpl implements UserService {
 
 	public static String passwordEncrypt(String plainText) throws Exception {
 		String aesKey = "NwtCpcQuCgVX2iGJdSyrAyr0Ux82KOJjnWhsufDc2j0=";
-		System.out.println("From encryptPassword" + aesKey);
 		Key key = new SecretKeySpec(Base64.getDecoder().decode(aesKey), AES_ALGORITHM);
 		Cipher cipher = Cipher.getInstance(AES_ALGORITHM);
 		cipher.init(Cipher.ENCRYPT_MODE, key);
@@ -177,7 +176,6 @@ public class UserServiceImpl implements UserService {
 
 	public static String passwordDecrypt(String encryptedText) throws Exception {
 		String aesKey = "NwtCpcQuCgVX2iGJdSyrAyr0Ux82KOJjnWhsufDc2j0=";
-		System.out.println("From decryptPassword" + aesKey);
 		Key key = new SecretKeySpec(Base64.getDecoder().decode(aesKey), AES_ALGORITHM);
 		Cipher cipher = Cipher.getInstance(AES_ALGORITHM);
 		cipher.init(Cipher.DECRYPT_MODE, key);

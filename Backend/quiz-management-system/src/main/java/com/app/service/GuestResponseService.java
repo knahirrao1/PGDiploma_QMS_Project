@@ -12,8 +12,6 @@ public interface GuestResponseService {
 
 	GuestResponseDTO getGuestResponseById(Long quizId,String username);
 
-	List<GuestResponseDTO> getAllGuestResponses();
-
 	void deleteGuestResponse(GuestIdDTO key);
 
 	List<GuestResponseDTO> getGuestResponseByQuizId(QuizDTO quizByQuizId);

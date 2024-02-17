@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.ModuleDao;
-import com.app.dao.QuestionDao;
 import com.app.dao.QuizDao;
 import com.app.dto.QuizDTO;
 import com.app.entities.Module;
@@ -27,9 +26,6 @@ public class QuizServiceImpl implements QuizService {
 	
 	@Autowired
 	private QuizDao quizRepository;
-
-	@Autowired
-	private QuestionDao questionRepository;
 
 	@Autowired
 	private ModuleDao moduleRepository;
@@ -82,12 +78,10 @@ public class QuizServiceImpl implements QuizService {
 
 	@Override
 	public void deleteQuiz(Long quizId) {
-//		Quiz quiz = quizRepository.findById(quizId)
-//				.orElseThrow(() -> new ResourceNotFoundException("Quiz with this id does not exist!"));
-		// Delete associated questions
-		questionRepository.deleteByQuizId(quizId);
+		Quiz quiz = quizRepository.findById(quizId)
+				.orElseThrow(() -> new ResourceNotFoundException("Quiz with this id does not exist!"));
 		// Delete the quiz
-		quizRepository.deleteById(quizId);
+		quizRepository.delete(quiz);
 	}
 
 	@Override
