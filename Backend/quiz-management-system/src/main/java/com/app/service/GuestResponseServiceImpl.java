@@ -54,9 +54,9 @@ public class GuestResponseServiceImpl implements GuestResponseService {
 
 		GuestResponse guest = mapper.map(guestResponse, GuestResponse.class);
 
-		if (guestResponseRepository.existsById(new GuestId(quiz, guestResponse.getKey().getUsername()))) {
-			throw new ApiException("Username already exists!!");
-		}
+//		if (guestResponseRepository.existsById(new GuestId(quiz, guestResponse.getKey().getUsername()))) {
+//			throw new ApiException("Username already exists!!");
+//		}
 
 		guest.getKey().setQuiz(quiz);
 
