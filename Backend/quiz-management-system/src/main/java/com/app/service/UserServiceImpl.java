@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.app.custom_exceptions.ApiException;
@@ -23,22 +24,24 @@ import com.app.entities.User;
 @Transactional
 public class UserServiceImpl implements UserService {
 	private static final Logger logger = LogManager.getLogger(ModuleServiceImpl.class);
-	
+
 	@Autowired
 	private UserDao userRepository;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 //	@Autowired
 //	private BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
 	private ModelMapper mapper;
-	
-    private UserDTO mapUserToDTO(User user) {
-    	UserDTO userDTO = mapper.map(user, UserDTO.class);
-    	userDTO.setPassword(null);
-        logger.info("user details"+userDTO.toString());
-        return userDTO;
-    }
+
+	private UserDTO mapUserToDTO(User user) {
+		UserDTO userDTO = mapper.map(user, UserDTO.class);
+		userDTO.setPassword(null);
+		logger.info("user details" + userDTO.toString());
+		return userDTO;
+	}
 
 	@Override
 	public AuthResponseDTO loginUser(AuthRequestDTO request) {
@@ -50,16 +53,17 @@ public class UserServiceImpl implements UserService {
 			throw new ApiException("user not found"); // User not found
 		}
 
-		// Check if the provided password matches the stored hashed password
-//		if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-//			return mapper.map(user, AuthResponseDTO.class); // Login successful
-//		}
-
-		if (request.getPassword().equals(user.getPassword())) {
+		// Check if the provided password matches the stored encrypted password
+		if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
 			return mapper.map(user, AuthResponseDTO.class); // Login successful
 		}
 
-		throw new ApiException("incorrect password"); // Incorrect password
+//		if (request.getPassword().equals(user.getPassword())) {
+//			return mapper.map(user, AuthResponseDTO.class); // Login successful
+//		}
+
+		else
+			throw new ApiException("incorrect password"); // Incorrect password
 	}
 
 	// String username, String email, String password, String userType
@@ -80,16 +84,19 @@ public class UserServiceImpl implements UserService {
 			throw new ApiException("invalid usertype"); // Invalid userType
 		}
 
-		if (user.getPassword()==null) {
+		if (user.getPassword() == null) {
 			throw new ApiException("password cannot be null"); // Invalid userType
 		}
-		
-		if (user.getName()==null) {
+
+		if (user.getName() == null) {
 			throw new ApiException("name cannot be null");
 		}
-		
+
 		// Create a new user
 		User u = mapper.map(user, User.class);
+
+		// Encoding password before adding user to the database
+		u.setPassword(passwordEncoder.encode(u.getPassword()));
 
 		// Save the user to the database
 		userRepository.save(u);
@@ -104,8 +111,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserDTO> getAllUsers() {
 		// Retrieve all users from the repository
-		return userRepository.findAll().stream().map(this::mapUserToDTO)
-				.collect(Collectors.toList());
+		return userRepository.findAll().stream().map(this::mapUserToDTO).collect(Collectors.toList());
 	}
 
 	@Override
@@ -138,14 +144,14 @@ public class UserServiceImpl implements UserService {
 		if ((u.getEmail()).equals(user.getEmail())) {
 			u.setName(user.getName());
 			u.setDescription(user.getDescription());
-			u.setPassword(user.getPassword());
+			u.setPassword(passwordEncoder.encode(user.getPassword()));
 			return mapper.map(userRepository.save(u), UserDTO.class); // Update successful
 		} else if (userRepository.existsByEmail(user.getEmail())) {
 			throw new ApiException("email already exists"); // Email already exists
 		} else {
 			u.setName(user.getName());
 			u.setDescription(user.getDescription());
-			u.setPassword(user.getPassword());
+			u.setPassword(passwordEncoder.encode(user.getPassword()));
 			return mapper.map(userRepository.save(u), UserDTO.class); // Update successful
 		}
 	}
