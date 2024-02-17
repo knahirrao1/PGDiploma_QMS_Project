@@ -22,7 +22,7 @@ import com.app.service.QuizService;
 
 @RestController
 @RequestMapping("/guestresponses")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class GuestResponseController {
 	@Autowired
 	private GuestResponseService guestResponseService;

@@ -21,7 +21,7 @@ import com.app.service.ModuleService;
 
 @RestController
 @RequestMapping("/modules")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class ModuleController {
 	@Autowired
 	private ModuleService moduleService;

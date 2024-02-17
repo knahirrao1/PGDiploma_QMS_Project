@@ -20,7 +20,7 @@ import com.app.service.ResponseService;
 
 @RestController
 @RequestMapping("/responses")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class ResponseController {
 	@Autowired
 	private ResponseService responseService;

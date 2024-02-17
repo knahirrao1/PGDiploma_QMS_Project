@@ -20,7 +20,7 @@ import com.app.service.QuestionService;
 
 @RestController
 @RequestMapping("/questions")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class QuestionController {
 	@Autowired
 	private QuestionService questionService;

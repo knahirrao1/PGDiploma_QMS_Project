@@ -21,7 +21,7 @@ import com.app.service.QuizService;
 
 @RestController
 @RequestMapping("/quizzes")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class QuizController {
 	@Autowired
 	private QuizService quizService;
