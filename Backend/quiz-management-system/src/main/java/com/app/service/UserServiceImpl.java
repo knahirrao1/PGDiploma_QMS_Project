@@ -3,6 +3,7 @@ package com.app.service;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -101,7 +102,7 @@ public class UserServiceImpl implements UserService {
 
 		// Encoding password before adding user to the database
 		u.setPassword(passwordEncrypt(u.getPassword()));
-
+		u.setCreatedAt(LocalDate.now());
 		// Save the user to the database
 		userRepository.save(u);
 	}

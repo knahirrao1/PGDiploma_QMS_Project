@@ -1,5 +1,6 @@
 package com.app.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,7 +61,7 @@ public class GuestResponseServiceImpl implements GuestResponseService {
 //		}
 
 		guest.getKey().setQuiz(quiz);
-
+		guest.setCreatedAt(LocalDate.now());
 		return mapGuestResponseToDTO(guestResponseRepository.save(guest));
 	}
 //------------------------------------------------------------------------------------------------------------------
