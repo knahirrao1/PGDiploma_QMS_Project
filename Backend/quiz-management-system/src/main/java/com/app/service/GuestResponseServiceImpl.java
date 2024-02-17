@@ -39,6 +39,7 @@ public class GuestResponseServiceImpl implements GuestResponseService {
 	private GuestResponseDTO mapGuestResponseToDTO(GuestResponse guestResponse) {
 		GuestResponseDTO guestResponseDTO = mapper.map(guestResponse, GuestResponseDTO.class);
 		guestResponseDTO.getKey().setQuizId(guestResponse.getKey().getQuiz().getId());
+		guestResponseDTO.setQuizTitle(guestResponse.getKey().getQuiz().getTitle());
 		logger.info("Module details" + guestResponseDTO.toString());
 		return guestResponseDTO;
 	}

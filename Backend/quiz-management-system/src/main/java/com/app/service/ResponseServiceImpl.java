@@ -38,6 +38,7 @@ public class ResponseServiceImpl implements ResponseService {
 		ResponseDTO responseDTO = mapper.map(response, ResponseDTO.class);
 		responseDTO.setQuizId(response.getQuiz().getId());
 		responseDTO.setUsername(response.getUser().getUsername());
+		responseDTO.setQuizTitle(response.getQuiz().getTitle());
 		logger.info("response details" + responseDTO.toString());
 		return responseDTO;
 	}

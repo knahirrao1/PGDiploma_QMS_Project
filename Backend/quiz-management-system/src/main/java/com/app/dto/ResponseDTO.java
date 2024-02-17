@@ -19,6 +19,8 @@ import lombok.ToString;
 public class ResponseDTO {
 
 	private Long quizId;
+	@JsonProperty(access=Access.READ_ONLY)
+	private String quizTitle;
 	@JsonProperty(value="responseId",access = Access.READ_ONLY)
 	private Long id;
 	private String username;
