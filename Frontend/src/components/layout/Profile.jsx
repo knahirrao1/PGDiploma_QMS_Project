@@ -1,15 +1,61 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import ProfileEdit from "../layout/ProfileEdit";
+import { server } from "../../server";
+import axios from "axios";
 
 const Profile = () => {
   const { currentUser } = useSelector((state) => state.user);
+  //----------------------------------------
+  const base64ToBlob = (base64String, contentType) => {
+    const byteCharacters = atob(base64String);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+      const slice = byteCharacters.slice(offset, offset + 512);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    return new Blob(byteArrays, { type: contentType });
+  };
+
+  // Convert base64 to blob
+  const blob = base64ToBlob(currentUser.profileImg, "image/png");
+
+  // Convert blob to URL
+  const imgUrl = URL.createObjectURL(blob);
+  //----------------------------------------
   const [editProfile, setEditProfile] = useState(false);
+  const [userDetails, setUserDetails] = useState({});
   console.log(currentUser);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios
+        .get(`${server}/quizhub/users/${currentUser.username}`)
+        .then((res) => {
+          if (res.status === 200) {
+            console.log(res.data);
+            setUserDetails(res.data);
+          }
+        })
+        .catch((error) => {
+          console.log("fetching modules failed ", error);
+          // toast.error(error.response.data.message);
+        });
+    };
+    fetchData();
+  }, []);
 
   const showEditProfile = () => {
     setEditProfile(true);
@@ -36,11 +82,11 @@ const Profile = () => {
               <div className="col-md-6">
                 <div className="media">
                   <label>Name</label>
-                  <p>{currentUser.name}</p>
+                  <p>{userDetails.name}</p>
                 </div>
                 <div className="media">
                   <label>Created At</label>
-                  <p>{currentUser.createdAt}</p>
+                  <p>{userDetails.createdAt}</p>
                 </div>
               </div>
               <div className="col-md-6">
@@ -65,12 +111,12 @@ const Profile = () => {
                 alt=""
               />
             ) : (
-              <img src={currentUser.profileImg} title="" alt="" />
+              <img src={imgUrl} title="" alt="" />
             )}
           </div>
         </div>
       </div>
-      {currentUser.userType === "A" ? (
+      {/* {currentUser.userType === "A" ? (
         <div className="border border-dark border-5">
           <div className="row">
             <div className="col-12 col-lg-4">
@@ -95,7 +141,7 @@ const Profile = () => {
         </div>
       ) : (
         <div></div>
-      )}
+      )} */}
     </div>
   );
 };

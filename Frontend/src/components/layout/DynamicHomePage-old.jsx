@@ -1,15 +1,9 @@
 import React from "react";
-
-import { Link } from 'react-router-dom';
-
 import about from "../../images/about_us.jpg";
-import welcome from "../../images/welcome_slide.jpg"
-import testimonial from "../../images/testimonial.jpg"
 
 function DynamicHomePage() {
   return (
-    <div className="mt-5 mb-5">
-      <div id="carouselExampleCaptions" className="carousel slide">
+    <div id="carouselExampleCaptions" className="carousel slide">
       <div className="carousel-indicators">
         <button
           type="button"
@@ -34,30 +28,28 @@ function DynamicHomePage() {
       </div>
       <div className="carousel-inner">
         <div className="carousel-item active">
-          <img src={welcome} className="rounded mx-auto d-block img-fluid" style={{ width: "66%", height: "auto" }} alt="..." />
+          <img src={about} className="rounded mx-auto d-block" alt="..." />
           <div className="carousel-caption d-none d-md-block">
-            <h1>Welcome to QuizHUB!</h1>
+            <h5>Sign up to us</h5>
             {/* <a href="/SignUp" className="btn btn-dark">
               Sign-up
             </a> */}
-            <p>Explore interactive quizzes, engaging content, and seamless experiences</p>
+            <p>Some interesting quizes waiting for you</p>
           </div>
         </div>
         <div className="carousel-item">
-          <img src={testimonial} className="rounded mx-auto d-block img-fluid" style={{ width: "66%", height: "auto" }} alt="..." />
-          <div className="carousel-caption d-none d-md-block" >
-            <h1>Customer Testimonial</h1>
-            <p>"I find this platform a must have for students" - Smita</p>
+          ``
+          <img src={about} className="rounded mx-auto d-block" alt="..." />
+          <div className="carousel-caption d-none d-md-block">
+            <h5>Or try on Free</h5>
+            <p>You can try it out free</p>
           </div>
         </div>
         <div className="carousel-item">
-          <img src={about} className="rounded mx-auto d-block img-fluid" style={{ width: "66%", height: "auto" }} alt="..." />
-          <div className="carousel-caption d-none d-md-block" >
-            <h1>Try QuizHUB Today!</h1>
-            <p>Sign up now to start creating and taking interactive quizzes</p>
-            <Link to="/sign-up" className="btn btn-dark">
-              Sign Up
-              </Link>
+          <img src={about} className="rounded mx-auto d-block" alt="..." />
+          <div className="carousel-caption d-none d-md-block">
+            <h5>Third slide label</h5>
+            <p>Some representative placeholder content for the third slide.</p>
           </div>
         </div>
       </div>
@@ -67,7 +59,7 @@ function DynamicHomePage() {
         data-bs-target="#carouselExampleCaptions"
         data-bs-slide="prev"
       >
-        <span className="carousel-control-prev-icon" aria-hidden="true" style={{color: 'black'}}></span>
+        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
         <span className="visually-hidden">Previous</span>
       </button>
       <button
@@ -76,10 +68,9 @@ function DynamicHomePage() {
         data-bs-target="#carouselExampleCaptions"
         data-bs-slide="next"
       >
-        <span className="carousel-control-next-icon" aria-hidden="true" style={{color: 'black'}}></span>
+        <span className="carousel-control-next-icon" aria-hidden="true"></span>
         <span className="visually-hidden">Next</span>
       </button>
-    </div>
     </div>
   );
 }

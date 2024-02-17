@@ -2,63 +2,28 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
-//import Promt from "./Prompt";
-import { useNavigate, useParams } from "react-router-dom";
 import Quiz from "./Quiz";
+// import Font;
 
 const QuizList = (props) => {
-  const [quizzes, setQuizzes] = useState(new Map());
-  //const [showPromt, setShowPromt] = useState(false);
-  const [showQuiz, setShowQuiz] = useState(false);
+  const [quizzes, setQuizzes] = useState([]);
+  const [showQuestions, setShowQuestions] = useState(false);
   const [id, setId] = useState(0);
-  const {currentUser} = useSelector(state=>state.user);
-  const navigate = useNavigate();
-  const {module_id} = useParams();
-  const moduleId = parseInt(module_id);
 
   const handleViewQuestions = (quizId) => {
     // View quiz logic for the quiz at the specified index
     setId(quizId);
-    console.log(quizzes);
-    console.log(quizId)
-    console.log(currentUser);
-    console.log(quizzes.get(quizId).openToGuest);
-
-    if(quizzes.get(quizId).openToGuest=== true){
-      if(currentUser===null){
-        //setShowPromt(true);
-        navigate(`/prompt/${quizId}`)
-      }
-      else{
-        //setShowQuiz(true);
-        navigate(`/questions/${quizId}/${currentUser.username}`);
-      }
-    }
-    else {
-      if(currentUser === null){
-        toast.warning('To attempt closed quiz, please Sign-In to continue');
-        //navigate('/sign-in')
-      }
-      else{      
-        //setShowPromt(true);
-        //navigate(`/prompt/${quizId}`)
-        navigate(`/questions/${quizId}/${currentUser.username}`);
-      }
-    }
+    setShowQuestions(true);
   };
 
   useEffect(() => {
     const fetchData = async () => {
       await axios
-        .get(`${server}/quizhub/quizzes/modules/${moduleId}`)
+        .get(`${server}/quizhub/quizzes/modules/${props.moduleId}`)
         .then((res) => {
           if (res.status === 200) {
-            const newQuiz = new Map();
-            res.data.forEach(quiz => {
-              newQuiz.set(quiz.quizId,quiz)
-            });
-            setQuizzes(newQuiz);
+            setQuizzes(res.data);
+            console.log(res.data);
           }
         })
         .catch((error) => {
@@ -66,10 +31,11 @@ const QuizList = (props) => {
         });
     };
     fetchData();
-  }, [moduleId]);
+  }, []);
 
-  let count = 0;
-  return (
+  return showQuestions ? (
+    <Quiz quizId={id} />
+  ) : (
     <div
       className="container-lg mt-4"
       style={{ backgroundColor: "rgba(255,255,255,0.8)" }}
@@ -103,9 +69,9 @@ const QuizList = (props) => {
               </tr>
             </thead>
             <tbody>
-            {Array.from(quizzes.values()).map((quiz) => (
+              {quizzes.map((quiz) => (
                 <tr key={quiz.quizId}>
-                  <td>{++count}</td>
+                  <td>{quiz.quizId}</td>
                   <td>{quiz.title}</td>
                   <td className="text-center">{quiz.numberOfQuestions}</td>
                   <td className="text-center">

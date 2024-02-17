@@ -8,6 +8,38 @@ import CircularImage from "../../images/CircularImage";
 
 function HeaderNav() {
   const { currentUser } = useSelector((state) => state.user);
+
+  //-------------------------------------
+  const base64ToBlob = (base64String, contentType) => {
+    const byteCharacters = atob(base64String);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+      const slice = byteCharacters.slice(offset, offset + 512);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    return new Blob(byteArrays, { type: contentType });
+  };
+
+  // if (currentUser.profileImg !== null) {
+  //   // Convert base64 to blob
+  //   const blob = base64ToBlob(currentUser.profileImg, "image/png");
+  //   // Convert blob to URL
+  //   const imgUrl = URL.createObjectURL(blob);
+  // } else {
+  //   const imgUrl = "https://bootdey.com/img/Content/avatar/avatar7.png";
+  // }
+
+  //-------------------------------------
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary ">
       <div className="container-fluid">
@@ -41,11 +73,24 @@ function HeaderNav() {
             </li>
           </ul>
         </div>
-        <div className="middle">
+        {/* <div className="middle">
           <Link className="nav-link active" aria-current="page" to="/">
             <h4>
               <span style={{ color: "black" }}>Quiz</span>
               <span style={{ color: "rgb(255,165,0)" }}>HUB</span>
+            </h4>
+          </Link>
+        </div> */}
+        <div
+          className="middle text-center"
+          style={{ marginLeft: "", marginRight: "13%" }}
+        >
+          <Link className="nav-link active" aria-current="page" to="/">
+            <h4>
+              <span style={{ color: "black", fontSize: "35px" }}>Quiz</span>
+              <span style={{ color: "rgb(255,165,0)", fontSize: "35px" }}>
+                HUB
+              </span>
             </h4>
           </Link>
         </div>
@@ -70,7 +115,13 @@ function HeaderNav() {
                       }}
                     />
                   ) : (
-                    <img src={currentUser.profileImg} title="" alt="" />
+                    // <img src={currentUser.profileImg} title="" alt="" />
+                    <img
+                      src={currentUser.profileImg}
+                      title=""
+                      alt=""
+                      style={{ width: "30px" }}
+                    />
                   )}
                   &nbsp;
                   <span>{currentUser.username}</span>

@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from "react";
 import JavaLogo from "./images/java-logo.png";
 import axios from "axios";
-import { toast } from "react-toastify";
 import { server } from "../../server";
-//import QuizList from "../quizzes/QuizList";
-import { useNavigate } from "react-router-dom";
+import QuizList from "../quizzes/QuizList";
 
 function ModuleList() {
   const [modules, setModules] = useState([]);
-  //const [showQuiz, setShowQuiz] = useState(false);
-  //const [id, setId] = useState(0);
-  const navigate = useNavigate();
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [id, setId] = useState(0);
 
   const showAllQuizzes = (module_id) => {
     // Logic for viewing quizzes goes here
-    //setId(module_id);
-    //setShowQuiz(true);
-    navigate(`/quiz-list/${module_id}`);
+    setId(module_id);
+    setShowQuiz(true);
   };
 
   useEffect(() => {
@@ -32,13 +28,15 @@ function ModuleList() {
           }
         })
         .catch((error) => {
-          console.log(error);
-          toast.error(error.response.data.message);
+          console.log("fetching modules failed ", error);
+          // toast.error(error.response.data.message);
         });
     };
     fetchData();
   }, []);
-  return (
+  return showQuiz ? (
+    <QuizList moduleId={id} />
+  ) : (
     <div>
       <hr className="border border-dark border-2 opacity-50"></hr>
       <div className="d-flex justify-content-center">

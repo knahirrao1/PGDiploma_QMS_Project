@@ -2,7 +2,7 @@
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SignIn from "./components/auth/SignIn";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import SignUp from "./components/auth/SignUp";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import HeaderNav from "./components/layout/HeaderNav";
@@ -14,8 +14,10 @@ import SignOut from "./components/auth/SignOut";
 import ModuleList from "./components/modules/ModuleList";
 import AboutUs from "./components/layout/AboutUs";
 import CreateNew from "./components/creator/CreatorDashboard";
-//import PrivateRoute from './components/auth/PrivateRoute';
-import ProfileEdit from "./components/layout/ProfileEdit";
+import Response from "./components/response/Response";
+import QuizList from "./components/quizzes/QuizList";
+import Prompt from "./components/quizzes/Prompt";
+import Quiz from "./components/quizzes/Quiz";
 
 function App() {
   return (
@@ -37,7 +39,13 @@ function App() {
         <Route path="/module-list" element={<ModuleList />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/create-new" element={<CreateNew />} />
-        <Route path="/profile" element={<ProfileEdit />} />
+        {/* <Route path="/profile" element={<ProfileEdit />} /> */}
+
+        <Route path="/quiz-list" element={<ModuleList />} />
+        <Route path="/response" element={<Response />} />
+        <Route path="/quiz-list/:module_id" element={<QuizList />} />
+        <Route path="/prompt/:id" element={<Prompt />} />
+        <Route path="/questions/:id/:username" element={<Quiz />} />
       </Routes>
       <ToastContainer
         position="bottom-center"

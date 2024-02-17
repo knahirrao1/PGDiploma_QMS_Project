@@ -13,6 +13,9 @@ import {
   signInSuccess,
   signInFailure,
 } from "../../redux/user/UserSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 //import OAuth from './OAuth';
 
 const SignIn = () => {
@@ -69,115 +72,127 @@ const SignIn = () => {
 
   return (
     <div>
-      <section
+      {/* <section
         className="h-100 gradient-form"
         style={{ backgroundColor: "#eee" }}
-      >
-        <div className="container py-5 h-100">
-          <div className="row d-flex justify-content-center align-items-center h-100">
-            <div className="col-xl-10">
-              <div className="card rounded-3 text-black">
-                <div className="row g-0">
-                  <div className="col-lg-6" style={{ backgroundColor: "gray" }}>
-                    <div className="card-body p-md-5 mx-md-4">
-                      <div className="text-center">
-                        <img
-                          src={logo}
-                          style={{ width: "200px", height: "auto" }}
-                          alt="logo"
+      > */}
+      <div className="container py-5 h-100">
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="col-xl-10">
+            <div className="card rounded-3 text-black">
+              <div className="row g-0">
+                <div className="col-lg-6" style={{ backgroundColor: "gray" }}>
+                  <div className="card-body p-md-5 mx-md-4">
+                    <div className="text-center">
+                      <img
+                        src={logo}
+                        style={{ width: "200px", height: "auto" }}
+                        alt="logo"
+                      />
+                      <h4 className="mt-1 mb-5 pb-1 text-warning">Welcome!</h4>
+                    </div>
+
+                    <form onSubmit={handleSubmit}>
+                      <p className="text-warning">
+                        Please login to your account
+                      </p>
+
+                      <div className="form-outline mb-4">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="username"
+                          name="name"
+                          onChange={handleChange}
+                          // placeholder="example_username"
                         />
-                        <h4 className="mt-1 mb-5 pb-1">Welcome!</h4>
+                        <label
+                          className="form-label text-warning"
+                          htmlFor="form2Example11"
+                        >
+                          Username
+                        </label>
                       </div>
 
-                      <form onSubmit={handleSubmit}>
-                        <p>Please login to your account</p>
-
-                        <div className="form-outline mb-4">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="username"
-                            name="name"
-                            onChange={handleChange}
-                            // placeholder="example_username"
+                      <div className="form-outline mb-4">
+                        <input
+                          type={visible ? "text" : "password"}
+                          className="form-control"
+                          id="password"
+                          name="pass"
+                          onChange={handleChange}
+                        />
+                        {visible ? (
+                          //   <AiOutlineEye
+                          //     className="absolute right-2 top-2 cursor-pointer"
+                          //     size={25}
+                          //     onClick={() => setVisible(false)}
+                          //   />
+                          // ) : (
+                          //   <AiOutlineEyeInvisible
+                          //     className="absolute right-2 top-2 cursor-pointer"
+                          //     size={25}
+                          //     onClick={() => setVisible(true)}
+                          //   />
+                          <FontAwesomeIcon
+                            className="absolute right-2 top-2 cursor-pointer"
+                            icon={faEye}
+                            onClick={() => setVisible(false)}
                           />
-                          <label
-                            className="form-label"
-                            htmlFor="form2Example11"
-                          >
-                            Username
-                          </label>
-                        </div>
-
-                        <div className="form-outline mb-4">
-                          <input
-                            type={visible ? "text" : "password"}
-                            className="form-control"
-                            id="password"
-                            name="pass"
-                            onChange={handleChange}
+                        ) : (
+                          <FontAwesomeIcon
+                            className="absolute right-2 top-2 cursor-pointer"
+                            icon={faEyeSlash}
+                            onClick={() => setVisible(true)}
                           />
-                          {visible ? (
-                            <AiOutlineEye
-                              className="absolute right-2 top-2 cursor-pointer"
-                              size={25}
-                              onClick={() => setVisible(false)}
-                            />
-                          ) : (
-                            <AiOutlineEyeInvisible
-                              className="absolute right-2 top-2 cursor-pointer"
-                              size={25}
-                              onClick={() => setVisible(true)}
-                            />
-                          )}
-                          <label
-                            className="form-label"
-                            htmlFor="form2Example22"
-                          >
-                            Password
-                          </label>
-                        </div>
+                        )}
+                        <label
+                          className="form-label text-warning"
+                          htmlFor="form2Example22"
+                        >
+                          Password
+                        </label>
+                      </div>
 
-                        <div className="text-center pt-1 mb-5 pb-1">
-                          <button
-                            className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
-                            type="submit"
-                          >
-                            {loading ? "Loading...." : "Login"}
-                          </button>
-                          <br></br>
-                          {/* <OAuth /> <br></br><br></br> */}
-                          <Link
-                            to="/htmlForgot-password"
-                            className="text-muted"
-                          >
-                            Forgot your password?
-                          </Link>
-                        </div>
+                      <div className="text-center pt-1 mb-5 pb-1">
+                        <button
+                          className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
+                          type="submit"
+                        >
+                          {loading ? "Loading...." : "Login"}
+                        </button>
+                        <br></br>
+                        {/* <OAuth /> <br></br><br></br> */}
+                        <Link to="/forgot-password" className="text-muted">
+                          Forgot your password?
+                        </Link>
+                      </div>
 
-                        <div className="d-flex align-items-center justify-content-center pb-4">
-                          <p className="mb-0 me-2">Don't have an account?</p>
-                          <Link to="/sign-up" className="text-yellow-600 pl-2">
+                      <div className="d-flex text-warning align-items-center justify-content-center pb-4">
+                        <p className="mb-0 me-2">Don't have an account?</p>
+                        <Link to="/sign-up">
+                          <button className="btn btn-outline-warning">
                             Sign Up
-                          </Link>
-                        </div>
-                      </form>
-                    </div>
+                          </button>
+                        </Link>
+                      </div>
+                    </form>
                   </div>
-                  <div className="col-lg-6 d-flex align-items-center gradient-custom-2">
-                    <div className="text-white px-3 py-4 p-md-5 mx-md-4">
-                      <h1 className="mb-4">
-                        Quizzes are like mental push-ups. The more you do, the
-                        stronger your brain becomes!
-                      </h1>
-                    </div>
+                </div>
+                <div className="col-lg-6 d-flex align-items-center gradient-custom-2">
+                  <div className="text-white px-3 py-4 p-md-5 mx-md-4">
+                    <h1 className="mb-4">
+                      Quizzes are like mental push-ups. The more you do, the
+                      stronger your brain becomes!
+                    </h1>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+      {/* </section> */}
     </div>
   );
 };

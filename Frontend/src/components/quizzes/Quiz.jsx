@@ -3,16 +3,26 @@ import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+//import { useNavigate } from "react-router-dom";
+import Response from "../response/Response";
+import { useParams } from "react-router-dom";
 //import { useNavigate } from 'react-router-dom';
 //import questionData from './questionData.json'; // Importing the question data from JSON file
 
-const Quiz = (props) => {
+const Quiz = () => {
   const [answers, setAnswers] = useState(new Map());
   const [questions, setQuestions] = useState([]);
   const [idList, setIdList] = useState([]);
+  const [result, setResult] = useState(false);
+  let [userMarks, setUserMarks] = useState(0);
   const { currentUser } = useSelector((state) => state.user);
-  //const navigate = useNavigate();
-  //const [marks, setMarks] = useState(0);
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  // const navigate = useNavigate();
+
+  const { id, username } = useParams();
+  // const[userName, setUserName] = useState(username);
+  const quiz_id = parseInt(id, 10);
+  const userName = username;
 
   const handleSubmit = async (event) => {
     //converting the keys datatype from string to number
@@ -44,39 +54,63 @@ const Quiz = (props) => {
     const userSelectedOptions = Array.from(sortedAnswers.values());
     console.log(correctOptions);
     console.log(userSelectedOptions);
-    let userMarks = 0;
     for (let i = 0; i < idList.length; i++) {
       if (
         correctOptions[i].toUpperCase() === userSelectedOptions[i].toUpperCase()
       )
-        userMarks++;
+        setUserMarks(++userMarks);
     }
     console.log(userMarks);
 
-    const quizData = {
-      quizId: props.quizId,
-      username: currentUser.username,
-      marks: userMarks,
-      response: userResponse,
-    };
+    const config = { headers: { "Content-Type": "application/json" } };
+    if (!userLoggedIn) {
+      const quizData = {
+        key: {
+          quizId: quiz_id,
+          username: userName,
+        },
+        score: userMarks,
+      };
+      console.log(quizData);
+      await axios
+        .post(`${server}/quizhub/guestresponses`, quizData, config)
+        .then((res) => {
+          console.log(res.data);
+          setResult(true);
+          toast.success("Quiz submited successfully");
+          //navigate("/response");
+        })
+        .catch((error) => {
+          toast.error(error);
+        });
+    } else {
+      const quizData = {
+        quizId: quiz_id,
+        username: currentUser.username,
+        marks: userMarks,
+        response: userResponse,
+      };
+      await axios
+        .post(`${server}/quizhub/responses`, quizData, config)
+        .then((res) => {
+          console.log(res.data);
+          setResult(true);
+          toast.success("Quiz submited successfully");
+          //navigate("/response");
+        })
+        .catch((error) => {
+          toast.error(error);
+        });
+    }
 
     event.preventDefault();
-    const config = { headers: { "Content-Type": "application/json" } };
-    await axios
-      .post(`${server}/quizhub/responses`, quizData, config)
-      .then((res) => {
-        console.log(res.data);
-        //navigate("/response");
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
   };
   useEffect(() => {
+    console.log(userName);
     //loading the questions
     const fetchData = async () => {
       await axios
-        .get(`${server}/quizhub/questions/quizzes/${props.quizId}`)
+        .get(`${server}/quizhub/questions/quizzes/${quiz_id}`)
         .then((res) => {
           setQuestions(res.data);
           console.log(res.data);
@@ -86,7 +120,7 @@ const Quiz = (props) => {
         });
     };
     fetchData();
-  }, [props.quizId]);
+  }, [quiz_id]);
 
   useEffect(() => {
     //storing an array of question_id in a state
@@ -99,7 +133,13 @@ const Quiz = (props) => {
       });
       return question;
     });
-  }, [questions]);
+
+    if (currentUser === null) {
+      setUserLoggedIn(false);
+    } else {
+      setUserLoggedIn(true);
+    }
+  }, [questions, currentUser]);
 
   const handleOptionChange = (event) => {
     //storing answers in a map in such a way that question_id is key and option selected is value
@@ -113,9 +153,16 @@ const Quiz = (props) => {
       return updatedAnswers;
     });
   };
-
+  //resLoggedIn={responseDataLoggedIn} res={responseData}
   let count = 0;
-  return (
+  return result ? (
+    <Response
+      user={userLoggedIn ? currentUser.username : userName}
+      quiz={quiz_id}
+      noOfQuestions={idList.length}
+      marks={userMarks}
+    />
+  ) : (
     <>
       {/* <h3 className="mb-3">{`Q${}. ${}`}</h3> */}
       {questions.map((question) => (
@@ -189,9 +236,16 @@ const Quiz = (props) => {
           </div>
         </div>
       ))}
-      <button type="submit" className="btn btn-success" onClick={handleSubmit}>
-        submit
-      </button>
+      <hr></hr>
+      <div className="d-flex justify-content-center">
+        <button
+          type="submit"
+          className="btn btn-success "
+          onClick={handleSubmit}
+        >
+          submit
+        </button>
+      </div>
     </>
   );
 };

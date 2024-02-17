@@ -9,16 +9,47 @@ import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Profile from "../layout/Profile";
+import Performance from "./Performance";
 
 const CreatorDashboard = () => {
   const { currentUser } = useSelector((state) => state.user);
+
+  //----------------------------------------
+  const base64ToBlob = (base64String, contentType) => {
+    const byteCharacters = atob(base64String);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+      const slice = byteCharacters.slice(offset, offset + 512);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    return new Blob(byteArrays, { type: contentType });
+  };
+
+  // Convert base64 to blob
+  const blob = base64ToBlob(currentUser.profileImg, "image/png");
+
+  // Convert blob to URL
+  const imgUrl = URL.createObjectURL(blob);
+  //----------------------------------------
+
   const userName = currentUser.username; // Replace with user's name
   const [showModulesTable, setShowModulesTable] = useState(false); // State to track if ModulesTable should be shown
   //const [tableData,setTableData] = useState([]);
+  const [performance, setPerformance] = useState(false);
 
   const handleManageContentClick = async () => {
     setShowModulesTable(true);
     setShowUserDetails(false);
+    setPerformance(false);
   };
   const navigate = useNavigate();
   const SignMeOut = () => {
@@ -27,6 +58,12 @@ const CreatorDashboard = () => {
   const [showUserDetails, setShowUserDetails] = useState(false);
   const showProfile = () => {
     setShowUserDetails(true);
+    setShowModulesTable(false);
+    setPerformance(false);
+  };
+  const showPerformance = () => {
+    setPerformance(true);
+    setShowUserDetails(false);
     setShowModulesTable(false);
   };
 
@@ -51,7 +88,7 @@ const CreatorDashboard = () => {
                     }}
                   />
                 ) : (
-                  <img src={currentUser.profileImg} title="" alt="" />
+                  <img src={imgUrl} title="" alt="" />
                 )}
               </div>
               <span className="fs-5 d-none d-sm-inline">{userName}</span>
@@ -86,7 +123,11 @@ const CreatorDashboard = () => {
                 </button>
               </li>
               <li>
-                <button type="button" className="btn btn-outline-dark">
+                <button
+                  type="button"
+                  className="btn btn-outline-dark"
+                  onClick={showPerformance}
+                >
                   <span>
                     Quiz Performance&nbsp;
                     <FontAwesomeIcon icon={faArrowRight} />
@@ -114,6 +155,7 @@ const CreatorDashboard = () => {
           {showModulesTable && <ModulesTable />}
           {/* Otherwise, render default content */}
           {showUserDetails && <Profile />}
+          {performance && <Performance />}
         </div>
         {/* End Main Content Area */}
       </div>
