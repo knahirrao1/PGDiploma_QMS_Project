@@ -56,6 +56,8 @@ public class QuizServiceImpl implements QuizService {
 		Module module = moduleRepository.findById(quiz.getModuleId())
 				.orElseThrow(() -> new ResourceNotFoundException("Module with this id does not exist!"));
 		Quiz q = mapper.map(quiz, Quiz.class);
+		q.setTotalAttempted(0);
+		q.setNumberOfQuestions(0);
 		q.setCreatedAt(LocalDate.now());
 		q.setModule(module);
 		module.setNumberOfQuizzes(module.getNumberOfQuizzes()+1);

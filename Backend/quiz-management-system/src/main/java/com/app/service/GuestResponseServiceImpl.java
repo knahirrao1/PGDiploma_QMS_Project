@@ -55,12 +55,15 @@ public class GuestResponseServiceImpl implements GuestResponseService {
 		}
 
 		GuestResponse guest = mapper.map(guestResponse, GuestResponse.class);
+		
+		quiz.setTotalAttempted(quiz.getTotalAttempted()+1);
 
 //		if (guestResponseRepository.existsById(new GuestId(quiz, guestResponse.getKey().getUsername()))) {
 //			throw new ApiException("Username already exists!!");
 //		}
 
 		guest.getKey().setQuiz(quiz);
+		
 		guest.setCreatedAt(LocalDate.now());
 		return mapGuestResponseToDTO(guestResponseRepository.save(guest));
 	}

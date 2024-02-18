@@ -85,16 +85,15 @@ public class ResponseServiceImpl implements ResponseService {
 		
 		newResponse.setQuiz(quiz);
 		
-		if (!userRepository.existsById(response.getUsername())) {
-			throw new ResourceNotFoundException("Invalid username!");
-		}
-		
 		if (!responseRepository.existsByUserUsernameAndQuizId(response.getUsername(), response.getQuizId())) {
+			newResponse.setAttemptNumber(1);
 			newResponse.setCreatedAt(LocalDate.now());
+			
+			quiz.setTotalAttempted(quiz.getTotalAttempted()+1);
 			return mapResponseToDTO(responseRepository.save(newResponse));
 		}
 
-		Response oldResponse = responseRepository.findByUserUsernameAndQuizId(newResponse.getUser().getUsername(),
+		Response oldResponse = responseRepository.findByUserUsernameAndQuizId(response.getUsername(),
 				response.getQuizId());
 
 		oldResponse.setAttemptNumber(oldResponse.getAttemptNumber() + 1);

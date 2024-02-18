@@ -57,6 +57,10 @@ public class UserServiceImpl implements UserService {
 		if (user == null) {
 			throw new ApiException("user not found"); // User not found
 		}
+		
+		if (request.getPassword() == null) {
+			throw new ApiException("password can not be null"); // password not found
+		}
 
 		// Check if the provided password matches the stored encrypted password
 //		if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
