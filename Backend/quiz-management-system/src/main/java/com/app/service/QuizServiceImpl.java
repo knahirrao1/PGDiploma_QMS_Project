@@ -73,6 +73,7 @@ public class QuizServiceImpl implements QuizService {
 		existingQuiz.setTitle(updatedQuiz.getTitle());
 		existingQuiz.setModule(moduleRepository.findById(updatedQuiz.getModuleId())
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid module id")));
+		existingQuiz.setOpenToGuest(updatedQuiz.getOpenToGuest());
 		// Update other quiz properties as needed
 		// Save the updated quiz to the repository
 		return mapQuizToDTO(quizRepository.save(existingQuiz));
