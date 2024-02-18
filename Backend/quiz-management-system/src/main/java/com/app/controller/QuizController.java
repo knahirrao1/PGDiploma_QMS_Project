@@ -55,6 +55,15 @@ public class QuizController {
 			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@GetMapping("/{quizId}")
+	public ResponseEntity<?> getQuizByQuizId(@PathVariable Long quizId) {
+		try {
+			return new ResponseEntity<>(quizService.getQuizByQuizId(quizId), HttpStatus.OK);
+		} catch (RuntimeException e) {
+			return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+		}
+	}
 
 	@PutMapping("/{quizId}")
 	public ResponseEntity<?> updateQuiz(@PathVariable Long quizId, @RequestBody QuizDTO updatedQuiz) {
