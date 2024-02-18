@@ -25,7 +25,9 @@ public class UserDTO {
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 	private String description;
+	@JsonProperty(access = Access.READ_ONLY)
 	private byte[] profileImg;
+	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDate createdAt;
 
 }

@@ -25,8 +25,10 @@ public class ResponseDTO {
 	private Long id;
 	private String username;
 	private int marks;
+	@JsonProperty(access = Access.READ_ONLY)
 	private int attemptNumber;
 	private String response;
+	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDate createdAt;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 }

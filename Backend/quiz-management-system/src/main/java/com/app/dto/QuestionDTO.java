@@ -23,12 +23,15 @@ public class QuestionDTO {
 	private Long quizId;
 	private String question;
 	private byte[] image;
+//	@JsonProperty(access = Access.WRITE_ONLY)
+//	private byte[] imageOutput; 
 	private String optionA;
 	private String optionB;
 	private String optionC;
 	private String optionD;
 	private char correctOption;
 	private String explanation;
+	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDate createdAt;
 
 }

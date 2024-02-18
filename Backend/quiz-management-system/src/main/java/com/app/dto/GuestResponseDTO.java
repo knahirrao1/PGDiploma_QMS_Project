@@ -22,6 +22,7 @@ public class GuestResponseDTO {
 	@JsonProperty(access=Access.READ_ONLY)
 	private String quizTitle;
 	private int score;
+	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDate createdAt;
 
 }

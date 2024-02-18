@@ -22,9 +22,12 @@ public class QuizDTO {
 	private long id;
 	private Long moduleId;
 	private String title;
+	@JsonProperty(access = Access.READ_ONLY)
 	private int numberOfQuestions;
+	@JsonProperty(access = Access.READ_ONLY)
 	private int totalAttempted;
 	private Boolean openToGuest;
+	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDate createdAt;
 
 }

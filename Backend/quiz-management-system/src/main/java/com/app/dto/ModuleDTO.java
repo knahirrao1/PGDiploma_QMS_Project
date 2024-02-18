@@ -23,7 +23,9 @@ public class ModuleDTO {
 	private String username;
 	private String title;
 	private String description;
+	@JsonProperty(access = Access.READ_ONLY)
 	private int numberOfQuizzes;
+	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDate createdAt;
 
 }

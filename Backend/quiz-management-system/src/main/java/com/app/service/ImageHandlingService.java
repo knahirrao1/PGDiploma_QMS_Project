@@ -7,6 +7,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.app.dto.ApiResponse;
 
 public interface ImageHandlingService {
-	ApiResponse uploadImage(String username, MultipartFile image) throws IOException;
-	byte[] downloadImage(String username) throws IOException;
+	ApiResponse uploadImageUser(String username, MultipartFile image) throws IOException;
+	byte[] downloadImageUser(String username) throws IOException;
+	
+	ApiResponse uploadImageQuestion(Long questionId, MultipartFile image) throws IOException;
+	byte[] downloadImageQuestion(Long questionId) throws IOException;
 }

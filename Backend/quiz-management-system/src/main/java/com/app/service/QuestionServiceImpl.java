@@ -60,7 +60,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 //---------------------------------------------------------------------------------------------------------------
 	@Override
-	public QuestionDTO createQuestion(Long quizId, QuestionDTO question) {
+	public QuestionDTO createQuestion(Long quizId, QuestionDTO question){
 		// Check if the quiz with the given id exists
 		Quiz quiz = quizRepository.findById(quizId)
 				.orElseThrow(() -> new ResourceNotFoundException("Quiz not found with this id"));
@@ -71,7 +71,6 @@ public class QuestionServiceImpl implements QuestionService {
 		// Set the quiz for the new question
 		newQuestion.setQuiz(quiz);
 		newQuestion.setCreatedAt(LocalDate.now());
-		
 		// Save the new question
 		Question que = questionRepository.save(newQuestion);
 		return mapQuestionToDTO(que);
