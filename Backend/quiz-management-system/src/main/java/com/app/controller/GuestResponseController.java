@@ -22,7 +22,7 @@ import com.app.service.QuizService;
 
 @RestController
 @RequestMapping("/guestresponses")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://pg-diploma-qms-project.vercel.app/")
 public class GuestResponseController {
 	@Autowired
 	private GuestResponseService guestResponseService;

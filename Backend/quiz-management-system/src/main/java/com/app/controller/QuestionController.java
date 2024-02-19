@@ -20,7 +20,7 @@ import com.app.service.QuestionService;
 
 @RestController
 @RequestMapping("/questions")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://pg-diploma-qms-project.vercel.app/")
 public class QuestionController {
 	@Autowired
 	private QuestionService questionService;

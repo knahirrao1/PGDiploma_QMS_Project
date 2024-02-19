@@ -21,7 +21,7 @@ import com.app.service.ModuleService;
 
 @RestController
 @RequestMapping("/modules")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://pg-diploma-qms-project.vercel.app/")
 public class ModuleController {
 	@Autowired
 	private ModuleService moduleService;
