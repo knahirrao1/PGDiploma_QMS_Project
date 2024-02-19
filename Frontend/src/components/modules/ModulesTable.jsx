@@ -9,7 +9,7 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { server } from "../../server";
-import QuizzesTable from "../quizzes/QuizzesTable";
+//import QuizzesTable from "../quizzes/QuizzesTable";
 //import ModuleCreation from "./ModuleCreation";
 import { useSelector } from "react-redux";
 //import ModulesEdit from "./ModulesEdit";
@@ -35,6 +35,7 @@ const ModulesTable = () => {
   //   description: '',
   // });
 
+  
   const handleInputChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
@@ -87,8 +88,8 @@ const ModulesTable = () => {
   const handleEditModule = (moduleId) => {
     // Logic for editing module at the given index goes here
     //setEditModuleId(moduleId);
-    navigate(`/edit-module/${moduleId}`);
-  };
+    navigate(`/edit-module/${moduleId}`)
+   };
 
   // const handleEditSubmit = async(e)=>{
   //   setShowEditForm(false);
@@ -111,7 +112,7 @@ const ModulesTable = () => {
   //   })
   // };
 
-  const handleDeleteModule = async (moduleId) => {
+  const handleDeleteModule = async(moduleId) => {
     // Logic for deleting module at the given index goes here
     await axios
       .delete(`${server}/quizhub/modules/${moduleId}`)
@@ -120,7 +121,7 @@ const ModulesTable = () => {
           (module) => module.module_id !== moduleId
         );
         setModules(updateModule);
-        toast.success();
+        toast.success('module deleted successfully!');
         //window.location.reload();
       })
       .catch((error) => console.log("Error deleting module " + error));
@@ -138,10 +139,8 @@ const ModulesTable = () => {
     scrollDown.current?.lastElementChild?.scrollIntoView();
   });
   useEffect(() => {
-    // alert("in modules table");
     // console.log(props.table);
     // setModules(props.table);
-    console.log(`username is : ${currentUser.username}`);
     const fetchData = async () => {
       await axios
         .get(`${server}/quizhub/modules/users/${currentUser.username}`)
@@ -162,6 +161,8 @@ const ModulesTable = () => {
     };
     fetchData();
   }, []);
+
+  
 
   return (
     <div

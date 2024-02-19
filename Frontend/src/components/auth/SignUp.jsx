@@ -129,11 +129,11 @@ const SignUp = () => {
                     </div>
 
                     <div className="form-outline mb-4">
-                      <label className="form-label" htmlFor="name">
-                        {" "}
-                        User Name
-                      </label>
                       <div className="form-outline">
+                        <label className="form-label" htmlFor="name">
+                          {" "}
+                          User Name
+                        </label>
                         <input
                           type="text"
                           className="form-control"
@@ -163,20 +163,6 @@ const SignUp = () => {
                       <label className="form-label" htmlFor="pass">
                         Password
                       </label>
-                      &nbsp;
-                      {visible ? (
-                        <AiOutlineEye
-                          className="absolute right-2 top-2 cursor-pointer"
-                          size={25}
-                          onClick={() => setVisible(false)}
-                        />
-                      ) : (
-                        <AiOutlineEyeInvisible
-                          className="absolute right-2 top-2 cursor-pointer"
-                          size={25}
-                          onClick={() => setVisible(true)}
-                        />
-                      )}
                       <input
                         type={visible ? "text" : "password"}
                         className="form-control"
@@ -186,13 +172,7 @@ const SignUp = () => {
                         name="password"
                         onChange={handleChange}
                       />
-                    </div>
 
-                    <div className="form-outline mb-4">
-                      <label className="form-label" htmlFor="repass">
-                        Re-enter password
-                      </label>
-                      &nbsp;
                       {visible ? (
                         <AiOutlineEye
                           className="absolute right-2 top-2 cursor-pointer"
@@ -206,6 +186,12 @@ const SignUp = () => {
                           onClick={() => setVisible(true)}
                         />
                       )}
+                    </div>
+
+                    <div className="form-outline mb-4">
+                      <label className="form-label" htmlFor="repass">
+                        Re-enter password
+                      </label>
                       <input
                         type={visible ? "text" : "password"}
                         className="form-control"
@@ -215,6 +201,19 @@ const SignUp = () => {
                         name="confirmpassword"
                         onChange={handleChange}
                       />
+                      {visible ? (
+                        <AiOutlineEye
+                          className="absolute right-2 top-2 cursor-pointer"
+                          size={25}
+                          onClick={() => setVisible(false)}
+                        />
+                      ) : (
+                        <AiOutlineEyeInvisible
+                          className="absolute right-2 top-2 cursor-pointer"
+                          size={25}
+                          onClick={() => setVisible(true)}
+                        />
+                      )}
                     </div>
 
                     <div className="form-check d-flex justify-content-center mb-4">
@@ -233,25 +232,13 @@ const SignUp = () => {
                       </label>
                     </div>
 
-                    <div className="d-flex justify-content-center">
-                      <button
-                        type="submit"
-                        className="btn btn-dark btn-block mb-4"
-                        disabled={loading}
-                      >
-                        {loading ? (
-                          <div
-                            className="spinner-grow"
-                            // style={{width: "3rem", height: "3rem""}}
-                            role="status"
-                          >
-                            <span class="visually-hidden">Loading...</span>
-                          </div>
-                        ) : (
-                          "Sign Up"
-                        )}
-                      </button>
-                    </div>
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-block mb-4"
+                      disabled={loading}
+                    >
+                      {loading ? "loading......!" : "Sign Up"}
+                    </button>
 
                     {/* <div>
                   <label className="form-check-label" htmlFor="form2Example33">

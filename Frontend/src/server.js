@@ -1,2 +1,2 @@
 //local host
-export const server = "https://quizhub-pgdac.up.railway.app";
+export const server = "http://localhost:8080";

@@ -153,7 +153,7 @@ const QuestionsTable = () => {
                 <th>Option B</th>
                 <th>Option C</th>
                 <th>Option D</th>
-                <th>Image</th>
+                {/* <th>Image</th> */}
                 <th>Answer</th>
                 <th>Explanation</th>
                 <th>Date</th>
@@ -169,7 +169,7 @@ const QuestionsTable = () => {
                   <td>{question.optionB}</td>
                   <td>{question.optionC}</td>
                   <td>{question.optionD}</td>
-                  <td>{question.image}</td>
+                  {/* <td>{question.image}</td> */}
                   <td>{question.correctOption}</td>
                   <td>{question.explanation}</td>
                   <td>{question.createdAt}</td>
@@ -224,7 +224,7 @@ const QuestionsTable = () => {
                     </div>
                   </div>
 
-                  <div className="form-group row mb-4">
+                  {/* <div className="form-group row mb-4">
                     <label htmlFor="image" className="col-sm-3 col-form-label">
                       Upload Image
                     </label>
@@ -239,7 +239,7 @@ const QuestionsTable = () => {
                         />
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="form-group row mb-4">
                     {/* Added mb-4 for vertical space */}

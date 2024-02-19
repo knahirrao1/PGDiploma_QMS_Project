@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Link } from 'react-router-dom';
 
 import about from "../../images/about_us.jpg";
 import welcome from "../../images/welcome_slide.jpg"
 import testimonial from "../../images/testimonial.jpg"
+import { useSelector } from "react-redux";
 
 function DynamicHomePage() {
+  const {currentUser} = useSelector(state=>state.user);
+  const [showSignUp, setShowSignUp] = useState(false);
+  useEffect(()=>{
+    if(currentUser===null){
+      setShowSignUp(true);
+    }
+    else{
+      setShowSignUp(false);
+    }
+  },[])
   return (
     <div className="mt-5 mb-5">
       <div id="carouselExampleCaptions" className="carousel slide">
@@ -25,12 +36,13 @@ function DynamicHomePage() {
           data-bs-slide-to="1"
           aria-label="Slide 2"
         ></button>
-        <button
+        {showSignUp && <button
           type="button"
           data-bs-target="#carouselExampleCaptions"
           data-bs-slide-to="2"
           aria-label="Slide 3"
-        ></button>
+        ></button>}
+        
       </div>
       <div className="carousel-inner">
         <div className="carousel-item active">
@@ -50,7 +62,7 @@ function DynamicHomePage() {
             <p>"I find this platform a must have for students" - Smita</p>
           </div>
         </div>
-        <div className="carousel-item">
+        { showSignUp && <div className="carousel-item">
           <img src={about} className="rounded mx-auto d-block img-fluid" style={{ width: "66%", height: "auto" }} alt="..." />
           <div className="carousel-caption d-none d-md-block" >
             <h1>Try QuizHUB Today!</h1>
@@ -59,7 +71,8 @@ function DynamicHomePage() {
               Sign Up
               </Link>
           </div>
-        </div>
+        </div>}
+        
       </div>
       <button
         className="carousel-control-prev"

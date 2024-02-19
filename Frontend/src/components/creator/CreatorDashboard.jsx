@@ -59,7 +59,7 @@ const CreatorDashboard = () => {
     // For example, clear user session, remove tokens, etc.
     // Then redirect the user to the sign-in page or any other appropriate pag
     navigate("/");
-    window.location.reload(true);
+    //window.location.reload(true);
     dispatch(signOutSuccess());
     toast.success("Log out successful");
   };

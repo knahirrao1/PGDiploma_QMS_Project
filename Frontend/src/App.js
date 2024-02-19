@@ -43,6 +43,7 @@ function App() {
         <Route path="/sign-out" element={<SignOut />} />
         <Route path="/module-list" element={<ModuleList />} />
         {/* navbar */}
+        <Route path="/module-list" element={<ModuleList />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/create-new" element={<CreateNew />} />
         {/* <Route path="/profile" element={<ProfileEdit />} /> */}
@@ -52,30 +53,21 @@ function App() {
         <Route path="/quiz-list/:module_id" element={<QuizList />} />
         <Route path="/prompt/:id" element={<Prompt />} />
         <Route path="/questions/:id/:username" element={<Quiz />} />
-        {/* rahuls routs */}
-        <Route path="/manage-content" element={<ModulesTable />} />
-        <Route path="/manage-user" element={<UserTable />} />
-        <Route path="/quiz-list/:module_id" element={<QuizList />} />
-        <Route path="/prompt/:id" element={<Prompt />} />
-        <Route path="/questions/:id/:username" element={<Quiz />} />
-        <Route path="/manage-content" element={<ModulesTable />} />
-        <Route path="/edit-module/:id" element={<ModulesEdit />} />
-        <Route path="/quiz-table/:id" element={<QuizzesTable />} />
-        <Route path="/question-table" element={<QuestionsTable />} />
-        <Route path="/edit-quiz/:id" element={<QuizEdit />} />
-        <Route path="/manage-user" element={<UserTable />} />
-        <Route
-          path="/quiz-performance/:openToGuest/:id"
-          element={<QuizPerformance />}
-        />
+        <Route path="/manage-content" element={<ModulesTable/>} />
+        <Route path="/edit-module/:id" element={<ModulesEdit/>} />
+        <Route path="/quiz-table/:id" element={<QuizzesTable/>}/>
+        <Route path="/question-table" element={<QuestionsTable />}/>
+        <Route path="/edit-quiz/:id" element={<QuizEdit/>}/>
+        <Route path="/manage-user" element={<UserTable/>}/>
+        <Route path="/quiz-performance/:openToGuest/:id" element={<QuizPerformance/>}/>
       </Routes>
       <ToastContainer
-        position="bottom-center"
-        autoClose={5000}
+        position="top-center"
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
-        rtl={false}
+        // rtl={false}
         pauseOnFocusLoss
         draggable
         pauseOnHover

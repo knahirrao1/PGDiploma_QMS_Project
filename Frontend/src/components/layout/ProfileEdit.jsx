@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const ProfileEdit = () => {
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState('');
   const { currentUser } = useSelector((state) => state.user);
   const [visible, setVisible] = useState(false);
   const [userInput, setUserInput] = useState({
@@ -68,6 +68,7 @@ const ProfileEdit = () => {
     e.preventDefault();
     try {
       const updatedProfile = { ...userProfile, ...userInput };
+      console.log(updatedProfile);
       await axios
         .put(`${server}/quizhub/users/${currentUser.username}`, updatedProfile)
         .then(() => {
@@ -84,7 +85,7 @@ const ProfileEdit = () => {
   // handle on change for profile image
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
-    toast.success("Profile image can be only changed once");
+    toast.warning("Changes in Image be reflected only after next Login!");
   };
 
   const handleFileSubmit = async (e) => {
@@ -187,7 +188,7 @@ const ProfileEdit = () => {
                 <div className="middle">
                   <form onSubmit={handleFileSubmit}>
                     <input
-                      style={{ width: "120px", overflow: "hidden" }}
+                      style={{ width: "230px", overflow: "hidden" }}
                       className="btn btn-dark"
                       type="file"
                       id="imageFile"
@@ -219,7 +220,7 @@ const ProfileEdit = () => {
                   type="text"
                   className="form-control"
                   name="name"
-                  placeholder={currentUser.name}
+                  value={userInput.name}
                   onChange={handleInputChange}
                 />
               </div>
@@ -235,6 +236,7 @@ const ProfileEdit = () => {
                   type={visible ? "text" : "password"}
                   className="form-control"
                   name="password"
+                  placeholder="Enter current password"
                   onChange={handleInputChange}
                 />
               </div>
@@ -261,7 +263,7 @@ const ProfileEdit = () => {
                   type="text"
                   name="description"
                   className="form-control"
-                  placeholder={currentUser.description}
+                  value={userInput.description}
                   onChange={handleInputChange}
                 />
               </div>

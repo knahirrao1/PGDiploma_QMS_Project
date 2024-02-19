@@ -12,32 +12,35 @@ const QuizList = (props) => {
   //const [showPromt, setShowPromt] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
   const [id, setId] = useState(0);
-  const { currentUser } = useSelector((state) => state.user);
+  const {currentUser} = useSelector(state=>state.user);
   const navigate = useNavigate();
-  const { module_id } = useParams();
+  const {module_id} = useParams();
   const moduleId = parseInt(module_id);
 
   const handleViewQuestions = (quizId) => {
     // View quiz logic for the quiz at the specified index
     setId(quizId);
     console.log(quizzes);
-    console.log(quizId);
+    console.log(quizId)
     console.log(currentUser);
     console.log(quizzes.get(quizId).openToGuest);
 
-    if (quizzes.get(quizId).openToGuest === true) {
-      if (currentUser === null) {
+    if(quizzes.get(quizId).openToGuest=== true){
+      if(currentUser===null){
         //setShowPromt(true);
-        navigate(`/prompt/${quizId}`);
-      } else {
+        navigate(`/prompt/${quizId}`)
+      }
+      else{
         //setShowQuiz(true);
         navigate(`/questions/${quizId}/${currentUser.username}`);
       }
-    } else {
-      if (currentUser === null) {
-        toast.warning("To attempt closed quiz, please Sign-In to continue");
+    }
+    else {
+      if(currentUser === null){
+        toast.warning('To attempt closed quiz, please Sign-In to continue');
         //navigate('/sign-in')
-      } else {
+      }
+      else{      
         //setShowPromt(true);
         //navigate(`/prompt/${quizId}`)
         navigate(`/questions/${quizId}/${currentUser.username}`);
@@ -52,8 +55,8 @@ const QuizList = (props) => {
         .then((res) => {
           if (res.status === 200) {
             const newQuiz = new Map();
-            res.data.forEach((quiz) => {
-              newQuiz.set(quiz.quizId, quiz);
+            res.data.forEach(quiz => {
+              newQuiz.set(quiz.quizId,quiz)
             });
             setQuizzes(newQuiz);
           }
@@ -100,7 +103,7 @@ const QuizList = (props) => {
               </tr>
             </thead>
             <tbody>
-              {Array.from(quizzes.values()).map((quiz) => (
+            {Array.from(quizzes.values()).map((quiz) => (
                 <tr key={quiz.quizId}>
                   <td>{++count}</td>
                   <td>{quiz.title}</td>

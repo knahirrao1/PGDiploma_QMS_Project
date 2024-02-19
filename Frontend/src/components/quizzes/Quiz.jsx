@@ -77,7 +77,7 @@ const Quiz = () => {
         .then((res) => {
           console.log(res.data);
           setResult(true);
-          toast.success("Quiz submited successfully");
+          toast.success("Quiz submitted successfully");
           //navigate("/response");
         })
         .catch((error) => {

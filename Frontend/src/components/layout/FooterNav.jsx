@@ -1,6 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 function FooterNav() {
+  const {currentUser} = useSelector(state=>state.user);
+  const [showSignUp, setShowSignUp] = useState(false);
+  useEffect(()=>{
+    if(currentUser===null){
+      setShowSignUp(true);
+    }
+    else{
+      setShowSignUp(false);
+    }
+  },[currentUser])
   return (
     <div className="container">
       <footer className="py-5">
@@ -72,9 +83,9 @@ function FooterNav() {
               </li>
             </ul>
           </div>
-
+          
           <div className="col-md-5 offset-md-1 mb-3">
-            <form>
+          {showSignUp && <form>
               <h5>Sign up to QuizHUB!</h5>
               <p>We will clear all your doubts</p>
               <div className="d-flex flex-column flex-sm-row w-100 gap-2">
@@ -85,7 +96,8 @@ function FooterNav() {
                   Sign Up
                 </a>
               </div>
-            </form>
+            </form> }
+            
           </div>
         </div>
 
