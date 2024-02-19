@@ -62,7 +62,7 @@ const ModulesTable = () => {
         handleModule(response.data);
         setShowModuleForm(false);
         console.log(`response from server ${response.data}`);
-        toast.success("module added successfully!");
+        toast.success("Module added successfully!");
       })
       .catch((error) => {
         console.log(`Error sending data ${error}`);
@@ -121,7 +121,7 @@ const ModulesTable = () => {
           (module) => module.module_id !== moduleId
         );
         setModules(updateModule);
-        toast.success('module deleted successfully!');
+        toast.success('Module deleted successfully!');
         //window.location.reload();
       })
       .catch((error) => console.log("Error deleting module " + error));
@@ -156,11 +156,11 @@ const ModulesTable = () => {
         })
         .catch((error) => {
           console.log(error);
-          toast.error(error.response.data.message);
+          toast.error(error.message);
         });
     };
     fetchData();
-  }, []);
+  }, [currentUser.username]);
 
   
 

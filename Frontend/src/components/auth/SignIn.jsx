@@ -1,6 +1,5 @@
 import React from "react";
 import "./css/SignIn.css";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
@@ -67,7 +66,7 @@ const SignIn = () => {
     } catch (error) {
       console.log(error.response.data.message);
       dispatch(signInFailure(error.response.data.message));
-      toast.error(error.response.data.message);
+      toast.error(error.message);
     }
   };
 

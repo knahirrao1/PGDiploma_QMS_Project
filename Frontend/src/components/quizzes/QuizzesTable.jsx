@@ -7,7 +7,7 @@ import {
   faEye,
   faPlus,
   faArrowDown,
-  faArrowLeft,
+  //faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { server } from "../../server";
@@ -19,7 +19,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const QuizzesTable = () => {
   const [quizzes, setQuizzes] = useState([]);
-  const [showQuestions, setShowQuestions] = useState(false);
+  //const [showQuestions, setShowQuestions] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
   //const [id, setId] = useState(0);
   //const [goBackToModules, setGoBackToModule] = useState(false);
@@ -129,7 +129,7 @@ const QuizzesTable = () => {
         });
     };
     fetchData();
-  }, []);
+  }, [moduleId]);
 
   // const backToModule = () => {
   //   setGoBackToModule(true);

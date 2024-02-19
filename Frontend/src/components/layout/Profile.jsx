@@ -3,23 +3,23 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faArrowAltCircleRight,
-  faArrowRight,
+  // faArrowAltCircleRight,
+  // faArrowRight,
   faCircleInfo,
-  faClock,
-  faColonSign,
+  // faClock,
+  // faColonSign,
   faEdit,
   faEnvelope,
-  faEnvelopeOpenText,
-  faEquals,
-  faInbox,
-  faInfo,
-  faMagic,
-  faShoePrints,
-  faSignIn,
+  // faEnvelopeOpenText,
+  // faEquals,
+  // faInbox,
+  // faInfo,
+  // faMagic,
+  // faShoePrints,
+  // faSignIn,
   faSignature,
   faUserTie,
-  faVoicemail,
+  // faVoicemail,
 } from "@fortawesome/free-solid-svg-icons";
 import ProfileEdit from "../layout/ProfileEdit";
 import { server } from "../../server";
@@ -73,7 +73,7 @@ const Profile = () => {
         });
     };
     fetchData();
-  }, []);
+  }, [currentUser.username]);
 
   const showEditProfile = () => {
     setEditProfile(true);
