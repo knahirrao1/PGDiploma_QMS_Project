@@ -66,7 +66,7 @@ const SignIn = () => {
     } catch (error) {
       console.log(error.response.data.message);
       dispatch(signInFailure(error.response.data.message));
-      toast.error(error.message);
+      toast.error(error.response.data.message);
     }
   };
 
