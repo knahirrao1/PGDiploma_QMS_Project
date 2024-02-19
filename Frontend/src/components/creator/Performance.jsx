@@ -28,7 +28,7 @@ function Performance() {
 
   return (
     <div>
-      {responseData.map((response) => (
+      {/*{responseData.map((response) => (
         <div key={response.quizId}>
           <h1>{response.quizTitle}</h1>
           <ul className="list-group">
@@ -39,7 +39,7 @@ function Performance() {
             <li className="list-group-item">
               Creation date: {response.createdAt}
             </li>
-          </ul>
+      </ul>
           {/* <div className="progress">
             <div
               className="progress-bar progress-bar-striped progress-bar-animated"
@@ -52,7 +52,47 @@ function Performance() {
             >
               {response.marks}
             </div>
-          </div> */}
+          </div> 
+         </div>
+      ))} */}
+      {responseData.map((response) => (
+        <div
+          class="accordion accordion-flush"
+          id="accordionFlushExample"
+          key={response.quizId}
+        >
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingOne">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseOne"
+                aria-expanded="false"
+                aria-controls="flush-collapseOne"
+              >
+                {response.quizTitle} performance
+              </button>
+            </h2>
+            <div
+              id="flush-collapseOne"
+              class="accordion-collapse collapse"
+              aria-labelledby="flush-headingOne"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div class="accordion-body">
+                <ul className="list-group">
+                  <li className="list-group-item">Marks: {response.marks}</li>
+                  <li className="list-group-item">
+                    Attempt No: {response.attemptNumber}
+                  </li>
+                  <li className="list-group-item">
+                    Creation date: {response.createdAt}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       ))}
     </div>

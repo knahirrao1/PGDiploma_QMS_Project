@@ -40,23 +40,25 @@ function ModuleList() {
   }, []);
   return (
     <div>
-      <hr className="border border-dark border-2 opacity-50"></hr>
-      <div className="d-flex justify-content-center">
-        <h2>Module List</h2>
+      <hr className="border border-light" />
+      <div className="d-flex justify-content-center bg-warning shadow">
+        <h3 className="text-dark">Module List</h3>
       </div>
-      <hr className="border border-dark border-2 opacity-50"></hr>
+      <hr className="border border-light" />
+      {/* start modules list */}
       <div className="d-flex justify-content-around">
         <div className="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
           {modules.map((module) => (
-            <div className="card" key={module.module_id}>
-              {/* <img src={JavaLogo} className="card-img-top" alt="..." /> */}
+            <div className="m-4 card" key={module.module_id}>
+              <div className="fs-4 card-header">
+                {module.title}
+                <p className="fs-6 card-text">Created by : {module.username}</p>
+              </div>
               <div className="card-body">
-                <h5 className="card-title">{module.title}</h5>
                 <p className="card-text">{module.description}</p>
-
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="btn btn-dark"
                   onClick={() => showAllQuizzes(module.module_id)}
                 >
                   show Quizzes

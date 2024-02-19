@@ -3,14 +3,14 @@ import about from "../../images/about.jpg";
 
 function StaticHomePage() {
   return (
+    // <section className="background-radial-gradient">
     <div>
-      {/* <hr className="border border-dark border-2 opacity-50"></hr> */}
-      <hr></hr>
-      <div className="d-flex justify-content-center">
-        <h4>About Us</h4>
+      <hr className="border border-light" />
+      <div className="d-flex justify-content-center bg-warning shadow">
+        <h3 className="text-dark">About Us</h3>
       </div>
-      {/* <hr className="border border-dark border-2 opacity-50"></hr> */}
-      <hr></hr>
+      <hr className="border border-light" />
+
       <img src={about} className="rounded mx-auto d-block w-50" alt="..." />
       <div className="rounded mx-auto d-block w-50">
         <p></p>
@@ -25,6 +25,7 @@ function StaticHomePage() {
         </p>
       </div>
     </div>
+    // </section>
   );
 }
 

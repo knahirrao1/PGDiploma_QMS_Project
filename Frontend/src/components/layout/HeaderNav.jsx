@@ -1,14 +1,17 @@
-import React from "react";
-import { Link } from "react-router-dom";
+// import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAnchor } from "@fortawesome/free-solid-svg-icons";
-import profilePic from "../creator/creator_profile_pic.jpg";
-import CircularImage from "../../images/CircularImage";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState } from "react";
 
 function HeaderNav() {
   const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const [showContent, setShowContent] = useState(false);
+  const [showManageUser, setShoManageUser] = useState(false);
 
+  // console.log("profile image: " + currentUser);
   //-------------------------------------
   const base64ToBlob = (base64String, contentType) => {
     const byteCharacters = atob(base64String);
@@ -29,16 +32,36 @@ function HeaderNav() {
     return new Blob(byteArrays, { type: contentType });
   };
 
-  // if (currentUser.profileImg !== null) {
-  //   // Convert base64 to blob
-  //   const blob = base64ToBlob(currentUser.profileImg, "image/png");
-  //   // Convert blob to URL
-  //   const imgUrl = URL.createObjectURL(blob);
-  // } else {
-  //   const imgUrl = "https://bootdey.com/img/Content/avatar/avatar7.png";
-  // }
-
+  if (currentUser !== null) {
+    // Convert base64 to blob
+    const blob = base64ToBlob(currentUser.profileImg, "image/png");
+    // Convert blob to URL
+    const imgUrl = URL.createObjectURL(blob);
+  } else {
+    const imgUrl = "https://bootdey.com/img/Content/avatar/avatar7.png";
+  }
   //-------------------------------------
+
+  useEffect(() => {
+    if (currentUser !== null) {
+      if (currentUser.userType === "A") {
+        setShowContent(true);
+      } else if (currentUser.userType === "S") {
+        setShoManageUser(true);
+      } else {
+        setShowContent(false);
+        setShoManageUser(false);
+      }
+    }
+  }, [currentUser]);
+
+  const handleManageContentClick = () => {
+    navigate("/manage-content");
+  };
+
+  const handleManageUserClick = () => {
+    navigate("/manage-user");
+  };
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary ">
@@ -71,6 +94,35 @@ function HeaderNav() {
                 {/* </button> */}
               </Link>
             </li>
+            {/* new modification */}
+            <li className="nav-item">
+              {showContent && (
+                <button
+                  type="button"
+                  className="btn btn-outline-dark"
+                  onClick={handleManageContentClick}
+                >
+                  <span>
+                    Manage Content &nbsp;
+                    <FontAwesomeIcon icon={faArrowRight} />
+                  </span>
+                </button>
+              )}
+            </li>
+            <li className="nav-item">
+              {showManageUser && (
+                <button
+                  type="button"
+                  className="btn btn-outline-dark"
+                  onClick={handleManageUserClick}
+                >
+                  <span>
+                    Manage User &nbsp;
+                    <FontAwesomeIcon icon={faArrowRight} />
+                  </span>
+                </button>
+              )}
+            </li>
           </ul>
         </div>
         {/* <div className="middle">
@@ -102,10 +154,10 @@ function HeaderNav() {
               <Link to="/user-dashboard">
                 <button
                   type="button"
-                  className="btn btn-outline-dark"
+                  className="btn btn-dark"
                   title="Click to show profile"
                 >
-                  {currentUser.profileImg === null ? (
+                  {/* {currentUser.profileImg === null ? (
                     <img
                       src="https://bootdey.com/img/Content/avatar/avatar7.png"
                       title={currentUser.name}
@@ -118,26 +170,28 @@ function HeaderNav() {
                     // <img src={currentUser.profileImg} title="" alt="" />
                     <img
                       src={currentUser.profileImg}
+                      // src={imgUrl}
                       title=""
                       alt=""
                       style={{ width: "30px" }}
                     />
                   )}
-                  &nbsp;
+                  &nbsp; */}
                   <span>{currentUser.username}</span>
                 </button>
               </Link>
             </div>
           ) : (
             <div>
-              {currentUser.profileImg}
+              {/* {currentUser.profileImg} */}
+              {/* {imgUrl} */}
               <Link to="/admin-dashboard">
                 <button
                   type="button"
-                  className="btn btn-outline-dark"
+                  className="btn btn-dark"
                   title="Click to show profile"
                 >
-                  {currentUser.profileImg === null ? (
+                  {/* {currentUser.profileImg === null ? (
                     <img
                       src="https://bootdey.com/img/Content/avatar/avatar7.png"
                       title={currentUser.name}
@@ -147,8 +201,13 @@ function HeaderNav() {
                       }}
                     />
                   ) : (
-                    <img src={currentUser.profileImg} title="" alt="" />
-                  )}
+                    <img
+                      src={currentUser.profileImg}
+                      // src={imgUrl}
+                      title=""
+                      alt=""
+                    />
+                  )} */}
 
                   {currentUser.username}
                   {/* Click to toggle popover */}
@@ -173,65 +232,3 @@ function HeaderNav() {
 }
 
 export default HeaderNav;
-
-// {currentUser ? (
-//   currentUser.userType === "U" ? (
-//     <div
-//       style={{
-//         fontFamily: "Arial, sans-serif",
-//         backgroundColor: "#f0f0f0",
-//         padding: "20px",
-//       }}
-//     >
-//       <select
-//         style={{
-//           padding: "10px",
-//           fontSize: "16px",
-//           borderRadius: "5px",
-//           border: "1px solid #ccc",
-//         }}
-//       >
-//         {/*change as per the json recieved from the backend */}
-//         <option>{currentUser.profileImg}</option>
-//         <option>{currentUser.username}</option>
-//         <option>{currentUser.email}</option>
-//         <option>{currentUser.userType}</option>
-//       </select>
-//       <Link className="left" aria-current="page" to="/user-dashboard">
-//         <button type="button" className="btn btn-dark">
-//           view profile
-//         </button>
-//       </Link>
-//     </div>
-//   ) : (
-//     <div
-//       style={{
-//         fontFamily: "Arial, sans-serif",
-//         backgroundColor: "#f0f0f0",
-//         padding: "20px",
-//       }}
-//     >
-//       <select
-//         style={{
-//           padding: "10px",
-//           fontSize: "16px",
-//           borderRadius: "5px",
-//           border: "1px solid #ccc",
-//         }}
-//       >
-//         <option>{currentUser.profileImg}</option>
-//         {/*change as per the json recieved from the backend */}
-//         <option>{currentUser.username}</option>
-//         <option>{currentUser.email}</option>
-//         <option>{currentUser.userType}</option>
-//       </select>
-//       <Link className="left" aria-current="page" to="/admin-dashboard">
-//         <button type="button" className="btn btn-dark">
-//           view profile
-//         </button>
-//       </Link>
-//     </div>
-//   )
-// ) : (
-// link of normal login
-// )}

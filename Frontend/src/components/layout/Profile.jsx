@@ -2,7 +2,25 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowAltCircleRight,
+  faArrowRight,
+  faCircleInfo,
+  faClock,
+  faColonSign,
+  faEdit,
+  faEnvelope,
+  faEnvelopeOpenText,
+  faEquals,
+  faInbox,
+  faInfo,
+  faMagic,
+  faShoePrints,
+  faSignIn,
+  faSignature,
+  faUserTie,
+  faVoicemail,
+} from "@fortawesome/free-solid-svg-icons";
 import ProfileEdit from "../layout/ProfileEdit";
 import { server } from "../../server";
 import axios from "axios";
@@ -64,14 +82,14 @@ const Profile = () => {
   return editProfile ? (
     <ProfileEdit />
   ) : (
-    <div className="container">
+    <div className="shadow-sm border border-warning border-4 rounded">
       <div className="row align-items-center flex-row-reverse">
         <div className="col-lg-6">
           <div className="about-text go-to">
             <h3 className="dark-color">
               About Me &nbsp;
               <button
-                className="btn btn-outline-primary"
+                className="btn btn-outline-dark"
                 onClick={showEditProfile}
               >
                 <FontAwesomeIcon icon={faEdit} /> &nbsp;Edit
@@ -81,21 +99,34 @@ const Profile = () => {
             <div className="row about-list">
               <div className="col-md-6">
                 <div className="media">
-                  <label>Name</label>
+                  <label className="fs-5">
+                    {" "}
+                    <FontAwesomeIcon icon={faSignature} /> &nbsp; Name
+                  </label>
                   <p>{userDetails.name}</p>
                 </div>
                 <div className="media">
-                  <label>Created At</label>
-                  <p>{userDetails.createdAt}</p>
+                  <label className="fs-5">
+                    <FontAwesomeIcon icon={faCircleInfo} /> &nbsp;Description
+                  </label>
+                  <p>{userDetails.description}</p>
                 </div>
               </div>
               <div className="col-md-6">
                 <div className="media">
-                  <label>E-mail</label>
+                  <label className="fs-5">
+                    {" "}
+                    <FontAwesomeIcon icon={faEnvelope} />
+                    &nbsp; E-mail
+                  </label>
                   <p>{currentUser.email}</p>
                 </div>
                 <div className="media">
-                  <label>Designation</label>
+                  <label className="fs-5">
+                    {" "}
+                    <FontAwesomeIcon icon={faUserTie} />
+                    &nbsp; Designation
+                  </label>
                   <p>{currentUser.userType === "U" ? "User" : "Admin"}</p>
                 </div>
               </div>
@@ -103,17 +134,23 @@ const Profile = () => {
           </div>
         </div>
         <div className="col-lg-6">
-          <div className="about-avatar">
-            {currentUser.profileImg === null ? (
-              <img
-                src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                title=""
-                alt=""
-              />
-            ) : (
-              <img src={imgUrl} title="" alt="" />
-            )}
-          </div>
+          {currentUser.profileImg === null ? (
+            <img
+              className="shadow-sm p-4"
+              src="https://bootdey.com/img/Content/avatar/avatar7.png"
+              title="Profile photo is not set"
+              alt=""
+              style={{ width: "300px" }}
+            />
+          ) : (
+            <img
+              className="shadow-sm p-4"
+              src={imgUrl}
+              title=""
+              alt=""
+              style={{ width: "300px" }}
+            />
+          )}
         </div>
       </div>
       {/* {currentUser.userType === "A" ? (

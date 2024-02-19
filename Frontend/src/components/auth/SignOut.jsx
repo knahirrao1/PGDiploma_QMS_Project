@@ -1,28 +1,56 @@
-import React from 'react';
-import { Link,useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { signOutSuccess } from '../../redux/user/UserSlice';
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signOutSuccess } from "../../redux/user/UserSlice";
 
 const SignOut = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleSignOut = () => {
     // Implement sign-out logic here
     // For example, clear user session, remove tokens, etc.
     // Then redirect the user to the sign-in page or any other appropriate pag
-    navigate('/');
+    navigate("/");
     window.location.reload(true);
     dispatch(signOutSuccess());
   };
 
   return (
-    <div style={{ backgroundColor: '#f0f0f0', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ maxWidth: '400px', padding: '20px', borderRadius: '10px', background: '#fff', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-        <h2>Sign Out Confirmation</h2>
-        <p>Are you sure you want to sign out?</p>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <button onClick={handleSignOut} style={{ padding: '10px 20px', background: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Yes, Sign Out</button>
-          <Link to="/" style={{ padding: '10px 20px', background: '#ccc', color: '#333', border: 'none', borderRadius: '5px', textDecoration: 'none', cursor: 'pointer' }}>No, Go Back</Link>
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              Modal title
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">...</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">
+              Understood
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -89,13 +89,11 @@ const SignIn = () => {
                         style={{ width: "200px", height: "auto" }}
                         alt="logo"
                       />
-                      <h4 className="mt-1 mb-5 pb-1 text-warning">Welcome!</h4>
+                      <h4 className="mt-1 mb-5 pb-1 text-light">Welcome!</h4>
                     </div>
 
                     <form onSubmit={handleSubmit}>
-                      <p className="text-warning">
-                        Please login to your account
-                      </p>
+                      <p className="text-light">Please login to your account</p>
 
                       <div className="form-outline mb-4">
                         <input
@@ -107,7 +105,7 @@ const SignIn = () => {
                           // placeholder="example_username"
                         />
                         <label
-                          className="form-label text-warning"
+                          className="form-label text-light"
                           htmlFor="form2Example11"
                         >
                           Username
@@ -147,7 +145,7 @@ const SignIn = () => {
                           />
                         )}
                         <label
-                          className="form-label text-warning"
+                          className="form-label text-light"
                           htmlFor="form2Example22"
                         >
                           Password
@@ -159,7 +157,19 @@ const SignIn = () => {
                           className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
                           type="submit"
                         >
-                          {loading ? "Loading...." : "Login"}
+                          {loading ? (
+                            <div
+                              className="spinner-grow"
+                              // style={{width: "3rem", height: "3rem""}}
+                              role="status"
+                            >
+                              <span className="visually-hidden">
+                                Loading...
+                              </span>
+                            </div>
+                          ) : (
+                            "Login"
+                          )}
                         </button>
                         <br></br>
                         {/* <OAuth /> <br></br><br></br> */}
@@ -168,10 +178,10 @@ const SignIn = () => {
                         </Link>
                       </div>
 
-                      <div className="d-flex text-warning align-items-center justify-content-center pb-4">
+                      <div className="d-flex text-light align-items-center justify-content-center pb-4">
                         <p className="mb-0 me-2">Don't have an account?</p>
                         <Link to="/sign-up">
-                          <button className="btn btn-outline-warning">
+                          <button className="btn btn-warning text-light">
                             Sign Up
                           </button>
                         </Link>

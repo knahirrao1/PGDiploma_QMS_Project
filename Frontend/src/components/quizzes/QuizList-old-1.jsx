@@ -7,10 +7,10 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Quiz from "./Quiz";
 
-const QuizList = (props) => {
-  const [quizzes, setQuizzes] = useState([]);
+const QuizList = () => {
+  const [quizzes, setQuizzes] = useState(new Map());
   //const [showPromt, setShowPromt] = useState(false);
-  const [showQuiz, setShowQuiz] = useState(false);
+  // const [showQuiz, setShowQuiz] = useState(false);
   const [id, setId] = useState(0);
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const QuizList = (props) => {
       }
     } else {
       if (currentUser === null) {
-        toast.warning("To attempt closed quiz, please Sign-In to continue");
+        toast.warning("To attempt quiz, please Sign-In to continue");
         //navigate('/sign-in')
       } else {
         //setShowPromt(true);

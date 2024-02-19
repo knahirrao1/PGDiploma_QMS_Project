@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import profilePic from "./creator_profile_pic.jpg"; // Importing profile picture
-import ModulesTable from "../modules/ModulesTable"; // Importing ModulesTable component
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { server } from "../../server";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Profile from "../layout/Profile";
 import Performance from "./Performance";
+import { useDispatch } from "react-redux";
+import { signOutSuccess } from "../../redux/user/UserSlice";
+import ModuleTable from "../modules/ModulesTable";
 
 const CreatorDashboard = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -51,11 +50,20 @@ const CreatorDashboard = () => {
     setShowUserDetails(false);
     setPerformance(false);
   };
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const SignMeOut = () => {
-    navigate("/sign-out");
+    // navigate("/sign-out");
+
+    // Implement sign-out logic here
+    // For example, clear user session, remove tokens, etc.
+    // Then redirect the user to the sign-in page or any other appropriate pag
+    navigate("/");
+    window.location.reload(true);
+    dispatch(signOutSuccess());
+    toast.success("Log out successful");
   };
-  const [showUserDetails, setShowUserDetails] = useState(false);
+  const [showUserDetails, setShowUserDetails] = useState(true);
   const showProfile = () => {
     setShowUserDetails(true);
     setShowModulesTable(false);
@@ -71,29 +79,58 @@ const CreatorDashboard = () => {
     <div className="container-fluid">
       <div className="row flex-nowrap">
         {/* Sidebar */}
-        <div className="col-auto col-md-3 col-xl-2 px-sm-3 px-0 bg-warning border border-danger border-5 border-start-0 rounded">
+        <div className="shadow col-auto col-md-3 col-xl-2 px-sm-3 px-0 bg-warning bg-opacity-75 border border-start-0 rounded">
           <div className="d-flex flex-column align-items-sm-start px-10 pt-3 text-dark min-vh-100">
             <div
-              className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-dark"
+              className="d-flex align-items-center"
               title={`Hello ${userName}`}
             >
-              <div className="about-avatar">
-                {currentUser.profileImg === null ? (
-                  <img
-                    src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                    title={currentUser.name}
-                    alt=""
-                    style={{
-                      height: "40px",
-                    }}
-                  />
-                ) : (
-                  <img src={imgUrl} title="" alt="" />
-                )}
+              {/* <div className="rounded-circle border border-dark p-1">
+                <img
+                  src={imageUrl}
+                  className="rounded-circle img-fluid"
+                  alt="Rounded"
+                />
+              </div> */}
+              <div className="d-flex justify-content-start">
+                <span className="fs-5 d-none d-sm-inline">
+                  {currentUser.profileImg === null ? (
+                    <img
+                      src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                      title={currentUser.name}
+                      alt=""
+                      style={{
+                        height: "40px",
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src={imgUrl}
+                      className="rounded-circle img-fluid"
+                      alt="Rounded"
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        overflow: "clip",
+                      }}
+                    />
+                  )}
+                  <div>{userName}</div>
+                </span>
               </div>
-              <span className="fs-5 d-none d-sm-inline">{userName}</span>
+              <div className="ms-3">
+                <button
+                  className="btn btn-outline-danger"
+                  type="button"
+                  onClick={SignMeOut}
+                >
+                  Logout
+                </button>
+              </div>
             </div>
+            <hr />
             {/* Sidebar Navigation */}
+
             <ul
               className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
               id="menu"
@@ -135,16 +172,8 @@ const CreatorDashboard = () => {
                 </button>
               </li>
             </ul>
+
             {/* End Sidebar Navigation */}
-          </div>
-          <div className="middle">
-            <button
-              className="btn btn-outline-dark"
-              type="button"
-              onClick={SignMeOut}
-            >
-              Logout
-            </button>
           </div>
         </div>
         {/* End Sidebar */}
@@ -152,7 +181,7 @@ const CreatorDashboard = () => {
         {/* Main Content Area */}
         <div className="col py-3">
           {/* Render ModulesTable if showModulesTable is true */}
-          {showModulesTable && <ModulesTable />}
+          {showModulesTable && <ModuleTable />}
           {/* Otherwise, render default content */}
           {showUserDetails && <Profile />}
           {performance && <Performance />}

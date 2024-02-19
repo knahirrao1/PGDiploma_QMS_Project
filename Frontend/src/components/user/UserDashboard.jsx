@@ -7,6 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Profile from "../layout/Profile";
 import Performance from "../creator/Performance";
+import { useDispatch } from "react-redux";
+import { signOutSuccess } from "../../redux/user/UserSlice";
+import { toast } from "react-toastify";
 
 const UserDashboard = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -41,12 +44,21 @@ const UserDashboard = () => {
   const userName = currentUser.username; // Replace with user's name
   const [showModulesTable, setShowModulesTable] = useState(false); // State to track if ModulesTable should be shown
   //const [tableData,setTableData] = useState([]);
-  const [showUserDetails, setShowUserDetails] = useState(false);
+  const [showUserDetails, setShowUserDetails] = useState(true);
   const [performance, setPerformance] = useState(false);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const SignMeOut = () => {
-    navigate("/sign-out");
+    // navigate("/sign-out");
+
+    // Implement sign-out logic here
+    // For example, clear user session, remove tokens, etc.
+    // Then redirect the user to the sign-in page or any other appropriate pag
+    navigate("/");
+    window.location.reload(true);
+    dispatch(signOutSuccess());
+    toast.success("Log out successful");
   };
   const showProfile = () => {
     setShowUserDetails(true);
@@ -59,30 +71,51 @@ const UserDashboard = () => {
 
   return (
     <div className="container-fluid">
-      <div className="row flex-nowrap">
+      <div className="row flex-nowrap shadow-sm ">
         {/* Sidebar */}
-        <div className="col-auto col-md-3 col-xl-2 px-sm-3 px-0 bg-warning border border-danger border-5 border-start-0 rounded">
+        <div className="shadow col-auto col-md-3 col-xl-2 px-sm-3 px-0 bg-warning bg-opacity-75 border border-start-0 rounded">
           <div className="d-flex flex-column align-items-sm-start px-10 pt-3 text-dark min-vh-100">
             <div
-              className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-dark"
+              className="d-flex align-items-center"
               title={`Hello ${userName}`}
             >
-              <div className="about-avatar">
-                {currentUser.profileImg === null ? (
-                  <img
-                    src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                    title={currentUser.name}
-                    alt=""
-                    style={{
-                      height: "40px",
-                    }}
-                  />
-                ) : (
-                  <img src={imgUrl} title="" alt="" style={{ width: "30px" }} />
-                )}
+              <div>
+                <span className="fs-5 d-none d-sm-inline">
+                  {currentUser.profileImg === null ? (
+                    <img
+                      src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                      title={currentUser.name}
+                      alt=""
+                      style={{
+                        height: "40px",
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src={imgUrl}
+                      className="rounded-circle img-fluid"
+                      alt="Rounded"
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                      }}
+                    />
+                  )}
+                  {/* &nbsp; */}
+                  {userName}
+                </span>
               </div>
-              <span className="fs-5 d-none d-sm-inline">{userName}</span>
+              <div>
+                <button
+                  className="btn btn-outline-danger m-3"
+                  type="button"
+                  onClick={SignMeOut}
+                >
+                  Logout
+                </button>
+              </div>
             </div>
+            <hr />
             {/* Sidebar Navigation */}
             <ul
               className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
@@ -114,15 +147,6 @@ const UserDashboard = () => {
               </li>
             </ul>
             {/* End Sidebar Navigation */}
-          </div>
-          <div className="middle">
-            <button
-              className="btn btn-outline-dark"
-              type="button"
-              onClick={SignMeOut}
-            >
-              Logout
-            </button>
           </div>
         </div>
         {/* End Sidebar */}
