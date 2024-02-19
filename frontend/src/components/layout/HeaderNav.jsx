@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { faAnchor } from "@fortawesome/free-solid-svg-icons";
-import profilePic from "../creator/creator_profile_pic.jpg";
-import CircularImage from "../../images/CircularImage";
+// import { faAnchor } from "@fortawesome/free-solid-svg-icons";
+// import profilePic from "../creator/creator_profile_pic.jpg";
+// import CircularImage from "../../images/CircularImage";
 
 function HeaderNav() {
   const { currentUser } = useSelector((state) => state.user);
@@ -14,32 +14,32 @@ function HeaderNav() {
   const [showManageUser, setShoManageUser] = useState(false);
 
   //-------------------------------------
-  const base64ToBlob = (base64String, contentType) => {
-    const byteCharacters = atob(base64String);
-    const byteArrays = [];
+  // const base64ToBlob = (base64String, contentType) => {
+  //   const byteCharacters = atob(base64String);
+  //   const byteArrays = [];
 
-    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-      const slice = byteCharacters.slice(offset, offset + 512);
+  //   for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+  //     const slice = byteCharacters.slice(offset, offset + 512);
 
-      const byteNumbers = new Array(slice.length);
-      for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
+  //     const byteNumbers = new Array(slice.length);
+  //     for (let i = 0; i < slice.length; i++) {
+  //       byteNumbers[i] = slice.charCodeAt(i);
+  //     }
 
-      const byteArray = new Uint8Array(byteNumbers);
-      byteArrays.push(byteArray);
-    }
+  //     const byteArray = new Uint8Array(byteNumbers);
+  //     byteArrays.push(byteArray);
+  //   }
 
-    return new Blob(byteArrays, { type: contentType });
-  };
+  //   return new Blob(byteArrays, { type: contentType });
+  // };
 
   if (currentUser !== null) {
     // Convert base64 to blob
-    const blob = base64ToBlob(currentUser.profileImg, "image/png");
+    //const blob = base64ToBlob(currentUser.profileImg, "image/png");
     // Convert blob to URL
-    const imgUrl = URL.createObjectURL(blob);
+    //const imgUrl = URL.createObjectURL(blob);
   } else {
-    const imgUrl = "https://bootdey.com/img/Content/avatar/avatar7.png";
+    //const imgUrl = "https://bootdey.com/img/Content/avatar/avatar7.png";
   }
   //-------------------------------------
 
@@ -55,6 +55,10 @@ function HeaderNav() {
         setShowContent(false);
         setShoManageUser(false);
       }
+    }
+    else{
+      setShowContent(false);
+      setShoManageUser(false);
     }
       
   },[currentUser])

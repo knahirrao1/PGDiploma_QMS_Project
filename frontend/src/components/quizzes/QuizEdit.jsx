@@ -18,27 +18,28 @@ const QuizEdit = () => {
 
     useEffect(() => {
         // Fetch module data when component mounts
+        const fetchQuizData = async () => {
+          try {
+            const res = await axios.get(`${server}/quizhub/quizzes/${quizId}`)
+            setQuizData(res.data);
+            console.log(res.data);
+            console.log(res.data.title);
+            console.log(res.data.openToGuest);
+            console.log(res.data.moduleId);
+            setFormData({
+              title : res.data.title,
+              openToGuest : res.data.openToGuest, 
+            })
+            //setIsChecked(res.data.openToGuest);
+            setModuleId(res.data.moduleId);
+          } catch (error) {
+            console.error("Error fetching module data:", error);
+          }
+        };
         fetchQuizData();
       }, [quizId]);
     
-      const fetchQuizData = async () => {
-        try {
-          const res = await axios.get(`${server}/quizhub/quizzes/${quizId}`)
-          setQuizData(res.data);
-          console.log(res.data);
-          console.log(res.data.title);
-          console.log(res.data.openToGuest);
-          console.log(res.data.moduleId);
-          setFormData({
-            title : res.data.title,
-            openToGuest : res.data.openToGuest, 
-          })
-          //setIsChecked(res.data.openToGuest);
-          setModuleId(res.data.moduleId);
-        } catch (error) {
-          console.error("Error fetching module data:", error);
-        }
-      };
+      
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

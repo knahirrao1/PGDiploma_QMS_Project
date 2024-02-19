@@ -120,7 +120,7 @@ const Quiz = () => {
         });
     };
     fetchData();
-  }, [quiz_id]);
+  }, [quiz_id,userName]);
 
   useEffect(() => {
     //storing an array of question_id in a state

@@ -1,5 +1,5 @@
 import React from "react";
-import profilePic from "./user_profile_pic.jfif"; // Importing profile picture
+//import profilePic from "./user_profile_pic.jfif"; // Importing profile picture
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -42,7 +42,7 @@ const UserDashboard = () => {
   //----------------------------------------
 
   const userName = currentUser.username; // Replace with user's name
-  const [showModulesTable, setShowModulesTable] = useState(false); // State to track if ModulesTable should be shown
+  //const [showModulesTable, setShowModulesTable] = useState(false); // State to track if ModulesTable should be shown
   //const [tableData,setTableData] = useState([]);
   const [showUserDetails, setShowUserDetails] = useState(true);
   const [performance, setPerformance] = useState(false);

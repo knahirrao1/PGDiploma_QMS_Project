@@ -14,7 +14,7 @@ const QuestionsTable = () => {
   const [questions, setQuestions] = useState([]);
   const [showQuestionForm, setShowQuestionForm] = useState(false);
   //const [goBackToQuiz, setGoBackToQuiz] = useState(false);
-  const [id, setId] = useState(0);
+  //const [id, setId] = useState(0);
   // const{module_Id,quiz_Id} = useParams();
   // const moduleId = parseInt(module_Id);
   // const quizId = parseInt(quiz_Id);
@@ -62,10 +62,10 @@ const QuestionsTable = () => {
         responseData
       );
       handleQuestion(response.data);
-      toast.success('question added successfully!');
+      toast.success('Question added successfully!');
       console.log(response.data);
     } catch (error) {
-      console.log(`error occured adding question : ${error}`);
+      console.log(`Error occured adding question : ${error}`);
     }
   };
 
@@ -112,7 +112,7 @@ const QuestionsTable = () => {
         });
     };
     fetchData();
-  }, []);
+  }, [quizId]);
 
   // const backToQuiz = () => {
   //   setId(moduleId);
