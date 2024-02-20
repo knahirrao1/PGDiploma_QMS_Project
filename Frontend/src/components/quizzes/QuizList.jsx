@@ -5,13 +5,13 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 //import Promt from "./Prompt";
 import { useNavigate, useParams } from "react-router-dom";
-import Quiz from "./Quiz";
+//import Quiz from "./Quiz";
 
 const QuizList = (props) => {
   const [quizzes, setQuizzes] = useState([]);
   //const [showPromt, setShowPromt] = useState(false);
-  const [showQuiz, setShowQuiz] = useState(false);
-  const [id, setId] = useState(0);
+ // const [showQuiz, setShowQuiz] = useState(false);
+  //const [id, setId] = useState(0);
   const {currentUser} = useSelector(state=>state.user);
   const navigate = useNavigate();
   const {module_id} = useParams();
@@ -19,7 +19,7 @@ const QuizList = (props) => {
 
   const handleViewQuestions = (quizId) => {
     // View quiz logic for the quiz at the specified index
-    setId(quizId);
+    //setId(quizId);
     console.log(quizzes);
     console.log(quizId)
     console.log(currentUser);

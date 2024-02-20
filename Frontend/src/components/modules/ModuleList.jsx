@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import JavaLogo from "./images/java-logo.png";
+//import JavaLogo from "./images/java-logo.png";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { server } from "../../server";
@@ -61,7 +61,7 @@ function ModuleList() {
                   className="btn btn-dark"
                   onClick={() => showAllQuizzes(module.module_id)}
                 >
-                  show Quizzes
+                  Show Quizzes
                 </button>
               </div>
             </div>

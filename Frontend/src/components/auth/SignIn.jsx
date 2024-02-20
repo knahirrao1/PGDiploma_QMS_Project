@@ -1,6 +1,5 @@
 import React from "react";
 import "./css/SignIn.css";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";

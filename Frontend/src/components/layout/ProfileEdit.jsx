@@ -5,13 +5,13 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faArrowCircleLeft,
+  // faArrowCircleLeft,
   faEdit,
   faEye,
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
 const ProfileEdit = () => {
   const [file, setFile] = useState('');
@@ -28,24 +28,25 @@ const ProfileEdit = () => {
 
   //fetch user profile data
   useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get(`${server}/quizhub/users/${userName}`);
+        setUserProfile(response.data);
+        console.log(
+          `name: ${response.data.name}, description: ${response.data.name}`
+        );
+        setUserInput({
+          name: response.data.name,
+          description: response.data.description,
+        });
+      } catch (error) {
+        toast.log(`Error fetching user data: ${error}`);
+      }
+    };
     fetchUserProfile();
-  }, [userName]);
+  },[userName]);
 
-  const fetchUserProfile = async () => {
-    try {
-      const response = await axios.get(`${server}/quizhub/users/${userName}`);
-      setUserProfile(response.data);
-      console.log(
-        `name: ${response.data.name}, description: ${response.data.name}`
-      );
-      setUserInput({
-        name: response.data.name,
-        description: response.data.description,
-      });
-    } catch (error) {
-      toast.log(`Error fetching user data: ${error}`);
-    }
-  };
+  
 
   // const handleInputChange
 
@@ -77,7 +78,7 @@ const ProfileEdit = () => {
         });
       // Optionally, you can perform additional actions upon successful update
     } catch (error) {
-      toast.error("Error updating user information:", error);
+      toast.error("Error updating user information:");
       // Handle error: display error message, log, etc.
     }
   };
@@ -85,7 +86,7 @@ const ProfileEdit = () => {
   // handle on change for profile image
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
-    toast.warning("Changes in Image be reflected only after next Login!");
+    //toast.warning("Changes in Image be reflected only after next Login!");
   };
 
   const handleFileSubmit = async (e) => {
@@ -100,7 +101,7 @@ const ProfileEdit = () => {
         formData
       );
       if (response.status === 201) {
-        toast.success("Image uploaded successfully");
+        toast.success("Changes in image be reflected only after next Login!");
       } else {
         toast.error("Failed to upload image");
       }
@@ -229,12 +230,13 @@ const ProfileEdit = () => {
 
           <div className="panel-body">
             <div className="form-group">
-              <label className="col-sm-2 control-label">New Password: </label>
+              <label className="col-sm-2 control-label">Password: </label>
 
               <div className="col-sm-10">
                 <input
                   type={visible ? "text" : "password"}
                   className="form-control"
+                  required
                   name="password"
                   placeholder="Enter current password"
                   onChange={handleInputChange}
